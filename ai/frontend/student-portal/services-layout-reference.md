@@ -25,7 +25,7 @@ The repeated source contact block is excluded from the active portal. Contact co
 
 ## Fidelity boundaries
 
-The six current banners, compact descriptions, portal heading, tabs and navigation are preserved. The campus label is omitted from the portal heading. Website chrome, news, promotional controls and decorative outer backgrounds are excluded. Portal typography changes text wrapping relative to the website; the content container breakpoint and removal of Accommodation, Finance and department contacts are deliberate adaptations. This is structural/source-content fidelity, not a claim of identical pixels or full-portal mobile support. The site intermittently returned 522 errors; successful source captures and extracted CSS/text were used, with no guessed replacement layouts or runtime requests.
+The six current banners, compact descriptions, portal heading, tabs and navigation are preserved. The campus label is omitted from the portal heading. Website chrome, news, promotional controls and decorative outer backgrounds are excluded. Portal typography changes text wrapping relative to the website; the content container breakpoint and removal of Accommodation, Finance and department contacts are deliberate adaptations. This is structural/source-content fidelity, not a claim of identical pixels. The site intermittently returned 522 errors; successful source captures and extracted CSS/text were used, with no guessed replacement layouts or runtime requests.
 
 ## Approved cleanup and media delivery (6 September 2026)
 

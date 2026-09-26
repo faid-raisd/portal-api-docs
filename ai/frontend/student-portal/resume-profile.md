@@ -18,6 +18,8 @@ The shared Profile heading, `StudentSummaryCard`, active issues, and tab panel r
 
 Every section uses the shared `ContentSection` with `type="panel"`. Its action and no-action states reserve the same 36px header row, and each header remains 16px from its section content. Resume currently supplies an action for all five headers, including Save Summary and the four Add actions.
 
+At phone widths, work, education, skill, and recognition records use the shared labelled-card DataTable presentation. Each card places its remaining-width View details action first and the outlined Remove control at the right edge of the component-owned bottom action row. Shared `FormGrid` collapses date pairs to one column when its container is narrow, and popup content scrolls independently so every field and confirmation action remains reachable.
+
 Professional Summary uses the shared `Textarea`. `Save Summary` is disabled until the trimmed value differs from the last response and while a mutation is pending. Whitespace-only content saves as null.
 
 The four record sections use panel-type `ContentSection`, the bordered `DataTable`, and a secondary Add button with a leading plus icon. Empty collections use the shared `EmptyState` on the `surface-subtle` tier while keeping the Add action available. Selecting a table row by pointer, Enter, or Space opens its edit form in the same controlled `Popup` used by Add. The trash action is independent from row selection and opens a confirmation Popup. Popup saves close only after the mock mutation succeeds; validation or API errors retain the draft.
@@ -37,7 +39,7 @@ Date contracts validate actual Gregorian dates as well as `YYYY-MM-DD` shape. In
 
 One canonical Student Resume belongs to the selected stable Student Profile. Resume Work Experience, Resume Education, Resume Skill, and Resume Recognition records belong to that Resume. The route-facing `ResumeProfileResponse` returns the Resume and four child collections; empty collections are valid.
 
-The complete `UpdateResumeProfileInput` is the logical payload for `PATCH /api/v1/profile/resume`. Existing rows retain their opaque IDs, new rows send null and receive generated IDs, and the mock adapter rejects IDs that do not belong to the selected Resume. Successful mutations replace the scenario-scoped Resume query cache.
+The complete `UpdateResumeProfileInput` is the payload for `PortalApi.updateResumeProfile (`POST /v1/portal/updateResumeProfile`)`. Existing rows retain their opaque IDs, new rows send null and receive generated IDs, and the mock adapter rejects IDs that do not belong to the selected Resume. Successful mutations replace the scenario-scoped Resume query cache.
 
 Private query keys also include session generation. A reset invalidates pending mutation results before their success callbacks can update caches, even if the student switches away and back to the same scenario. Resume writes also check the mock adapter's resource generation after asynchronous preparation. Current-session saves and validation behavior are unchanged.
 
@@ -52,8 +54,8 @@ The tab reserves the five-section layout with skeletons while loading. A failed 
 ## Main implementation files
 
 - `src/components/features/profile/resume-profile-content.tsx`
-- `src/components/ui/textarea.tsx`
-- `src/components/ui/date-picker.tsx`
+- `@raisd-campus/design-system/ui/textarea`
+- `@raisd-campus/design-system/ui/date-picker`
 - `src/contracts/resume-profile.ts`
 - `src/contracts/portal-records.ts`
 - `src/features/profile/resume-profile-model.ts`

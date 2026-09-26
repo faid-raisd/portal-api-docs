@@ -22,11 +22,11 @@ The existing main application shell, Profile Academic, Profile Resume, and Finan
 
 The heading, StudentSummaryCard, optional account-issue grid, and tab panel remain 16px apart. The section retains the shared 36px header row and 16px content gap. Its `LinkedList` rows use the shared raised surface, icon, title and chevron treatment. Long document titles wrap without changing the portal width. The shared list typography is documented in the Design System.
 
-Browser verification exposed an existing TabbedPagePanel navigation defect: Radix mouse-down/focus selection and the active-tab click handler could dispatch duplicate route changes before the controlled value caught up. The shared panel now tracks each pointer gesture, selects a new tab once, and retains a single active-tab reset action. Keyboard activation is preserved. The Design System Explorer reports activation counts, and focused regressions cover deferred route updates. Main-scroll reset also observes the router location key so reselecting the current sidebar destination returns to the top.
+Browser verification exposed an existing TabbedPagePanel navigation defect: Radix mouse-down/focus selection and the active-tab click handler could dispatch duplicate route changes before the controlled value caught up. The shared panel now tracks each pointer gesture, selects a new tab once, and retains a single active-tab reset action. Keyboard activation is preserved. Focused component regressions cover deferred route updates; the published design system catalogue captures the panel treatment. Main-scroll reset also observes the router location key so reselecting the current sidebar destination returns to the top.
 
 ## Canonical records and API
 
-`PortalApi.getDocumentsProfile()` represents logical `GET /api/v1/profile/documents`. Its Zod-validated `DocumentsProfileResponse` returns one `studentDocuments` array. Each `ProfileDocument` has a stable opaque `id`, `title`, exact `fileName`, and display `source`. The collection can be empty; IDs must be unique across the response. No URL, binary contents, invented file size, or issuance date is returned.
+`PortalApi.getDocumentsProfile()` represents `PortalApi.getDocumentsProfile (`POST /v1/portal/getDocumentsProfile`)`. Its Zod-validated `DocumentsProfileResponse` returns one `studentDocuments` array. Each `ProfileDocument` has a stable opaque `id`, `title`, exact `fileName`, and display `source`. The collection can be empty; IDs must be unique across the response. No URL, binary contents, invented file size, or issuance date is returned.
 
 The mock adapter starts from the selected stable Student Profile ID:
 
@@ -45,7 +45,7 @@ The Data Model Explorer includes the Student Document canonical table and its st
 
 Unit tests cover exact canonical filenames in both scenarios, stable identities after ordering/filename changes, duplicate filenames, optional evidence, unknown students, the empty collection, invalid owners/IDs/metadata, response isolation, explorer relationships, tab-local query states, scenario cache replacement, and absence of the retired University Document model.
 
-Playwright covers the legacy replacement redirect, direct URLs, sidebar/tab activation, Profile shell geometry, Back/Forward, scroll reset, title-only keyboard and click no-op actions, scenario switching, loading/error feedback, long titles, the empty state, and absence of the University Documents panel and handbook file at 1280px and 1440px. The repository full quality gate remains required.
+Playwright covers the legacy replacement redirect, direct URLs, responsive sidebar/tab activation, Profile shell geometry, Back/Forward, scroll reset, title-only keyboard and click no-op actions, scenario switching, loading/error feedback, long titles, the empty state, and absence of the University Documents panel and handbook file across the supported route matrix; existing detailed regression remains at 1280px and 1440px. The repository full quality gate remains required.
 
 ## Implementation references
 
