@@ -145,17 +145,17 @@
       </nav>
   </div></header>
   <main>
-    <section class="hero"><p class="eyebrow">Design system · released package 0.1.0</p><h1>Design system</h1><p>Shared foundations and components for Raisd portals, with student-owned examples clearly separated.</p></section>
+    <section class="hero"><p class="eyebrow">Design system · released package 0.2.0</p><h1>Design system</h1><p>Shared foundations and components for Raisd portals, with student-owned examples clearly separated.</p></section>
     <nav class="design-subnav" aria-label="Design system pages"><a class="current" href="index.html">Overview</a><a class="" href="foundations.html">Foundations</a><a class="" href="shared-controls.html">Shared controls</a><a class="" href="shared-patterns.html">Shared patterns</a><a class="" href="student-components.html">Student portal components</a></nav>
     <div class="design-hub-grid"><a class="design-hub-card" href="foundations.html"><strong>Foundations</strong><span>Tokens, typography, colour roles and scrolling</span></a><a class="design-hub-card" href="shared-controls.html"><strong>Shared controls</strong><span>Actions, status, fields and overlays from the package</span></a><a class="design-hub-card" href="shared-patterns.html"><strong>Shared patterns</strong><span>Reusable page, card, table, media and feedback layouts</span></a><a class="design-hub-card" href="student-components.html"><strong>Student portal components</strong><span>Student-owned workflows composed with shared visuals</span></a></div>
-    <section class="section"><h2>Choose the right owner</h2><p>Install <code>@raisd-campus/design-system@0.1.0</code> for portal-neutral visuals. Keep student enrolment, routing, account issues and Community draft policy in the student portal. Do not copy shared component source into a portal.</p><p>Read the <a href="https://github.com/raisd-campus/control-plane/blob/main/docs/ai/design/component-library.md">canonical component guide</a> before building a UI element; use the <a href="https://github.com/raisd-campus/design-system/blob/v0.1.0/docs/components.md">versioned package catalogue</a> and installed TypeScript declarations for exact props. The screenshots are visual references, not interactive demos. The 0.1.0 tagged catalogue still mentions the former student Explorer; this site replaces that route.</p></section>
+    <section class="section"><h2>Choose the right owner</h2><p>Install <code>@raisd-campus/design-system@0.2.0</code> for portal-neutral visuals. Keep student enrolment, routing, account issues and Community draft policy in the student portal. Do not copy shared component source into a portal.</p><p>Read the <a href="https://github.com/raisd-campus/control-plane/blob/main/docs/ai/design/component-library.md">canonical component guide</a> before building a UI element; use the <a href="https://github.com/raisd-campus/design-system/blob/v0.2.0/docs/components.md">versioned package catalogue</a> and installed TypeScript declarations for exact props. The screenshots are visual references, not interactive demos.</p></section>
     <section class="section"><h2>Install in a portal</h2><pre><code>@raisd-campus:registry=https://npm.pkg.github.com
-npm install --save-exact @raisd-campus/design-system@0.1.0
+npm install --save-exact @raisd-campus/design-system@0.2.0
 
 @import "tailwindcss";
 @import "@raisd-campus/design-system/styles.css";
 @source "../node_modules/@raisd-campus/design-system/dist";</code></pre><p>Configure GitHub Packages read access in local npm settings or CI; never commit a token. Import individual <code>ui/*</code> or <code>system/*</code> subpaths.</p></section>
-    <section class="section"><h2>Capture provenance</h2><p>Package release 0.1.0; student portal source commit <code>84c6bf541a4e</code>; captured 2026-09-24. All examples use demonstration data. Public GitHub Pages files can be retrieved without the visual sign-in overlay.</p></section>
+    <section class="section"><h2>Capture provenance</h2><p>Current package release 0.2.0; student portal source commit <code>84c6bf541a4e</code>. Captures use demonstration data; each caption and the capture manifest retain their source version and date. Public GitHub Pages files can be retrieved without the visual sign-in overlay.</p></section>
   </main>
   <script src="../diagrams/nav-dropdown.js" defer></script>
 </body>

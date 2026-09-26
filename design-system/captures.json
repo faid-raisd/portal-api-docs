@@ -1,7 +1,7 @@
 {
-  "packageVersion": "0.1.0",
+  "packageVersion": "0.2.0",
   "studentPortalCommit": "84c6bf541a4ecefc985a6429cac8a302b0098723",
-  "capturedAt": "2026-09-24",
+  "capturedAt": "2026-09-26",
   "captureRoute": "/dev/design-system",
   "items": [
     {
@@ -12,7 +12,9 @@
       "viewport": "desktop",
       "width": 1440,
       "image": "assets/surface-tiers-desktop.png",
-      "sourceSelector": "section[data-slot=\"token-group\"]"
+      "sourceSelector": "section[data-slot=\"token-group\"]",
+      "packageVersion": "0.1.0",
+      "capturedAt": "2026-09-24"
     },
     {
       "id": "brand-palette",
@@ -22,7 +24,9 @@
       "viewport": "desktop",
       "width": 1440,
       "image": "assets/brand-palette-desktop.png",
-      "sourceSelector": "section[data-slot=\"token-group\"]"
+      "sourceSelector": "section[data-slot=\"token-group\"]",
+      "packageVersion": "0.1.0",
+      "capturedAt": "2026-09-24"
     },
     {
       "id": "global-roles",
@@ -32,7 +36,9 @@
       "viewport": "desktop",
       "width": 1440,
       "image": "assets/global-roles-desktop.png",
-      "sourceSelector": "section[data-slot=\"token-group\"]"
+      "sourceSelector": "section[data-slot=\"token-group\"]",
+      "packageVersion": "0.1.0",
+      "capturedAt": "2026-09-24"
     },
     {
       "id": "service-identity-colours",
@@ -42,7 +48,9 @@
       "viewport": "desktop",
       "width": 1440,
       "image": "assets/service-identity-colours-desktop.png",
-      "sourceSelector": "section[data-slot=\"token-group\"]"
+      "sourceSelector": "section[data-slot=\"token-group\"]",
+      "packageVersion": "0.1.0",
+      "capturedAt": "2026-09-24"
     },
     {
       "id": "typography-colours",
@@ -52,7 +60,9 @@
       "viewport": "desktop",
       "width": 1440,
       "image": "assets/typography-colours-desktop.png",
-      "sourceSelector": "section[data-slot=\"token-group\"]"
+      "sourceSelector": "section[data-slot=\"token-group\"]",
+      "packageVersion": "0.1.0",
+      "capturedAt": "2026-09-24"
     },
     {
       "id": "scrollbar",
@@ -62,7 +72,9 @@
       "viewport": "desktop",
       "width": 1440,
       "image": "assets/scrollbar-desktop.png",
-      "sourceSelector": "section[data-slot=\"token-group\"]"
+      "sourceSelector": "section[data-slot=\"token-group\"]",
+      "packageVersion": "0.1.0",
+      "capturedAt": "2026-09-24"
     },
     {
       "id": "typography",
@@ -72,7 +84,9 @@
       "viewport": "desktop",
       "width": 1440,
       "image": "assets/typography-desktop.png",
-      "sourceSelector": "section heading \"Typography\""
+      "sourceSelector": "section heading \"Typography\"",
+      "packageVersion": "0.1.0",
+      "capturedAt": "2026-09-24"
     },
     {
       "id": "module-detail-patterns",
@@ -82,7 +96,8 @@
       "viewport": "desktop",
       "width": 1440,
       "image": "assets/module-detail-patterns-desktop.png",
-      "sourceSelector": "section[data-slot=\"design-system-module-detail-patterns\"]"
+      "sourceSelector": "section[data-slot=\"design-system-module-detail-patterns\"]",
+      "capturedAt": "2026-09-24"
     },
     {
       "id": "scrollbar-2",
@@ -92,7 +107,9 @@
       "viewport": "desktop",
       "width": 1440,
       "image": "assets/scrollbar-2-desktop.png",
-      "sourceSelector": "section heading \"Scrollbar\""
+      "sourceSelector": "section heading \"Scrollbar\"",
+      "packageVersion": "0.1.0",
+      "capturedAt": "2026-09-24"
     },
     {
       "id": "actions-and-status",
@@ -102,7 +119,9 @@
       "viewport": "desktop",
       "width": 1440,
       "image": "assets/actions-and-status-desktop.png",
-      "sourceSelector": "section[data-slot=\"design-system-actions-status\"]"
+      "sourceSelector": "section[data-slot=\"design-system-actions-status\"]",
+      "packageVersion": "0.1.0",
+      "capturedAt": "2026-09-24"
     },
     {
       "id": "community-service-identities",
@@ -112,7 +131,8 @@
       "viewport": "desktop",
       "width": 1440,
       "image": "assets/community-service-identities-desktop.png",
-      "sourceSelector": "section[data-slot=\"design-system-service-identities\"]"
+      "sourceSelector": "section[data-slot=\"design-system-service-identities\"]",
+      "capturedAt": "2026-09-24"
     },
     {
       "id": "student-summary-card",
@@ -122,7 +142,8 @@
       "viewport": "desktop",
       "width": 1440,
       "image": "assets/student-summary-card-desktop.png",
-      "sourceSelector": "section[data-slot=\"design-system-student-summary-card\"]"
+      "sourceSelector": "section[data-slot=\"design-system-student-summary-card\"]",
+      "capturedAt": "2026-09-24"
     },
     {
       "id": "programme-enrolment-context",
@@ -132,7 +153,8 @@
       "viewport": "desktop",
       "width": 1440,
       "image": "assets/programme-enrolment-context-desktop.png",
-      "sourceSelector": "section[data-slot=\"design-system-programme-context\"]"
+      "sourceSelector": "section[data-slot=\"design-system-programme-context\"]",
+      "capturedAt": "2026-09-24"
     },
     {
       "id": "summary-cards",
@@ -142,7 +164,9 @@
       "viewport": "desktop",
       "width": 1440,
       "image": "assets/summary-cards-desktop.png",
-      "sourceSelector": "section[data-slot=\"design-system-summary-cards\"]"
+      "sourceSelector": "section[data-slot=\"design-system-summary-cards\"]",
+      "packageVersion": "0.1.0",
+      "capturedAt": "2026-09-24"
     },
     {
       "id": "content-sections",
@@ -152,7 +176,9 @@
       "viewport": "desktop",
       "width": 1440,
       "image": "assets/content-sections-desktop.png",
-      "sourceSelector": "section[data-slot=\"design-system-content-sections\"]"
+      "sourceSelector": "section[data-slot=\"design-system-content-sections\"]",
+      "packageVersion": "0.1.0",
+      "capturedAt": "2026-09-24"
     },
     {
       "id": "timetable-minute-precision",
@@ -162,7 +188,8 @@
       "viewport": "desktop",
       "width": 1440,
       "image": "assets/timetable-minute-precision-desktop.png",
-      "sourceSelector": "section[data-slot=\"design-system-timetable\"]"
+      "sourceSelector": "section[data-slot=\"design-system-timetable\"]",
+      "capturedAt": "2026-09-24"
     },
     {
       "id": "tab-panel-banner",
@@ -172,7 +199,9 @@
       "viewport": "desktop",
       "width": 1440,
       "image": "assets/tab-panel-banner-desktop.png",
-      "sourceSelector": "section[data-slot=\"design-system-page-banner\"]"
+      "sourceSelector": "section[data-slot=\"design-system-page-banner\"]",
+      "packageVersion": "0.1.0",
+      "capturedAt": "2026-09-24"
     },
     {
       "id": "announcement-articles",
@@ -182,7 +211,8 @@
       "viewport": "desktop",
       "width": 1440,
       "image": "assets/announcement-articles-desktop.png",
-      "sourceSelector": "section[data-slot=\"design-system-announcements\"]"
+      "sourceSelector": "section[data-slot=\"design-system-announcements\"]",
+      "capturedAt": "2026-09-24"
     },
     {
       "id": "privacy-and-security-guidance",
@@ -192,7 +222,8 @@
       "viewport": "desktop",
       "width": 1440,
       "image": "assets/privacy-and-security-guidance-desktop.png",
-      "sourceSelector": "section[data-slot=\"design-system-privacy-security-guidance\"]"
+      "sourceSelector": "section[data-slot=\"design-system-privacy-security-guidance\"]",
+      "capturedAt": "2026-09-24"
     },
     {
       "id": "services-section-content",
@@ -202,7 +233,8 @@
       "viewport": "desktop",
       "width": 1440,
       "image": "assets/services-section-content-desktop.png",
-      "sourceSelector": "section[data-slot=\"design-system-services-content\"]"
+      "sourceSelector": "section[data-slot=\"design-system-services-content\"]",
+      "capturedAt": "2026-09-24"
     },
     {
       "id": "accordion",
@@ -212,7 +244,9 @@
       "viewport": "desktop",
       "width": 1440,
       "image": "assets/accordion-desktop.png",
-      "sourceSelector": "section[data-slot=\"design-system-accordion\"]"
+      "sourceSelector": "section[data-slot=\"design-system-accordion\"]",
+      "packageVersion": "0.1.0",
+      "capturedAt": "2026-09-24"
     },
     {
       "id": "linked-list",
@@ -222,7 +256,9 @@
       "viewport": "desktop",
       "width": 1440,
       "image": "assets/linked-list-desktop.png",
-      "sourceSelector": "section[data-slot=\"design-system-linked-list\"]"
+      "sourceSelector": "section[data-slot=\"design-system-linked-list\"]",
+      "packageVersion": "0.1.0",
+      "capturedAt": "2026-09-24"
     },
     {
       "id": "page-action-bar",
@@ -232,7 +268,9 @@
       "viewport": "desktop",
       "width": 1440,
       "image": "assets/page-action-bar-desktop.png",
-      "sourceSelector": "section[data-slot=\"design-system-page-action-bar\"]"
+      "sourceSelector": "section[data-slot=\"design-system-page-action-bar\"]",
+      "packageVersion": "0.1.0",
+      "capturedAt": "2026-09-24"
     },
     {
       "id": "student-next-action",
@@ -242,7 +280,8 @@
       "viewport": "desktop",
       "width": 1440,
       "image": "assets/student-next-action-desktop.png",
-      "sourceSelector": "section[data-slot=\"design-system-student-next-action\"]"
+      "sourceSelector": "section[data-slot=\"design-system-student-next-action\"]",
+      "capturedAt": "2026-09-24"
     },
     {
       "id": "inner-section",
@@ -252,7 +291,9 @@
       "viewport": "desktop",
       "width": 1440,
       "image": "assets/inner-section-desktop.png",
-      "sourceSelector": "section[data-slot=\"design-system-inner-section\"]"
+      "sourceSelector": "section[data-slot=\"design-system-inner-section\"]",
+      "packageVersion": "0.1.0",
+      "capturedAt": "2026-09-24"
     },
     {
       "id": "data-table",
@@ -262,7 +303,9 @@
       "viewport": "desktop",
       "width": 1440,
       "image": "assets/data-table-desktop.png",
-      "sourceSelector": "section[data-slot=\"design-system-data-table\"]"
+      "sourceSelector": "section[data-slot=\"design-system-data-table\"]",
+      "packageVersion": "0.1.0",
+      "capturedAt": "2026-09-24"
     },
     {
       "id": "embedded-documents-and-case-messages",
@@ -272,7 +315,8 @@
       "viewport": "desktop",
       "width": 1440,
       "image": "assets/embedded-documents-and-case-messages-desktop.png",
-      "sourceSelector": "section[data-slot=\"design-system-form-communication\"]"
+      "sourceSelector": "section[data-slot=\"design-system-form-communication\"]",
+      "capturedAt": "2026-09-24"
     },
     {
       "id": "responsive-form-grid",
@@ -282,7 +326,9 @@
       "viewport": "desktop",
       "width": 1440,
       "image": "assets/responsive-form-grid-desktop.png",
-      "sourceSelector": "section[data-slot=\"design-system-form-grid\"]"
+      "sourceSelector": "section[data-slot=\"design-system-form-grid\"]",
+      "packageVersion": "0.1.0",
+      "capturedAt": "2026-09-24"
     },
     {
       "id": "text-input",
@@ -292,7 +338,9 @@
       "viewport": "desktop",
       "width": 1440,
       "image": "assets/text-input-desktop.png",
-      "sourceSelector": "section[data-slot=\"design-system-text-input\"]"
+      "sourceSelector": "section[data-slot=\"design-system-text-input\"]",
+      "packageVersion": "0.1.0",
+      "capturedAt": "2026-09-24"
     },
     {
       "id": "textarea",
@@ -302,7 +350,9 @@
       "viewport": "desktop",
       "width": 1440,
       "image": "assets/textarea-desktop.png",
-      "sourceSelector": "section[data-slot=\"design-system-textarea\"]"
+      "sourceSelector": "section[data-slot=\"design-system-textarea\"]",
+      "packageVersion": "0.1.0",
+      "capturedAt": "2026-09-24"
     },
     {
       "id": "date-picker",
@@ -312,7 +362,9 @@
       "viewport": "desktop",
       "width": 1440,
       "image": "assets/date-picker-desktop.png",
-      "sourceSelector": "section[data-slot=\"design-system-date-picker\"]"
+      "sourceSelector": "section[data-slot=\"design-system-date-picker\"]",
+      "packageVersion": "0.1.0",
+      "capturedAt": "2026-09-24"
     },
     {
       "id": "dropdown-select",
@@ -322,7 +374,9 @@
       "viewport": "desktop",
       "width": 1440,
       "image": "assets/dropdown-select-desktop.png",
-      "sourceSelector": "section[data-slot=\"design-system-dropdown-select\"]"
+      "sourceSelector": "section[data-slot=\"design-system-dropdown-select\"]",
+      "packageVersion": "0.1.0",
+      "capturedAt": "2026-09-24"
     },
     {
       "id": "semester-selector",
@@ -332,7 +386,9 @@
       "viewport": "desktop",
       "width": 1440,
       "image": "assets/semester-selector-desktop.png",
-      "sourceSelector": "section[data-slot=\"design-system-semester-selector\"]"
+      "sourceSelector": "section[data-slot=\"design-system-semester-selector\"]",
+      "packageVersion": "0.1.0",
+      "capturedAt": "2026-09-24"
     },
     {
       "id": "detail-field",
@@ -342,7 +398,9 @@
       "viewport": "desktop",
       "width": 1440,
       "image": "assets/detail-field-desktop.png",
-      "sourceSelector": "section[data-slot=\"design-system-detail-field\"]"
+      "sourceSelector": "section[data-slot=\"design-system-detail-field\"]",
+      "packageVersion": "0.1.0",
+      "capturedAt": "2026-09-24"
     },
     {
       "id": "detail-section-card",
@@ -352,7 +410,9 @@
       "viewport": "desktop",
       "width": 1440,
       "image": "assets/detail-section-card-desktop.png",
-      "sourceSelector": "section[data-slot=\"design-system-detail-section-card\"]"
+      "sourceSelector": "section[data-slot=\"design-system-detail-section-card\"]",
+      "packageVersion": "0.1.0",
+      "capturedAt": "2026-09-24"
     },
     {
       "id": "file-link",
@@ -362,7 +422,9 @@
       "viewport": "desktop",
       "width": 1440,
       "image": "assets/file-link-desktop.png",
-      "sourceSelector": "section[data-slot=\"design-system-file-link\"]"
+      "sourceSelector": "section[data-slot=\"design-system-file-link\"]",
+      "packageVersion": "0.1.0",
+      "capturedAt": "2026-09-24"
     },
     {
       "id": "add-row",
@@ -372,7 +434,9 @@
       "viewport": "desktop",
       "width": 1440,
       "image": "assets/add-row-desktop.png",
-      "sourceSelector": "section[data-slot=\"design-system-form-row-actions\"]"
+      "sourceSelector": "section[data-slot=\"design-system-form-row-actions\"]",
+      "packageVersion": "0.1.0",
+      "capturedAt": "2026-09-24"
     },
     {
       "id": "module-card",
@@ -382,7 +446,8 @@
       "viewport": "desktop",
       "width": 1440,
       "image": "assets/module-card-desktop.png",
-      "sourceSelector": "section heading \"Module card\""
+      "sourceSelector": "section heading \"Module card\"",
+      "capturedAt": "2026-09-24"
     },
     {
       "id": "card-grid",
@@ -392,7 +457,9 @@
       "viewport": "desktop",
       "width": 1440,
       "image": "assets/card-grid-desktop.png",
-      "sourceSelector": "section[data-slot=\"design-system-card-grid\"]"
+      "sourceSelector": "section[data-slot=\"design-system-card-grid\"]",
+      "packageVersion": "0.1.0",
+      "capturedAt": "2026-09-24"
     },
     {
       "id": "issue-card",
@@ -402,7 +469,9 @@
       "viewport": "desktop",
       "width": 1440,
       "image": "assets/issue-card-desktop.png",
-      "sourceSelector": "section[data-slot=\"design-system-issue-card\"]"
+      "sourceSelector": "section[data-slot=\"design-system-issue-card\"]",
+      "packageVersion": "0.1.0",
+      "capturedAt": "2026-09-24"
     },
     {
       "id": "student-profile-control",
@@ -412,7 +481,8 @@
       "viewport": "desktop",
       "width": 1440,
       "image": "assets/student-profile-control-desktop.png",
-      "sourceSelector": "section[data-slot=\"design-system-student-profile-control\"]"
+      "sourceSelector": "section[data-slot=\"design-system-student-profile-control\"]",
+      "capturedAt": "2026-09-24"
     },
     {
       "id": "performance-chart-card",
@@ -422,7 +492,8 @@
       "viewport": "desktop",
       "width": 1440,
       "image": "assets/performance-chart-card-desktop.png",
-      "sourceSelector": "section heading \"Performance chart card\""
+      "sourceSelector": "section heading \"Performance chart card\"",
+      "capturedAt": "2026-09-24"
     },
     {
       "id": "performance-loading-state",
@@ -432,7 +503,8 @@
       "viewport": "desktop",
       "width": 1440,
       "image": "assets/performance-loading-state-desktop.png",
-      "sourceSelector": "section heading \"Performance loading state\""
+      "sourceSelector": "section heading \"Performance loading state\"",
+      "capturedAt": "2026-09-24"
     },
     {
       "id": "calendar-month-and-agenda",
@@ -443,7 +515,8 @@
       "width": 1440,
       "image": "assets/calendar-month-and-agenda-desktop.png",
       "sourceRoute": "/",
-      "sourceSelector": "[data-slot=\"calendar-section-card\"]"
+      "sourceSelector": "[data-slot=\"calendar-section-card\"]",
+      "capturedAt": "2026-09-24"
     },
     {
       "id": "calendar-loading-state",
@@ -453,7 +526,8 @@
       "viewport": "desktop",
       "width": 1440,
       "image": "assets/calendar-loading-state-desktop.png",
-      "sourceSelector": "section heading \"Calendar loading state\""
+      "sourceSelector": "section heading \"Calendar loading state\"",
+      "capturedAt": "2026-09-24"
     },
     {
       "id": "query-error-state",
@@ -463,7 +537,9 @@
       "viewport": "desktop",
       "width": 1440,
       "image": "assets/query-error-state-desktop.png",
-      "sourceSelector": "section heading \"Query error state\""
+      "sourceSelector": "section heading \"Query error state\"",
+      "packageVersion": "0.1.0",
+      "capturedAt": "2026-09-24"
     },
     {
       "id": "overlays-and-feedback",
@@ -473,7 +549,9 @@
       "viewport": "desktop",
       "width": 1440,
       "image": "assets/overlays-and-feedback-desktop.png",
-      "sourceSelector": "section heading \"Overlays and feedback\""
+      "sourceSelector": "section heading \"Overlays and feedback\"",
+      "packageVersion": "0.1.0",
+      "capturedAt": "2026-09-24"
     },
     {
       "id": "module-detail-patterns-phone",
@@ -483,7 +561,8 @@
       "viewport": "phone",
       "width": 390,
       "image": "assets/module-detail-patterns-phone.png",
-      "sourceSelector": "section[data-slot=\"design-system-module-detail-patterns\"]"
+      "sourceSelector": "section[data-slot=\"design-system-module-detail-patterns\"]",
+      "capturedAt": "2026-09-24"
     },
     {
       "id": "summary-cards-phone",
@@ -494,7 +573,9 @@
       "width": 390,
       "image": "assets/summary-cards-phone.png",
       "sourceRoute": "design-system/examples/consumer/",
-      "sourceSelector": "[data-slot=\"summary-card\"]"
+      "sourceSelector": "[data-slot=\"summary-card\"]",
+      "packageVersion": "0.1.0",
+      "capturedAt": "2026-09-24"
     },
     {
       "id": "content-sections-phone",
@@ -504,7 +585,9 @@
       "viewport": "phone",
       "width": 390,
       "image": "assets/content-sections-phone.png",
-      "sourceSelector": "section[data-slot=\"design-system-content-sections\"]"
+      "sourceSelector": "section[data-slot=\"design-system-content-sections\"]",
+      "packageVersion": "0.1.0",
+      "capturedAt": "2026-09-24"
     },
     {
       "id": "timetable-minute-precision-phone",
@@ -514,7 +597,8 @@
       "viewport": "phone",
       "width": 390,
       "image": "assets/timetable-minute-precision-phone.png",
-      "sourceSelector": "section[data-slot=\"design-system-timetable\"]"
+      "sourceSelector": "section[data-slot=\"design-system-timetable\"]",
+      "capturedAt": "2026-09-24"
     },
     {
       "id": "tab-panel-banner-phone",
@@ -524,7 +608,9 @@
       "viewport": "phone",
       "width": 390,
       "image": "assets/tab-panel-banner-phone.png",
-      "sourceSelector": "section[data-slot=\"design-system-page-banner\"]"
+      "sourceSelector": "section[data-slot=\"design-system-page-banner\"]",
+      "packageVersion": "0.1.0",
+      "capturedAt": "2026-09-24"
     },
     {
       "id": "linked-list-phone",
@@ -534,7 +620,9 @@
       "viewport": "phone",
       "width": 390,
       "image": "assets/linked-list-phone.png",
-      "sourceSelector": "section[data-slot=\"design-system-linked-list\"]"
+      "sourceSelector": "section[data-slot=\"design-system-linked-list\"]",
+      "packageVersion": "0.1.0",
+      "capturedAt": "2026-09-24"
     },
     {
       "id": "page-action-bar-phone",
@@ -544,7 +632,9 @@
       "viewport": "phone",
       "width": 390,
       "image": "assets/page-action-bar-phone.png",
-      "sourceSelector": "section[data-slot=\"design-system-page-action-bar\"]"
+      "sourceSelector": "section[data-slot=\"design-system-page-action-bar\"]",
+      "packageVersion": "0.1.0",
+      "capturedAt": "2026-09-24"
     },
     {
       "id": "data-table-phone",
@@ -554,7 +644,9 @@
       "viewport": "phone",
       "width": 390,
       "image": "assets/data-table-phone.png",
-      "sourceSelector": "section[data-slot=\"design-system-data-table\"]"
+      "sourceSelector": "section[data-slot=\"design-system-data-table\"]",
+      "packageVersion": "0.1.0",
+      "capturedAt": "2026-09-24"
     },
     {
       "id": "responsive-form-grid-phone",
@@ -565,7 +657,9 @@
       "width": 390,
       "image": "assets/responsive-form-grid-phone.png",
       "sourceRoute": "design-system/examples/consumer/",
-      "sourceSelector": "[data-slot=\"fixture-form-grid\"]"
+      "sourceSelector": "[data-slot=\"fixture-form-grid\"]",
+      "packageVersion": "0.1.0",
+      "capturedAt": "2026-09-24"
     },
     {
       "id": "detail-field-phone",
@@ -575,7 +669,9 @@
       "viewport": "phone",
       "width": 390,
       "image": "assets/detail-field-phone.png",
-      "sourceSelector": "section[data-slot=\"design-system-detail-field\"]"
+      "sourceSelector": "section[data-slot=\"design-system-detail-field\"]",
+      "packageVersion": "0.1.0",
+      "capturedAt": "2026-09-24"
     },
     {
       "id": "student-profile-control-phone",
@@ -585,7 +681,8 @@
       "viewport": "phone",
       "width": 390,
       "image": "assets/student-profile-control-phone.png",
-      "sourceSelector": "section[data-slot=\"design-system-student-profile-control\"]"
+      "sourceSelector": "section[data-slot=\"design-system-student-profile-control\"]",
+      "capturedAt": "2026-09-24"
     },
     {
       "id": "calendar-month-and-agenda-phone",
@@ -596,7 +693,8 @@
       "width": 390,
       "image": "assets/calendar-month-and-agenda-phone.png",
       "sourceRoute": "/",
-      "sourceSelector": "[data-slot=\"calendar-section-card\"]"
+      "sourceSelector": "[data-slot=\"calendar-section-card\"]",
+      "capturedAt": "2026-09-24"
     },
     {
       "id": "module-detail-patterns-tablet",
@@ -606,7 +704,8 @@
       "viewport": "tablet",
       "width": 820,
       "image": "assets/module-detail-patterns-tablet.png",
-      "sourceSelector": "section[data-slot=\"design-system-module-detail-patterns\"]"
+      "sourceSelector": "section[data-slot=\"design-system-module-detail-patterns\"]",
+      "capturedAt": "2026-09-24"
     },
     {
       "id": "content-sections-tablet",
@@ -616,7 +715,9 @@
       "viewport": "tablet",
       "width": 820,
       "image": "assets/content-sections-tablet.png",
-      "sourceSelector": "section[data-slot=\"design-system-content-sections\"]"
+      "sourceSelector": "section[data-slot=\"design-system-content-sections\"]",
+      "packageVersion": "0.1.0",
+      "capturedAt": "2026-09-24"
     },
     {
       "id": "timetable-minute-precision-tablet",
@@ -626,7 +727,8 @@
       "viewport": "tablet",
       "width": 820,
       "image": "assets/timetable-minute-precision-tablet.png",
-      "sourceSelector": "section[data-slot=\"design-system-timetable\"]"
+      "sourceSelector": "section[data-slot=\"design-system-timetable\"]",
+      "capturedAt": "2026-09-24"
     },
     {
       "id": "data-table-tablet",
@@ -636,7 +738,9 @@
       "viewport": "tablet",
       "width": 820,
       "image": "assets/data-table-tablet.png",
-      "sourceSelector": "section[data-slot=\"design-system-data-table\"]"
+      "sourceSelector": "section[data-slot=\"design-system-data-table\"]",
+      "packageVersion": "0.1.0",
+      "capturedAt": "2026-09-24"
     },
     {
       "id": "student-profile-control-tablet",
@@ -646,7 +750,8 @@
       "viewport": "tablet",
       "width": 820,
       "image": "assets/student-profile-control-tablet.png",
-      "sourceSelector": "section[data-slot=\"design-system-student-profile-control\"]"
+      "sourceSelector": "section[data-slot=\"design-system-student-profile-control\"]",
+      "capturedAt": "2026-09-24"
     },
     {
       "id": "module-detail-materials",
@@ -656,7 +761,8 @@
       "viewport": "desktop",
       "width": 1440,
       "image": "assets/module-detail-materials-desktop.png",
-      "sourceSelector": "former Explorer interaction state"
+      "sourceSelector": "former Explorer interaction state",
+      "capturedAt": "2026-09-24"
     },
     {
       "id": "module-detail-attendance",
@@ -666,7 +772,8 @@
       "viewport": "desktop",
       "width": 1440,
       "image": "assets/module-detail-attendance-desktop.png",
-      "sourceSelector": "former Explorer interaction state"
+      "sourceSelector": "former Explorer interaction state",
+      "capturedAt": "2026-09-24"
     },
     {
       "id": "tab-panel-banner-gradient",
@@ -676,7 +783,9 @@
       "viewport": "desktop",
       "width": 1440,
       "image": "assets/tab-panel-banner-gradient-desktop.png",
-      "sourceSelector": "former Explorer interaction state"
+      "sourceSelector": "former Explorer interaction state",
+      "packageVersion": "0.1.0",
+      "capturedAt": "2026-09-24"
     },
     {
       "id": "accordion-collapsed",
@@ -686,7 +795,9 @@
       "viewport": "desktop",
       "width": 1440,
       "image": "assets/accordion-collapsed-desktop.png",
-      "sourceSelector": "former Explorer interaction state"
+      "sourceSelector": "former Explorer interaction state",
+      "packageVersion": "0.1.0",
+      "capturedAt": "2026-09-24"
     },
     {
       "id": "dialog-open",
@@ -696,7 +807,9 @@
       "viewport": "desktop",
       "width": 1440,
       "image": "assets/dialog-open-desktop.png",
-      "sourceSelector": "former Explorer interaction state"
+      "sourceSelector": "former Explorer interaction state",
+      "packageVersion": "0.1.0",
+      "capturedAt": "2026-09-24"
     },
     {
       "id": "popup-open",
@@ -706,7 +819,48 @@
       "viewport": "desktop",
       "width": 1440,
       "image": "assets/popup-open-desktop.png",
-      "sourceSelector": "former Explorer interaction state"
+      "sourceSelector": "former Explorer interaction state",
+      "packageVersion": "0.1.0",
+      "capturedAt": "2026-09-24"
+    },
+    {
+      "id": "portal-shell-phone",
+      "title": "Portal shell",
+      "page": "shared-patterns",
+      "owner": "shared",
+      "viewport": "phone",
+      "width": 390,
+      "image": "assets/portal-shell-phone.png",
+      "sourceSelector": "[data-slot=\"portal-shell\"]",
+      "captureRoute": "/?shell",
+      "packageVersion": "0.2.0",
+      "capturedAt": "2026-09-26"
+    },
+    {
+      "id": "portal-shell-tablet",
+      "title": "Portal shell",
+      "page": "shared-patterns",
+      "owner": "shared",
+      "viewport": "tablet",
+      "width": 820,
+      "image": "assets/portal-shell-tablet.png",
+      "sourceSelector": "[data-slot=\"portal-shell\"]",
+      "captureRoute": "/?shell",
+      "packageVersion": "0.2.0",
+      "capturedAt": "2026-09-26"
+    },
+    {
+      "id": "portal-shell-desktop",
+      "title": "Portal shell",
+      "page": "shared-patterns",
+      "owner": "shared",
+      "viewport": "desktop",
+      "width": 1440,
+      "image": "assets/portal-shell-desktop.png",
+      "sourceSelector": "[data-slot=\"portal-shell\"]",
+      "captureRoute": "/?shell",
+      "packageVersion": "0.2.0",
+      "capturedAt": "2026-09-26"
     }
   ]
 }
