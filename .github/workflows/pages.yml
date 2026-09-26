@@ -7,6 +7,7 @@ on:
     paths:
       - openapi.yaml
       - index.html
+      - openapi.html
       - diagrams/**
       - ai/**
       - sdd/**
@@ -57,7 +58,8 @@ jobs:
           DOCS_SITE_PASSWORD: ${{ secrets.DOCS_SITE_PASSWORD }}
         run: |
           mkdir -p _site
-          cp index.html openapi.yaml _site/
+          cp index.html openapi.html openapi.yaml _site/
+          test -f _site/openapi.html
           cp -R diagrams _site/diagrams
           cp -R ai _site/ai
           if [ -d sdd ]; then cp -R sdd _site/sdd; fi

@@ -47,7 +47,7 @@ targets:
   sdd-15: sdd/15-nomenclature.html
   sdd-11: sdd/11-capability-catalog.html
   sdd-03: sdd/03-delivery-milestones.html
-  openapi: index.html
+  openapi: openapi.html
   vercel-poc: poc/vercel-neon.html
 
 # External (absolute) link ids used in the menu
@@ -62,7 +62,7 @@ external:
 
 # Path → active section id (first match wins; evaluated in order)
 path_rules:
-  - match: { exact: index.html }
+  - match: { exact: openapi.html }
     section: openapi
   - match: { exact: diagrams/distributed-cms-architecture.html }
     section: distributed

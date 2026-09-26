@@ -402,7 +402,7 @@
         "portal",
         "rpc"
       ],
-      "path": "index.html"
+      "path": "openapi.html"
     },
     {
       "title": "openapi.yaml",

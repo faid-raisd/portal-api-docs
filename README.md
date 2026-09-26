@@ -2,7 +2,8 @@
 
 Public OpenAPI description, Swagger UI, and architecture diagrams for the Raisd Portal API.
 
-**Live docs:** https://raisd-campus.github.io/portal-api-docs/  
+**Live docs:** https://raisd-campus.github.io/portal-api-docs/ (redirects to the overview)  
+**Swagger UI:** https://raisd-campus.github.io/portal-api-docs/openapi.html  
 **ERD & DFD:** https://raisd-campus.github.io/portal-api-docs/diagrams/
 **Distributed CMS:** https://raisd-campus.github.io/portal-api-docs/diagrams/distributed-cms-architecture.html
 **[LUCT CMS](https://raisd-campus.github.io/portal-api-docs/diagrams/old-cms/) analysis:** https://raisd-campus.github.io/portal-api-docs/diagrams/old-cms/
