@@ -48,6 +48,7 @@ targets:
   sdd-11: sdd/11-capability-catalog.html
   sdd-03: sdd/03-delivery-milestones.html
   openapi: index.html
+  vercel-poc: poc/vercel-neon.html
 
 # External (absolute) link ids used in the menu
 external:
@@ -57,7 +58,7 @@ external:
   ai-portal-api: https://github.com/raisd-campus/control-plane/blob/main/docs/ai/backend/portal-api.md
   ai-cms-comparison: https://github.com/raisd-campus/control-plane/blob/main/docs/ai/backend/cms-feature-comparison.md
   openapi-yaml: https://github.com/raisd-campus/control-plane/blob/main/openapi.yaml
-  ai-vercel-poc: https://github.com/raisd-campus/control-plane/blob/main/docs/ai/architecture/vercel-neon-poc.md
+  ai-vercel-poc-md: https://github.com/raisd-campus/control-plane/blob/main/docs/ai/architecture/vercel-neon-poc.md
 
 # Path → active section id (first match wins; evaluated in order)
 path_rules:
@@ -117,6 +118,8 @@ path_rules:
     section: sdd-03
   - match: { prefix: sdd/ }
     section: sdd
+  - match: { prefix: poc/ }
+    section: vercel-poc
 
 # Primary header menu (top-level chips + flyouts)
 # href / children.href: target id, external id, or "id#anchor"
@@ -129,6 +132,7 @@ menu:
       - { label: Distributed CMS, href: distributed }
       - { label: Architecture, href: architecture }
       - { label: Migration, href: migration }
+      - { label: "Vercel + Neon PoC", href: vercel-poc }
 
   - label: Distributed CMS
     href: distributed
@@ -142,13 +146,14 @@ menu:
 
   - label: Architecture
     href: architecture
-    active: [architecture, migration]
+    active: [architecture, migration, vercel-poc]
     children:
       - { label: Architecture home, href: architecture }
       - { label: Distributed CMS target, href: distributed }
       - { label: "SDD & ADR catalogue", href: "architecture#sdd" }
       - { label: "SoR / ACL", href: "architecture#acl" }
       - { label: Academic model, href: "architecture#academic" }
+      - { label: "Vercel + Neon PoC", href: vercel-poc }
       - label: Migration
         href: migration
         children:
@@ -233,6 +238,7 @@ menu:
       - { label: Distributed CMS target, href: ai-distributed }
       - { label: Portal API, href: ai-portal-api }
       - { label: CMS comparison, href: ai-cms-comparison }
+      - { label: "Vercel + Neon PoC", href: vercel-poc }
 
   - label: SDD
     href: sdd
@@ -460,7 +466,7 @@ search:
     keywords: [yaml, contract, schema]
 
   - title: Vercel + Neon PoC
-    href: ai-vercel-poc
-    section: AI knowledge
+    href: vercel-poc
+    section: Architecture
     summary: PoC path to host a portal SPA and Portal API on Vercel with free Neon Postgres (not production UltaHost).
-    keywords: [vercel, neon, postgres, poc, deploy]
+    keywords: [vercel, neon, postgres, poc, deploy, marketplace]

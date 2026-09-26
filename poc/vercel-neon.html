@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <link rel="icon" href="../diagrams/assets/favicon.svg" type="image/svg+xml" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Control Plane — Vercel + Neon PoC</title>
+  <link rel="stylesheet" href="../diagrams/styles.css" />
+  <script src="../diagrams/site-auth.js"></script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="site-header-inner">
+      <a class="brand" href="../diagrams/index.html">
+        <img class="brand-logo" src="../diagrams/assets/raisd-logo.svg" width="80" height="22" alt="Raisd" />
+        <strong>Control Plane</strong>
+      </a>
+      <button type="button" class="site-search-trigger" aria-label="Search documentation"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="M20 20l-3.5-3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+      <nav class="nav" aria-label="Primary">
+        <div class="nav-dd">
+          <a class="nav-dd-main" href="../diagrams/index.html">Overview</a>
+          <div class="nav-dd-menu" role="menu">
+            <a href="../diagrams/index.html">Diagrams hub</a>
+            <a href="../diagrams/distributed-cms-architecture.html">Distributed CMS</a>
+            <a href="../diagrams/architecture.html">Architecture</a>
+            <a href="../diagrams/migration.html">Migration</a>
+            <a href="vercel-neon.html">Vercel + Neon PoC</a>
+          </div>
+        </div>
+        <div class="nav-dd">
+          <a class="nav-dd-main" href="../diagrams/distributed-cms-architecture.html">Distributed CMS</a>
+          <div class="nav-dd-menu" role="menu">
+            <a href="../diagrams/distributed-cms-architecture.html">Target architecture</a>
+            <a href="../diagrams/distributed-cms-architecture.html#journey">Current → ideal</a>
+            <a href="../diagrams/distributed-cms-architecture.html#phase-ideal">Ideal state</a>
+            <a href="../diagrams/distributed-cms-architecture.html#tenancy">White-label &amp; flags</a>
+            <a href="../diagrams/migration.html">M1–M5 migration</a>
+          </div>
+        </div>
+        <div class="nav-dd">
+          <a class="nav-dd-main active" href="../diagrams/architecture.html">Architecture</a>
+          <div class="nav-dd-menu" role="menu">
+            <a href="../diagrams/architecture.html">Architecture home</a>
+            <a href="../diagrams/distributed-cms-architecture.html">Distributed CMS target</a>
+            <a href="../diagrams/architecture.html#sdd">SDD &amp; ADR catalogue</a>
+            <a href="../diagrams/architecture.html#acl">SoR / ACL</a>
+            <a href="../diagrams/architecture.html#academic">Academic model</a>
+            <a href="vercel-neon.html">Vercel + Neon PoC</a>
+            <div class="nav-sub">
+              <a class="nav-sub-trigger" href="../diagrams/migration.html" aria-haspopup="true" aria-expanded="false">Migration</a>
+              <div class="nav-sub-menu" role="menu">
+              <a href="../diagrams/migration.html">Plan overview</a>
+              <a href="../diagrams/migration.html#sequence">Milestone sequence</a>
+              <a href="../diagrams/distributed-cms-architecture.html#journey">Current → ideal</a>
+              <a href="../diagrams/migration.html#m1">M1–M5 detail</a>
+              <a href="../diagrams/migration.html#hosting">Hosting stages</a>
+              <a href="../diagrams/migration.html#critical">Critical path</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="nav-dd">
+          <a class="nav-dd-main" href="../diagrams/raisd-cms/index.html">Raisd CMS</a>
+          <div class="nav-dd-menu" role="menu">
+            <a href="../diagrams/raisd-cms/index.html">Raisd CMS hub</a>
+            <a href="../diagrams/raisd-cms/student-portal.html">Student portal</a>
+            <a href="../diagrams/raisd-cms/student-portal-screenshots.html">Screenshots</a>
+            <a href="../diagrams/raisd-cms/student-portal-guide.html">Use guides</a>
+            <a href="../diagrams/erd.html">ERD</a>
+            <a href="../diagrams/dfd.html">DFD</a>
+          </div>
+        </div>
+        <div class="nav-dd">
+          <a class="nav-dd-main" href="../diagrams/old-cms/index.html">LUCT CMS</a>
+          <div class="nav-dd-menu" role="menu">
+            <div class="nav-sub">
+              <a class="nav-sub-trigger" href="../diagrams/old-cms/index.html" aria-haspopup="true" aria-expanded="false">Cyberjaya</a>
+              <div class="nav-sub-menu" role="menu">
+              <a href="../diagrams/old-cms/index.html">E2E hub</a>
+              <a href="../diagrams/old-cms/index.html#fsd">FSD</a>
+              <a href="../diagrams/old-cms/obsidian.html">Obsidian 3D</a>
+              <a href="../diagrams/old-cms/index.html#flows">Flows</a>
+              <a href="../diagrams/old-cms/index.html#erd">ERD</a>
+              <a href="../diagrams/old-cms/index.html#database">Database</a>
+              <a href="../diagrams/old-cms/index.html#compare">Comparison</a>
+              </div>
+            </div>
+            <div class="nav-sub">
+              <a class="nav-sub-trigger" href="../diagrams/old-cms-botswana/index.html" aria-haspopup="true" aria-expanded="false">Botswana</a>
+              <div class="nav-sub-menu" role="menu">
+              <a href="../diagrams/old-cms-botswana/index.html">E2E hub</a>
+              <a href="../diagrams/old-cms-botswana/index.html#fsd">FSD</a>
+              <a href="../diagrams/old-cms-botswana/index.html#dtef">DTEF</a>
+              <a href="../diagrams/old-cms-botswana/index.html#erd">ERD</a>
+              <a href="../diagrams/old-cms-botswana/database.html">Database</a>
+              <a href="../diagrams/old-cms/obsidian.html">Obsidian 3D</a>
+              </div>
+            </div>
+            <div class="nav-sub">
+              <a class="nav-sub-trigger" href="../diagrams/old-cms-sierra-leone/index.html" aria-haspopup="true" aria-expanded="false">Sierra Leone</a>
+              <div class="nav-sub-menu" role="menu">
+              <a href="../diagrams/old-cms-sierra-leone/index.html">E2E hub</a>
+              <a href="../diagrams/old-cms-sierra-leone/index.html#fsd">FSD</a>
+              <a href="../diagrams/old-cms-sierra-leone/index.html#erd">ERD</a>
+              <a href="../diagrams/old-cms-sierra-leone/database.html">Database</a>
+              <a href="../diagrams/old-cms/obsidian.html">Obsidian 3D</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="nav-dd">
+          <a class="nav-dd-main" href="../design-system/index.html">Design system</a>
+          <div class="nav-dd-menu" role="menu">
+            <a href="../design-system/index.html">Design system hub</a>
+            <a href="../design-system/foundations.html">Foundations</a>
+            <a href="../design-system/shared-controls.html">Shared controls</a>
+            <a href="../design-system/shared-patterns.html">Shared patterns</a>
+            <a href="../design-system/student-components.html">Student components</a>
+          </div>
+        </div>
+        <div class="nav-dd">
+          <a class="nav-dd-main" href="../ai/index.html">AI knowledge</a>
+          <div class="nav-dd-menu" role="menu">
+            <a href="../ai/index.html">AI hub</a>
+            <a href="https://github.com/raisd-campus/control-plane/blob/main/docs/ai/AGENTS.md">AGENTS.md</a>
+            <a href="https://github.com/raisd-campus/control-plane/blob/main/docs/ai/architecture/overview.md">Architecture overview</a>
+            <a href="https://github.com/raisd-campus/control-plane/blob/main/docs/ai/architecture/distributed-cms-target.md">Distributed CMS target</a>
+            <a href="https://github.com/raisd-campus/control-plane/blob/main/docs/ai/backend/portal-api.md">Portal API</a>
+            <a href="https://github.com/raisd-campus/control-plane/blob/main/docs/ai/backend/cms-feature-comparison.md">CMS comparison</a>
+            <a href="vercel-neon.html">Vercel + Neon PoC</a>
+          </div>
+        </div>
+        <div class="nav-dd">
+          <a class="nav-dd-main" href="../sdd/index.html">SDD</a>
+          <div class="nav-dd-menu" role="menu">
+            <a href="../sdd/index.html">SDD hub</a>
+            <a href="../sdd/15-nomenclature.html">Nomenclature</a>
+            <a href="../sdd/11-capability-catalog.html">Capability catalogue</a>
+            <a href="../sdd/03-delivery-milestones.html">Milestones</a>
+          </div>
+        </div>
+        <div class="nav-dd">
+          <a class="nav-dd-main" href="../index.html">OpenAPI</a>
+          <div class="nav-dd-menu" role="menu">
+            <a href="../index.html">Swagger UI</a>
+            <a href="https://github.com/raisd-campus/control-plane/blob/main/openapi.yaml">openapi.yaml</a>
+          </div>
+        </div>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <section class="hero">
+      <p class="eyebrow">Proof of concept · not production</p>
+      <h1>Vercel frontend + Portal API + Neon PostgreSQL</h1>
+      <p>
+        Throwaway / early hosted Demo path for a Raisd portal SPA and Portal API on
+        <strong>Vercel</strong>, with free <strong>Neon</strong> Postgres used only by the API.
+        Does <strong>not</strong> replace UltaHost + k3s (<a href="../diagrams/migration.html#hosting">SDD-12</a> / ADR-2 / ADR-3).
+      </p>
+      <div class="meta-row">
+        <span class="chip">Status: Not started</span>
+        <span class="chip warn">PoC only</span>
+        <span class="chip ok">Portals → Portal API only</span>
+        <span class="chip">Neon free tier</span>
+      </div>
+    </section>
+
+    <div class="note">
+      <strong>Not an ADR.</strong>
+      Production remains UltaHost Singapore with k3s. The existing Cyberjaya CMS stays the
+      system of record for Live writes (ADR-1). Do not present this PoC as Live campus architecture.
+      Canonical agent text:
+      <a href="https://github.com/raisd-campus/control-plane/blob/main/docs/ai/architecture/vercel-neon-poc.md">docs/ai/architecture/vercel-neon-poc.md</a>.
+    </div>
+
+    <h2 id="goal">Goal</h2>
+    <p>
+      Deploy a portal web and the Portal API on Vercel. Neon provides serverless PostgreSQL for
+      PoC session / prototype tables. Bind the SPA with one public API URL env var.
+    </p>
+
+    <h2 id="architecture">Architecture (PoC only)</h2>
+    <p>Portals still <strong>never</strong> talk to Postgres or the CMS directly. Only the Portal API may hold <code>DATABASE_URL</code>.</p>
+    <pre><code>Browser
+  │  HTTPS
+  ▼
+Vercel — student-portal (Vite SPA / static)
+  │  VITE_PORTAL_API_URL=https://&lt;api-project&gt;.vercel.app
+  ▼
+Vercel — portal-api (Node serverless / Fluid compute)
+  │  DATABASE_URL  (injected by Neon Marketplace integration)
+  ▼
+Neon PostgreSQL (free tier)
+  ├── poc_sessions
+  ├── poc_users / scenario seed
+  ├── application / Demo tables as needed
+  └── (not the Live CMS ledger)</code></pre>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Layer</th><th>Raisd repo today</th><th>PoC host</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Student UI</td>
+            <td><a href="https://github.com/raisd-campus/student-portal">student-portal</a> (Vite + React)</td>
+            <td>Vercel project A (static / SPA)</td>
+          </tr>
+          <tr>
+            <td>Portal API</td>
+            <td><a href="https://github.com/raisd-campus/control-plane/tree/main/portal-api">control-plane/portal-api</a> (Fastify)</td>
+            <td>Vercel project B (Node)</td>
+          </tr>
+          <tr>
+            <td>OpenAPI docs</td>
+            <td><a href="https://github.com/raisd-campus/portal-api-docs">portal-api-docs</a></td>
+            <td>Keep on GitHub Pages (this site)</td>
+          </tr>
+          <tr>
+            <td>Database</td>
+            <td>Stage-1 mock / in-memory sessions</td>
+            <td>Neon via Vercel Marketplace</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Start with <strong>student-portal + portal-api</strong>; other portals can follow the same pattern later.</p>
+
+    <h2 id="neon">Why Neon on Vercel (2026)</h2>
+    <p>
+      Vercel’s first-party <strong>Vercel Postgres has been discontinued</strong>. New databases come from
+      <strong>Vercel Marketplace</strong> (Neon, Supabase, Prisma Postgres, AWS Aurora Postgres, and others).
+      <strong>Neon</strong> is the simplest free Postgres option for this PoC: Native integration, $0 start,
+      scale-to-zero, branching.
+    </p>
+
+    <h3>Neon Free tier (indicative)</h3>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Resource</th><th>Neon Free</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>PostgreSQL</td><td>Full Postgres</td></tr>
+          <tr><td>Cost</td><td>$0</td></tr>
+          <tr><td>Storage</td><td>0.5 GB / project</td></tr>
+          <tr><td>Compute</td><td>50 CU-hours / month / project</td></tr>
+          <tr><td>Egress</td><td>5 GB / month</td></tr>
+          <tr><td>Scale-to-zero</td><td>Yes</td></tr>
+          <tr><td>Autoscaling</td><td>up to 2 CU</td></tr>
+          <tr><td>Branching</td><td>Yes</td></tr>
+          <tr><td>Vercel integration</td><td>Native</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>When to prefer Supabase</h3>
+    <p>
+      Choose <strong>Supabase</strong> from the same Marketplace if the PoC also needs bundled Auth, Storage,
+      Realtime, or Supabase client APIs. For Raisd’s shape (<code>SPA → Portal API → Postgres</code>), prefer Neon.
+    </p>
+
+    <h2 id="fit">Free-tier fit for Raisd</h2>
+    <p><strong>Enough for:</strong> Demo session tokens, small seed graphs, a handful of concurrent testers, schema branching without claiming Live CMS parity.</p>
+    <p><strong>Not for:</strong> Production cohorts, evidence blobs, CMS ledger replica, treating Neon as Live SoR (contradicts ADR-1), heavy CI against one free project.</p>
+    <p>
+      <strong>Graduation path:</strong> keep the Portal API contract; move durable data to SDD-12 Postgres on UltaHost
+      (or CAP-53 CMS adapter). Swap <code>DATABASE_URL</code> / CMS adapter — do not teach the SPA a second data plane.
+    </p>
+
+    <h2 id="deploy">Implement and deploy</h2>
+
+    <h3 id="provision">1. Provision Neon from Vercel</h3>
+    <p><strong>Dashboard:</strong> Vercel → Marketplace → Neon → Install (attach to the <strong>portal-api</strong> project).</p>
+    <p><strong>CLI:</strong></p>
+    <pre><code>vc i neon/neon</code></pre>
+    <p>
+      Confirm <code>DATABASE_URL</code> (and any unpooled / branch URLs) appear under the API project’s
+      Environment Variables for Preview and Production. Schema and rows can be inspected from the
+      Vercel dashboard for Neon integrations (2026).
+    </p>
+
+    <h3 id="portal-api">2. Portal API project (Vercel)</h3>
+    <ol>
+      <li>Create a Vercel project rooted at <code>portal-api/</code> (or a thin wrapper).</li>
+      <li>Adapt the Fastify HTTP entry to Vercel Node serverless / Fluid compute (request-listener adapter or equivalent handler calling the same PortalApi methods).</li>
+      <li>Set environment:</li>
+    </ol>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Variable</th><th>Purpose</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>DATABASE_URL</code></td><td>Neon (Marketplace-injected)</td></tr>
+          <tr><td><code>STUDENT_PORTAL_ROOT</code></td><td>Only if still bridging the mock engine from a packaged path — prefer contracts without a sibling checkout</td></tr>
+          <tr><td><code>CORS_ORIGIN</code></td><td>Exact student-portal Vercel origin(s)</td></tr>
+          <tr><td><code>NODE_ENV</code></td><td><code>production</code> on Production</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <ol start="4">
+      <li>Keep OpenAPI behaviour: <code>POST /v1/auth/login</code>, <code>POST /v1/portal/{method}</code>. Contract SoT: <a href="../index.html">OpenAPI Swagger</a>.</li>
+      <li>PoC Neon writes are <strong>Demo / Partial</strong> until CAP-53 CMS acknowledgement — do not mark Live.</li>
+    </ol>
+    <p>Optional first slice: persist only sessions and scenario id in Neon; leave domain reads on the mock projection until a table plan exists.</p>
+
+    <h3 id="student-portal">3. Student portal project (Vercel)</h3>
+    <ol>
+      <li>Second Vercel project from <code>student-portal</code> (Vite → <code>dist/</code>).</li>
+      <li>Build: <code>npm ci &amp;&amp; npm run build</code> (needs <code>NODE_AUTH_TOKEN</code> for <code>@raisd-campus/design-system</code>).</li>
+      <li>Output directory: <code>dist</code>.</li>
+      <li>Env: <code>VITE_PORTAL_API_URL=https://&lt;portal-api-project&gt;.vercel.app</code>.</li>
+      <li>Production builds must use the HTTP PortalApi adapter (no MockPortalApi in the ship bundle).</li>
+      <li>SPA rewrites so client routes serve <code>index.html</code>.</li>
+    </ol>
+
+    <h3 id="smoke">4. Bind and smoke-test</h3>
+    <pre><code>1. Open student Vercel URL → sign-in Demo scenario
+2. Network: POST {VITE_PORTAL_API_URL}/v1/auth/login → 200 + bearer
+3. Network: POST .../v1/portal/getDashboard (or getImmigration) → 200 + cms ack
+4. Vercel / Neon dashboard: session row present (if sessions persisted)
+5. This Pages OpenAPI remains the contract SoT — do not fork openapi.yaml on Vercel</code></pre>
+    <p>CORS must allow the SPA origin; the current bearer model does not require cookies.</p>
+
+    <h3 id="secrets">5. Secrets and hygiene</h3>
+    <ul>
+      <li>Never commit <code>.env</code>, Neon connection strings, or Vercel tokens.</li>
+      <li>Prefer Marketplace-injected <code>DATABASE_URL</code>.</li>
+      <li>Rotate the Neon role if a Preview URL or log leaks the connection string.</li>
+      <li>PoC databases may be wiped; do not store real student PII.</li>
+    </ul>
+
+    <h2 id="out-of-scope">Out of scope</h2>
+    <ul>
+      <li>Replacing UltaHost / k3s stages or hostnames (<code>apply.raisd.co</code>, <code>api.raisd.co</code>, …).</li>
+      <li>Moving the existing Cyberjaya CMS onto Neon or Vercel.</li>
+      <li>Durable evidence / payment-proof object storage (Live still needs a file store).</li>
+      <li>Staff Live progression APIs (still deferred).</li>
+      <li>Using free-tier Neon as production capacity planning.</li>
+    </ul>
+
+    <h2 id="status">Checklist language</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Item</th><th>Status word</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>This page / agent note</td><td>Placeholder / Not started (guidance only)</td></tr>
+          <tr><td>Vercel SPA deploy</td><td>Not started until a project ships</td></tr>
+          <tr><td>Vercel Portal API + Neon</td><td>Not started until <code>DATABASE_URL</code> is used by handlers</td></tr>
+          <tr><td>Production campus hosting</td><td>Remains <a href="../sdd/12-deployment-architecture.html">SDD-12</a> — not this PoC</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="related">Related</h2>
+    <div class="toc">
+      <a href="../diagrams/migration.html#hosting">
+        <strong>Migration — hosting stages</strong>
+        <span>Production UltaHost / k3s sequence</span>
+      </a>
+      <a href="../diagrams/architecture.html">
+        <strong>Architecture</strong>
+        <span>ADRs, SoR / ACL, academic model</span>
+      </a>
+      <a href="../index.html">
+        <strong>OpenAPI Swagger</strong>
+        <span>Portal API contract</span>
+      </a>
+      <a href="https://github.com/raisd-campus/control-plane/blob/main/docs/ai/architecture/vercel-neon-poc.md">
+        <strong>Agent Markdown source</strong>
+        <span>docs/ai/architecture/vercel-neon-poc.md</span>
+      </a>
+      <a href="https://github.com/raisd-campus/control-plane/blob/main/docs/ai/backend/portal-api.md">
+        <strong>Portal API agent notes</strong>
+        <span>Stage-1 behaviour and local run</span>
+      </a>
+    </div>
+  </main>
+  <script src="../diagrams/nav-dropdown.js" defer></script>
+  <script src="../diagrams/site-search.js" defer></script>
+</body>
+</html>

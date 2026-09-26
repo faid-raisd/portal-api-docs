@@ -385,15 +385,16 @@
     {
       "title": "Vercel + Neon PoC",
       "summary": "PoC path to host a portal SPA and Portal API on Vercel with free Neon Postgres (not production UltaHost).",
-      "section": "AI knowledge",
+      "section": "Architecture",
       "keywords": [
         "vercel",
         "neon",
         "postgres",
         "poc",
-        "deploy"
+        "deploy",
+        "marketplace"
       ],
-      "path": "https://github.com/raisd-campus/control-plane/blob/main/docs/ai/architecture/vercel-neon-poc.md"
+      "path": "poc/vercel-neon.html"
     }
   ]
 }
