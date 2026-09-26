@@ -3756,9 +3756,8 @@ components:
           items: { type: string, minLength: 1 }
           minItems: 1
         evidenceKind:
-          type: string
-          enum: [passport-copy, passport-photo, offer-letter, academic-records, english-language]
-          nullable: true
+          type: ["string", "null"]
+          enum: [passport-copy, passport-photo, offer-letter, academic-records, english-language, null]
 
     OnlineFormDefinition:
       type: object
@@ -4364,12 +4363,11 @@ components:
       properties:
         result:
           description: |
-            PortalApi return value for the invoked method.
+            PortalApi return value for the invoked method (any JSON, including null).
             Demo flow responses for Immigration, Graduation, Module Registration,
             Online Forms, and Finance are frozen as named components below and on
             those operations. Remaining methods still follow student-portal Zod
             until CAP-53 freezes Live CMS contracts.
-          nullable: true
         cms:
           $ref: "#/components/schemas/CmsAck"
 
