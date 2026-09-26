@@ -183,6 +183,9 @@
             <a href="https://github.com/raisd-campus/control-plane/blob/main/docs/ai/architecture/overview.md">Architecture overview</a>
             <a href="https://github.com/raisd-campus/control-plane/blob/main/docs/ai/architecture/distributed-cms-target.md">Distributed CMS target</a>
             <a href="https://github.com/raisd-campus/control-plane/blob/main/docs/ai/backend/portal-api.md">Portal API</a>
+            <a href="https://github.com/raisd-campus/control-plane/blob/main/docs/ai/backend/portal-api-development-plan.md">Portal API plan</a>
+            <a href="https://github.com/raisd-campus/control-plane/blob/main/docs/ai/backend/portal-api-deployment.md">Portal API deployment</a>
+            <a href="https://github.com/raisd-campus/control-plane/blob/main/docs/ai/backend/portal-api-poc-requirements.md">PoC requirements</a>
             <a href="https://github.com/raisd-campus/control-plane/blob/main/docs/ai/backend/cms-feature-comparison.md">CMS comparison</a>
             <a href="../poc/vercel-neon.html">Vercel + Neon PoC</a>
           </div>
@@ -434,10 +437,13 @@ box is free for stage 3.</p>
 Do not deploy the student, lecturer, or staff images until the stage
 that names them.</p>
 <h2 id="repository-to-service">3. Repository to service</h2>
-<p>Five GitHub repositories in <code>raisd-campus</code>. The existing
-CMS and mail have no repository here. The control plane is one
-repository. Its processes are separate Kubernetes objects on the data
-node, not separate repositories.</p>
+<p>Six deployable GitHub repositories in <code>raisd-campus</code>. The
+existing CMS and mail have no repository here. The Portal API service was
+split from the control plane into its own repository on 27 September 2026;
+the contract (<code>openapi.yaml</code>) and platform objects (Postgres,
+evidence volume) stay with the control plane. Build, image, probes and
+release flow for the API: <a
+href="https://github.com/raisd-campus/control-plane/blob/main/docs/ai/backend/portal-api-deployment.md"><code>docs/ai/backend/portal-api-deployment.md</code></a>.</p>
 <table>
 <colgroup>
 <col style="width: 25%" />
@@ -485,7 +491,7 @@ href="https://github.com/raisd-campus/staff-portal"><code>staff-portal</code></a
 </tr>
 <tr>
 <td><a
-href="https://github.com/raisd-campus/control-plane"><code>control-plane</code></a></td>
+href="https://github.com/raisd-campus/portal-api"><code>portal-api</code></a></td>
 <td>Deployment <code>portal-api</code></td>
 <td>1</td>
 <td>Data node</td>
@@ -577,7 +583,7 @@ internet.</p>
 </tr>
 <tr>
 <td><code>api.raisd.co</code></td>
-<td><code>control-plane</code></td>
+<td><code>portal-api</code></td>
 <td>Stage 1</td>
 <td>Portal browsers, with a bearer token</td>
 </tr>

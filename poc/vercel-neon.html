@@ -126,6 +126,9 @@
             <a href="https://github.com/raisd-campus/control-plane/blob/main/docs/ai/architecture/overview.md">Architecture overview</a>
             <a href="https://github.com/raisd-campus/control-plane/blob/main/docs/ai/architecture/distributed-cms-target.md">Distributed CMS target</a>
             <a href="https://github.com/raisd-campus/control-plane/blob/main/docs/ai/backend/portal-api.md">Portal API</a>
+            <a href="https://github.com/raisd-campus/control-plane/blob/main/docs/ai/backend/portal-api-development-plan.md">Portal API plan</a>
+            <a href="https://github.com/raisd-campus/control-plane/blob/main/docs/ai/backend/portal-api-deployment.md">Portal API deployment</a>
+            <a href="https://github.com/raisd-campus/control-plane/blob/main/docs/ai/backend/portal-api-poc-requirements.md">PoC requirements</a>
             <a href="https://github.com/raisd-campus/control-plane/blob/main/docs/ai/backend/cms-feature-comparison.md">CMS comparison</a>
             <a href="vercel-neon.html">Vercel + Neon PoC</a>
           </div>
@@ -237,7 +240,7 @@ flowchart TB
           </tr>
           <tr>
             <td>Portal API</td>
-            <td><a href="https://github.com/raisd-campus/control-plane/tree/main/portal-api">control-plane/portal-api</a> (Fastify)</td>
+            <td><a href="https://github.com/raisd-campus/portal-api">portal-api</a> (Fastify)</td>
             <td>Vercel project B (Node)</td>
           </tr>
           <tr>
@@ -311,7 +314,8 @@ flowchart TB
 
     <h3 id="portal-api">2. Portal API project (Vercel)</h3>
     <ol>
-      <li>Create a Vercel project rooted at <code>portal-api/</code> (or a thin wrapper).</li>
+      <li>Create a Vercel project from the <code>raisd-campus/portal-api</code> repository. It must build without a student-portal checkout first (plan phase 1).</li>
+      <li>Persist sessions in Neon: serverless instances do not share memory, so the in-memory session map is not enough.</li>
       <li>Adapt the Fastify HTTP entry to Vercel Node serverless / Fluid compute (request-listener adapter or equivalent handler calling the same PortalApi methods).</li>
       <li>Set environment:</li>
     </ol>
@@ -405,6 +409,18 @@ flowchart TB
       <a href="https://github.com/raisd-campus/control-plane/blob/main/docs/ai/backend/portal-api.md">
         <strong>Portal API agent notes</strong>
         <span>Stage-1 behaviour and local run</span>
+      </a>
+      <a href="https://github.com/raisd-campus/control-plane/blob/main/docs/ai/backend/portal-api-poc-requirements.md">
+        <strong>PoC requirements</strong>
+        <span>Prerequisites, functional, security, acceptance</span>
+      </a>
+      <a href="https://github.com/raisd-campus/control-plane/blob/main/docs/ai/backend/portal-api-deployment.md">
+        <strong>Target deployment</strong>
+        <span>k3s stage 1 shape for portal-api</span>
+      </a>
+      <a href="https://github.com/raisd-campus/control-plane/blob/main/docs/ai/backend/portal-api-development-plan.md">
+        <strong>Development plan</strong>
+        <span>Phases 0–8 against M1–M5</span>
       </a>
     </div>
   </main>

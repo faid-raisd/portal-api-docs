@@ -56,6 +56,9 @@ external:
   ai-architecture: https://github.com/raisd-campus/control-plane/blob/main/docs/ai/architecture/overview.md
   ai-distributed: https://github.com/raisd-campus/control-plane/blob/main/docs/ai/architecture/distributed-cms-target.md
   ai-portal-api: https://github.com/raisd-campus/control-plane/blob/main/docs/ai/backend/portal-api.md
+  ai-portal-api-plan: https://github.com/raisd-campus/control-plane/blob/main/docs/ai/backend/portal-api-development-plan.md
+  ai-portal-api-deploy: https://github.com/raisd-campus/control-plane/blob/main/docs/ai/backend/portal-api-deployment.md
+  ai-portal-api-poc: https://github.com/raisd-campus/control-plane/blob/main/docs/ai/backend/portal-api-poc-requirements.md
   ai-cms-comparison: https://github.com/raisd-campus/control-plane/blob/main/docs/ai/backend/cms-feature-comparison.md
   openapi-yaml: https://github.com/raisd-campus/control-plane/blob/main/openapi.yaml
   ai-vercel-poc-md: https://github.com/raisd-campus/control-plane/blob/main/docs/ai/architecture/vercel-neon-poc.md
@@ -237,6 +240,9 @@ menu:
       - { label: Architecture overview, href: ai-architecture }
       - { label: Distributed CMS target, href: ai-distributed }
       - { label: Portal API, href: ai-portal-api }
+      - { label: Portal API plan, href: ai-portal-api-plan }
+      - { label: Portal API deployment, href: ai-portal-api-deploy }
+      - { label: PoC requirements, href: ai-portal-api-poc }
       - { label: CMS comparison, href: ai-cms-comparison }
       - { label: "Vercel + Neon PoC", href: vercel-poc }
 
@@ -432,8 +438,26 @@ search:
   - title: Portal API (AI)
     href: ai-portal-api
     section: AI knowledge
-    summary: Stage-1 Portal API behaviour, OpenAPI, and local run instructions.
-    keywords: [openapi, rpc, fastify, auth]
+    summary: Stage-1 Portal API behaviour, repository layout (raisd-campus/portal-api), OpenAPI, and local run instructions.
+    keywords: [openapi, rpc, fastify, auth, repository]
+
+  - title: Portal API development plan
+    href: ai-portal-api-plan
+    section: AI knowledge
+    summary: Phases 0–8 from repo bootstrap to CMS adapter, identity, persistence and campus expansion, mapped to M1–M5.
+    keywords: [plan, roadmap, phases, cap-53, cap-01, backend]
+
+  - title: Portal API target deployment
+    href: ai-portal-api-deploy
+    section: AI knowledge
+    summary: k3s stage 1 shape for portal-api — environments, image, manifests, probes, env vars, CI/CD, rollback.
+    keywords: [deployment, k3s, docker, image, ci, sdd-12, api.raisd.co]
+
+  - title: PoC requirements (Vercel + Neon)
+    href: ai-portal-api-poc
+    section: AI knowledge
+    summary: Prerequisites, functional, non-functional and security requirements, acceptance walkthrough and exit criteria for the PoC.
+    keywords: [poc, vercel, neon, requirements, acceptance]
 
   - title: CMS feature comparison
     href: ai-cms-comparison

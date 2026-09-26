@@ -326,15 +326,58 @@
     },
     {
       "title": "Portal API (AI)",
-      "summary": "Stage-1 Portal API behaviour, OpenAPI, and local run instructions.",
+      "summary": "Stage-1 Portal API behaviour, repository layout (raisd-campus/portal-api), OpenAPI, and local run instructions.",
       "section": "AI knowledge",
       "keywords": [
         "openapi",
         "rpc",
         "fastify",
-        "auth"
+        "auth",
+        "repository"
       ],
       "path": "https://github.com/raisd-campus/control-plane/blob/main/docs/ai/backend/portal-api.md"
+    },
+    {
+      "title": "Portal API development plan",
+      "summary": "Phases 0\u20138 from repo bootstrap to CMS adapter, identity, persistence and campus expansion, mapped to M1\u2013M5.",
+      "section": "AI knowledge",
+      "keywords": [
+        "plan",
+        "roadmap",
+        "phases",
+        "cap-53",
+        "cap-01",
+        "backend"
+      ],
+      "path": "https://github.com/raisd-campus/control-plane/blob/main/docs/ai/backend/portal-api-development-plan.md"
+    },
+    {
+      "title": "Portal API target deployment",
+      "summary": "k3s stage 1 shape for portal-api \u2014 environments, image, manifests, probes, env vars, CI/CD, rollback.",
+      "section": "AI knowledge",
+      "keywords": [
+        "deployment",
+        "k3s",
+        "docker",
+        "image",
+        "ci",
+        "sdd-12",
+        "api.raisd.co"
+      ],
+      "path": "https://github.com/raisd-campus/control-plane/blob/main/docs/ai/backend/portal-api-deployment.md"
+    },
+    {
+      "title": "PoC requirements (Vercel + Neon)",
+      "summary": "Prerequisites, functional, non-functional and security requirements, acceptance walkthrough and exit criteria for the PoC.",
+      "section": "AI knowledge",
+      "keywords": [
+        "poc",
+        "vercel",
+        "neon",
+        "requirements",
+        "acceptance"
+      ],
+      "path": "https://github.com/raisd-campus/control-plane/blob/main/docs/ai/backend/portal-api-poc-requirements.md"
     },
     {
       "title": "CMS feature comparison",

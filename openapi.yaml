@@ -110,7 +110,7 @@ info:
 
 servers:
   - url: http://127.0.0.1:8080
-    description: Local portal-api (`npm start` in portal-api/)
+    description: Local portal-api (`npm start` in the raisd-campus/portal-api checkout)
   - url: https://api.raisd.co
     description: Planned public name (not provisioned yet)
 
