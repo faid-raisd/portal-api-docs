@@ -21,6 +21,11 @@ changes before their package release. Capture affected phone, tablet, and
 desktop states when their layouts differ. Keep historical provenance for
 unchanged images; update each changed image's metadata and source commit.
 
+For `system/portal-shell`, start the package's `examples/consumer` Vite fixture
+on port 4183 and run `node capture-shell.mjs <this-directory>/assets` from that
+fixture. It writes mock phone, tablet, and desktop PNGs. Review all three before
+updating their entries in `captures.json` and rebuilding the pages.
+
 From the `control-plane` root, regenerate and validate:
 
 ```sh
