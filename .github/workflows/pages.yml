@@ -11,6 +11,7 @@ on:
       - ai/**
       - sdd/**
       - design-system/**
+      - poc/**
       - .github/workflows/pages.yml
       - scripts/validate-design-system.py
   workflow_dispatch:
@@ -61,6 +62,7 @@ jobs:
           cp -R ai _site/ai
           if [ -d sdd ]; then cp -R sdd _site/sdd; fi
           if [ -d design-system ]; then cp -R design-system _site/design-system; fi
+          if [ -d poc ]; then cp -R poc _site/poc; fi
           test -f _site/diagrams/erd.html
           test -f _site/diagrams/dfd.html
           test -f _site/diagrams/old-cms/index.html
@@ -71,6 +73,7 @@ jobs:
           test -f _site/diagrams/old-cms-botswana/database.html
           test -f _site/diagrams/old-cms-sierra-leone/index.html
           test -f _site/ai/index.html
+          test -f _site/poc/vercel-neon.html
           test -f _site/sdd/15-nomenclature.html
           test -f _site/sdd/11-capability-catalog.html
           test -f _site/sdd/03-delivery-milestones.html
