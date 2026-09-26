@@ -1,0 +1,258 @@
+# Raisd Control Plane / portal-api-docs — primary site navigation
+#
+# Single source of truth for the published HTML header menu.
+# Regenerate after editing:
+#   python docs/sdd/_pages/build-dropdown-nav.py
+#
+# Design-system in-page subnav also reads `design_subnav` from this file
+# (via scripts/build-design-system-pages.py).
+
+brand:
+  title: Control Plane
+  home: diagrams/index.html
+  logo: diagrams/assets/raisd-logo.svg
+  favicon: diagrams/assets/favicon.svg
+
+# Logical page ids → paths relative to the published docs root
+# (control-plane/docs or portal-api-docs/).
+targets:
+  overview: diagrams/index.html
+  distributed: diagrams/distributed-cms-architecture.html
+  architecture: diagrams/architecture.html
+  migration: diagrams/migration.html
+  raisd: diagrams/raisd-cms/index.html
+  raisd-sp: diagrams/raisd-cms/student-portal.html
+  raisd-sp-shots: diagrams/raisd-cms/student-portal-screenshots.html
+  raisd-sp-guide: diagrams/raisd-cms/student-portal-guide.html
+  erd: diagrams/erd.html
+  dfd: diagrams/dfd.html
+  luct: diagrams/old-cms/index.html
+  luct-comparison: diagrams/old-cms/comparison.html
+  luct-fsd: diagrams/old-cms/fsd.html
+  luct-obsidian: diagrams/old-cms/obsidian.html
+  luct-erd: diagrams/old-cms/erd.html
+  luct-flows: diagrams/old-cms/flows.html
+  luct-database: diagrams/old-cms/database.html
+  luct-bw: diagrams/old-cms-botswana/index.html
+  luct-bw-database: diagrams/old-cms-botswana/database.html
+  luct-sl: diagrams/old-cms-sierra-leone/index.html
+  luct-sl-database: diagrams/old-cms-sierra-leone/database.html
+  ai: ai/index.html
+  design-system: design-system/index.html
+  design-foundations: design-system/foundations.html
+  design-controls: design-system/shared-controls.html
+  design-patterns: design-system/shared-patterns.html
+  design-student: design-system/student-components.html
+  sdd: sdd/index.html
+  sdd-15: sdd/15-nomenclature.html
+  sdd-11: sdd/11-capability-catalog.html
+  sdd-03: sdd/03-delivery-milestones.html
+  openapi: index.html
+
+# External (absolute) link ids used in the menu
+external:
+  agents-md: https://github.com/raisd-campus/control-plane/blob/main/docs/ai/AGENTS.md
+  ai-architecture: https://github.com/raisd-campus/control-plane/blob/main/docs/ai/architecture/overview.md
+  ai-distributed: https://github.com/raisd-campus/control-plane/blob/main/docs/ai/architecture/distributed-cms-target.md
+  ai-portal-api: https://github.com/raisd-campus/control-plane/blob/main/docs/ai/backend/portal-api.md
+  ai-cms-comparison: https://github.com/raisd-campus/control-plane/blob/main/docs/ai/backend/cms-feature-comparison.md
+  openapi-yaml: https://github.com/raisd-campus/control-plane/blob/main/openapi.yaml
+
+# Path → active section id (first match wins; evaluated in order)
+path_rules:
+  - match: { exact: index.html }
+    section: openapi
+  - match: { exact: diagrams/distributed-cms-architecture.html }
+    section: distributed
+  - match: { prefix: diagrams/old-cms-botswana/, file: database.html }
+    section: luct-bw-database
+  - match: { prefix: diagrams/old-cms-botswana/ }
+    section: luct-bw
+  - match: { prefix: diagrams/old-cms-sierra-leone/, file: database.html }
+    section: luct-sl-database
+  - match: { prefix: diagrams/old-cms-sierra-leone/ }
+    section: luct-sl
+  - match: { prefix: diagrams/old-cms/, file: comparison.html }
+    section: luct-comparison
+  - match: { prefix: diagrams/old-cms/, file: fsd.html }
+    section: luct-fsd
+  - match: { prefix: diagrams/old-cms/, file: obsidian.html }
+    section: luct-obsidian
+  - match: { prefix: diagrams/old-cms/, file: erd.html }
+    section: luct-erd
+  - match: { prefix: diagrams/old-cms/, file: flows.html }
+    section: luct-flows
+  - match: { prefix: diagrams/old-cms/, file: database.html }
+    section: luct-database
+  - match: { prefix: diagrams/old-cms/ }
+    section: luct
+  - match: { path_contains: raisd-cms, name_contains: student-portal-guide }
+    section: raisd-sp-guide
+  - match: { path_contains: raisd-cms, name_contains: student-portal-screenshots }
+    section: raisd-sp-shots
+  - match: { path_contains: raisd-cms, name_contains: student-portal }
+    section: raisd-sp
+  - match: { path_contains: raisd-cms }
+    section: raisd
+  - match: { file: erd.html, path_not_contains: old-cms }
+    section: erd
+  - match: { file: dfd.html }
+    section: dfd
+  - match: { file: architecture.html }
+    section: architecture
+  - match: { file: migration.html }
+    section: migration
+  - match: { exact: diagrams/index.html }
+    section: overview
+  - match: { prefix: ai/ }
+    section: ai
+  - match: { prefix: design-system/ }
+    section: design-system
+  - match: { prefix: sdd/, name_contains: 15-nomenclature }
+    section: sdd-15
+  - match: { prefix: sdd/, name_contains: 11-capability }
+    section: sdd-11
+  - match: { prefix: sdd/, name_contains: 03-delivery }
+    section: sdd-03
+  - match: { prefix: sdd/ }
+    section: sdd
+
+# Primary header menu (top-level chips + flyouts)
+# href / children.href: target id, external id, or "id#anchor"
+menu:
+  - label: Overview
+    href: overview
+    active: [overview]
+    children:
+      - { label: Diagrams hub, href: overview }
+      - { label: Distributed CMS, href: distributed }
+      - { label: Architecture, href: architecture }
+      - { label: Migration, href: migration }
+
+  - label: Distributed CMS
+    href: distributed
+    active: [distributed]
+    children:
+      - { label: Target architecture, href: distributed }
+      - { label: "Current → ideal", href: "distributed#journey" }
+      - { label: Ideal state, href: "distributed#phase-ideal" }
+      - { label: "White-label & flags", href: "distributed#tenancy" }
+      - { label: "M1–M5 migration", href: migration }
+
+  - label: Architecture
+    href: architecture
+    active: [architecture, migration]
+    children:
+      - { label: Architecture home, href: architecture }
+      - { label: Distributed CMS target, href: distributed }
+      - { label: "SDD & ADR catalogue", href: "architecture#sdd" }
+      - { label: "SoR / ACL", href: "architecture#acl" }
+      - { label: Academic model, href: "architecture#academic" }
+      - label: Migration
+        href: migration
+        children:
+          - { label: Plan overview, href: migration }
+          - { label: Milestone sequence, href: "migration#sequence" }
+          - { label: "Current → ideal", href: "distributed#journey" }
+          - { label: "M1–M5 detail", href: "migration#m1" }
+          - { label: Hosting stages, href: "migration#hosting" }
+          - { label: Critical path, href: "migration#critical" }
+
+  - label: Raisd CMS
+    href: raisd
+    active: [raisd, erd, dfd, raisd-sp, raisd-sp-shots, raisd-sp-guide]
+    children:
+      - { label: Raisd CMS hub, href: raisd }
+      - { label: Student portal, href: raisd-sp }
+      - { label: Screenshots, href: raisd-sp-shots }
+      - { label: Use guides, href: raisd-sp-guide }
+      - { label: ERD, href: erd }
+      - { label: DFD, href: dfd }
+
+  - label: LUCT CMS
+    href: luct
+    active:
+      - luct
+      - luct-comparison
+      - luct-fsd
+      - luct-obsidian
+      - luct-erd
+      - luct-flows
+      - luct-database
+      - luct-bw
+      - luct-bw-database
+      - luct-sl
+      - luct-sl-database
+    children:
+      - label: Cyberjaya
+        href: luct
+        children:
+          - { label: E2E hub, href: luct }
+          - { label: FSD, href: "luct#fsd" }
+          - { label: Obsidian 3D, href: luct-obsidian }
+          - { label: Flows, href: "luct#flows" }
+          - { label: ERD, href: "luct#erd" }
+          - { label: Database, href: "luct#database" }
+          - { label: Comparison, href: "luct#compare" }
+      - label: Botswana
+        href: luct-bw
+        children:
+          - { label: E2E hub, href: luct-bw }
+          - { label: FSD, href: "luct-bw#fsd" }
+          - { label: DTEF, href: "luct-bw#dtef" }
+          - { label: ERD, href: "luct-bw#erd" }
+          - { label: Database, href: luct-bw-database }
+          - { label: Obsidian 3D, href: luct-obsidian }
+      - label: Sierra Leone
+        href: luct-sl
+        children:
+          - { label: E2E hub, href: luct-sl }
+          - { label: FSD, href: "luct-sl#fsd" }
+          - { label: ERD, href: "luct-sl#erd" }
+          - { label: Database, href: luct-sl-database }
+          - { label: Obsidian 3D, href: luct-obsidian }
+
+  - label: Design system
+    href: design-system
+    active: [design-system]
+    children:
+      - { label: Design system hub, href: design-system }
+      - { label: Foundations, href: design-foundations }
+      - { label: Shared controls, href: design-controls }
+      - { label: Shared patterns, href: design-patterns }
+      - { label: Student components, href: design-student }
+
+  - label: AI knowledge
+    href: ai
+    active: [ai]
+    children:
+      - { label: AI hub, href: ai }
+      - { label: AGENTS.md, href: agents-md }
+      - { label: Architecture overview, href: ai-architecture }
+      - { label: Distributed CMS target, href: ai-distributed }
+      - { label: Portal API, href: ai-portal-api }
+      - { label: CMS comparison, href: ai-cms-comparison }
+
+  - label: SDD
+    href: sdd
+    active: [sdd, sdd-15, sdd-11, sdd-03]
+    children:
+      - { label: SDD hub, href: sdd }
+      - { label: Nomenclature, href: sdd-15 }
+      - { label: Capability catalogue, href: sdd-11 }
+      - { label: Milestones, href: sdd-03 }
+
+  - label: OpenAPI
+    href: openapi
+    active: [openapi]
+    children:
+      - { label: Swagger UI, href: openapi }
+      - { label: openapi.yaml, href: openapi-yaml }
+
+# In-page strip on design-system/*.html (not the header chip menu)
+design_subnav:
+  - { label: Overview, href: design-system }
+  - { label: Foundations, href: design-foundations }
+  - { label: Shared controls, href: design-controls }
+  - { label: Shared patterns, href: design-patterns }
+  - { label: Student portal components, href: design-student }

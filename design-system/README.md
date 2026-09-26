@@ -29,10 +29,13 @@ updating their entries in `captures.json` and rebuilding the pages.
 From the `control-plane` root, regenerate and validate:
 
 ```sh
+# Edit docs/site-nav.yaml for Primary header + design-system in-page strip
 python scripts/build-design-system-pages.py
 python docs/sdd/_pages/build-dropdown-nav.py
 python scripts/validate-design-system.py docs
 ```
+
+Primary site navigation is **only** defined in [`docs/site-nav.yaml`](../site-nav.yaml). Do not hand-edit `<nav class="nav">` in HTML — re-run the generator so control-plane and `portal-api-docs` stay identical.
 
 Mirror the five HTML files, `styles.css`, `assets/`, and `captures.json` into
 `portal-api-docs/design-system/`, then run
