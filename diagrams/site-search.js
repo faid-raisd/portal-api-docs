@@ -24,7 +24,8 @@
   function loadIndex() {
     if (indexCache) return Promise.resolve(indexCache);
     if (indexPromise) return indexPromise;
-    indexPromise = fetch(indexUrl(), { credentials: 'same-origin' })
+    // Pages serves max-age=600; revalidate so nav/search edits show up immediately.
+    indexPromise = fetch(indexUrl(), { credentials: 'same-origin', cache: 'no-cache' })
       .then(function (res) {
         if (!res.ok) throw new Error('Search index unavailable');
         return res.json();
