@@ -4,7 +4,76 @@
  * Bright spheres + HTML circle labels with text always visible above the canvas.
  */
 (function () {
-  const GRAPH_URL = "./fsd-knowledge.json";
+  const DEFAULT_CAMPUS = "cyberjaya";
+  const CAMPUSES = {
+    cyberjaya: {
+      label: "Cyberjaya",
+      code: "MYS-CYB",
+      data: "./fsd-knowledge.json",
+      db: "cmscbj",
+      heading: "Cyberjaya LUCT CMS",
+      aliases: ["cyb", "cbj", "cmscbj", "mys", "mys-cyb", "malaysia", "my"],
+      toc: [
+        ["./index.html", "E2E hub", "Full campus analysis"],
+        ["./index.html#fsd", "FSD", "Functional breakdown"],
+        [null, "Obsidian", "This page"],
+        ["./index.html#erd", "ERD", "Physical tables"],
+        ["./index.html#dfd", "DFD", "Data flows"],
+        ["./index.html#database", "Database", "Triggers &amp; SPs"],
+      ],
+    },
+    botswana: {
+      label: "Botswana",
+      code: "BWA-GBE",
+      data: "./fsd-knowledge-botswana.json",
+      db: "cmsbotswana",
+      heading: "Botswana LUCT CMS",
+      aliases: ["bw", "bwa", "bots", "bwa-gbe", "cmsbotswana", "gaborone"],
+      toc: [
+        ["../old-cms-botswana/index.html", "E2E hub", "Full campus analysis"],
+        ["../old-cms-botswana/index.html#fsd", "FSD", "Functional breakdown"],
+        [null, "Obsidian", "This page"],
+        ["../old-cms-botswana/index.html#dtef", "DTEF", "TEF.gov.bw sync"],
+        ["../old-cms-botswana/index.html#erd", "ERD", "Physical tables"],
+        ["../old-cms-botswana/index.html#dfd", "DFD", "Data flows"],
+        ["../old-cms-botswana/database.html", "Database", "Triggers &amp; SPs"],
+      ],
+    },
+    "sierra-leone": {
+      label: "Sierra Leone",
+      code: "CMS-ICA",
+      data: "./fsd-knowledge-sierra-leone.json",
+      db: "ems_sierraleone",
+      heading: "Sierra Leone ICA CMS",
+      aliases: ["sl", "sle", "sierraleone", "ems_sierraleone", "ica", "cms-ica", "freetown"],
+      toc: [
+        ["../old-cms-sierra-leone/index.html", "E2E hub", "Full campus analysis"],
+        ["../old-cms-sierra-leone/index.html#fsd", "FSD", "Functional breakdown"],
+        [null, "Obsidian", "This page"],
+        ["../old-cms-sierra-leone/index.html#integrations", "Integrations", "Email &amp; support push"],
+        ["../old-cms-sierra-leone/index.html#erd", "ERD", "Physical tables"],
+        ["../old-cms-sierra-leone/index.html#dfd", "DFD", "Data flows"],
+        ["../old-cms-sierra-leone/database.html", "Database", "Triggers &amp; SPs"],
+      ],
+    },
+  };
+
+  function resolveCampus(raw) {
+    const key = String(raw || "").trim().toLowerCase().replace(/[\s_]+/g, "-");
+    if (!key) return { id: DEFAULT_CAMPUS, requested: null };
+    if (CAMPUSES[key]) return { id: key, requested: raw };
+    const compact = key.replace(/-/g, "");
+    for (const id of Object.keys(CAMPUSES)) {
+      const aliases = CAMPUSES[id].aliases.map(function (a) { return a.replace(/[-_]/g, ""); });
+      if (id.replace(/-/g, "") === compact || aliases.indexOf(compact) !== -1) return { id: id, requested: raw };
+    }
+    return { id: DEFAULT_CAMPUS, requested: raw, unknown: true };
+  }
+
+  const campusChoice = resolveCampus(new URLSearchParams(window.location.search).get("campus"));
+  const campusId = campusChoice.id;
+  const campus = CAMPUSES[campusId];
+  const GRAPH_URL = campus.data;
   const el = {
     graph: document.getElementById("obsidian-graph"),
     title: document.getElementById("panel-title"),
@@ -40,6 +109,57 @@
     if (el.status) el.status.textContent = msg;
   }
 
+  function rootId() {
+    return (knowledge && knowledge.root) || "cms";
+  }
+
+  function renderCampusChrome() {
+    document.title = "Raisd — " + campus.label + " CMS FSD Obsidian 3D";
+    const heroTitle = document.getElementById("obsidian-hero-title");
+    const heroLead = document.getElementById("obsidian-hero-lead");
+    const source = document.getElementById("obsidian-source");
+    const toc = document.getElementById("obsidian-toc");
+    const switcher = document.getElementById("obsidian-campus-switch");
+    if (heroTitle) heroTitle.textContent = "Obsidian 3D — " + campus.label + " FSD knowledge";
+    if (heroLead) {
+      heroLead.textContent =
+        "Interactive force-directed graph of " + campus.heading + " (" + campus.code + ", " + campus.db +
+        ") functional structure. Click a node for module breakdown; use Walkthrough to step desks → student record → Portal API.";
+    }
+    if (source) source.textContent = GRAPH_URL.replace("./", "");
+    if (campusChoice.unknown && heroLead) {
+      const note = document.createElement("p");
+      note.className = "note";
+      note.setAttribute("role", "status");
+      note.textContent =
+        "Unknown campus “" + campusChoice.requested + "” — showing " + campus.label +
+        ". Use ?campus=cyberjaya, botswana or sierra-leone.";
+      heroLead.insertAdjacentElement("afterend", note);
+    }
+    if (toc) {
+      toc.setAttribute("aria-label", campus.label + " CMS sections");
+      toc.innerHTML = campus.toc
+        .map(function (t) {
+          const href = t[0] || "?campus=" + campusId;
+          return '<a href="' + href + '"><strong>' + t[1] + "</strong><span>" + t[2] + "</span></a>";
+        })
+        .join("");
+    }
+    if (switcher) {
+      switcher.innerHTML = Object.keys(CAMPUSES)
+        .map(function (id) {
+          const c = CAMPUSES[id];
+          const current = id === campusId;
+          return (
+            '<a class="obs-campus' + (current ? " is-active" : "") + '" href="?campus=' + id + '"' +
+            (current ? ' aria-current="page"' : "") + ">" + escapeHtml(c.label) +
+            ' <small>' + escapeHtml(c.code) + "</small></a>"
+          );
+        })
+        .join("");
+    }
+  }
+
   function escapeHtml(s) {
     return String(s)
       .replace(/&/g, "&amp;")
@@ -66,7 +186,7 @@
 
   function shortLabel(label) {
     let s = String(label || "").trim().replace(/\/$/, "");
-    if (s === "Cyberjaya CMS") return "Cyberjaya CMS";
+    if (/ CMS$/.test(s) && s.length <= 18) return s;
     if (s === "Portal API") return "Portal API";
     if (s.length <= 14) return s;
     const slash = s.lastIndexOf("/");
@@ -286,14 +406,17 @@
       setStatus("Drag to orbit · scroll to zoom · click a node for breakdown");
       return;
     }
-    const hits = knowledge.nodes.filter(function (n) {
-      return (
-        n.id.toLowerCase().includes(query) ||
-        (n.label && n.label.toLowerCase().includes(query)) ||
-        (n.summary && n.summary.toLowerCase().includes(query)) ||
-        (n.group && n.group.toLowerCase().includes(query))
-      );
-    });
+    function rank(n) {
+      if (n.id.toLowerCase().includes(query) || (n.label && n.label.toLowerCase().includes(query))) return 0;
+      if (n.group && n.group.toLowerCase().includes(query)) return 1;
+      if (n.summary && n.summary.toLowerCase().includes(query)) return 2;
+      return -1;
+    }
+    const hits = knowledge.nodes
+      .map(function (n) { return { n: n, r: rank(n) }; })
+      .filter(function (h) { return h.r >= 0; })
+      .sort(function (a, b) { return a.r - b.r; })
+      .map(function (h) { return h.n; });
     if (!hits.length) {
       setStatus("No match for “" + q + "”");
       return;
@@ -307,8 +430,9 @@
       setStatus("3D graph library failed to load (CDN).");
       return;
     }
-    setStatus("Loading FSD knowledge…");
+    setStatus("Loading " + campus.label + " FSD knowledge…");
     const res = await fetch(GRAPH_URL);
+    if (!res.ok) throw new Error(GRAPH_URL + " → HTTP " + res.status);
     knowledge = await res.json();
 
     const data = {
@@ -381,7 +505,7 @@
     document.getElementById("walk-next").addEventListener("click", function () { walk(1); });
     document.getElementById("walk-reset").addEventListener("click", function () {
       walkIndex = -1;
-      focusNode("cms", false);
+      focusNode(rootId(), false);
     });
     el.search.addEventListener("keydown", function (e) {
       if (e.key === "Enter") filterSearch(el.search.value);
@@ -401,10 +525,11 @@
     });
 
     updateWalkLabel();
-    setTimeout(function () { focusNode("cms", false); }, 700);
+    setTimeout(function () { focusNode(rootId(), false); }, 700);
     setStatus("Drag to orbit · scroll to zoom · click a node for breakdown");
   }
 
+  renderCampusChrome();
   boot().catch(function (err) {
     console.error(err);
     setStatus("Failed to load FSD knowledge graph: " + (err && err.message ? err.message : err));

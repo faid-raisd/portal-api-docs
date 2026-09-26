@@ -195,7 +195,7 @@ menu:
         children:
           - { label: E2E hub, href: luct }
           - { label: FSD, href: "luct#fsd" }
-          - { label: Obsidian 3D, href: luct-obsidian }
+          - { label: Obsidian 3D, href: "luct-obsidian?campus=cyberjaya" }
           - { label: Flows, href: "luct#flows" }
           - { label: ERD, href: "luct#erd" }
           - { label: Database, href: "luct#database" }
@@ -208,7 +208,7 @@ menu:
           - { label: DTEF, href: "luct-bw#dtef" }
           - { label: ERD, href: "luct-bw#erd" }
           - { label: Database, href: luct-bw-database }
-          - { label: Obsidian 3D, href: luct-obsidian }
+          - { label: Obsidian 3D, href: "luct-obsidian?campus=botswana" }
       - label: Sierra Leone
         href: luct-sl
         children:
@@ -216,7 +216,7 @@ menu:
           - { label: FSD, href: "luct-sl#fsd" }
           - { label: ERD, href: "luct-sl#erd" }
           - { label: Database, href: luct-sl-database }
-          - { label: Obsidian 3D, href: luct-obsidian }
+          - { label: Obsidian 3D, href: "luct-obsidian?campus=sierra-leone" }
 
   - label: Design system
     href: design-system
@@ -339,11 +339,23 @@ search:
     summary: Cyberjaya old CMS end-to-end hub — FSD, flows, ERD, database, and comparison.
     keywords: [cyberjaya, cmscbj, legacy, php-maker]
 
-  - title: Obsidian 3D FSD
-    href: luct-obsidian
+  - title: Obsidian 3D FSD — Cyberjaya
+    href: "luct-obsidian?campus=cyberjaya"
     section: LUCT CMS
     summary: Interactive 3D knowledge graph of the Cyberjaya functional specification.
-    keywords: [obsidian, fsd, graph, 3d]
+    keywords: [obsidian, fsd, graph, 3d, cyberjaya, cmscbj]
+
+  - title: Obsidian 3D FSD — Botswana
+    href: "luct-obsidian?campus=botswana"
+    section: LUCT CMS
+    summary: Interactive 3D knowledge graph of the Botswana desks, DTEF → TEF.gov.bw sync, and api_* hooks.
+    keywords: [obsidian, fsd, graph, 3d, botswana, cmsbotswana, dtef, tef]
+
+  - title: Obsidian 3D FSD — Sierra Leone
+    href: "luct-obsidian?campus=sierra-leone"
+    section: LUCT CMS
+    summary: Interactive 3D knowledge graph of the Sierra Leone ICA EMS desks and cmssupport email path.
+    keywords: [obsidian, fsd, graph, 3d, sierra-leone, ems, ica]
 
   - title: LUCT Botswana E2E hub
     href: luct-bw

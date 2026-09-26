@@ -143,16 +143,49 @@
       "path": "diagrams/old-cms/index.html"
     },
     {
-      "title": "Obsidian 3D FSD",
+      "title": "Obsidian 3D FSD \u2014 Cyberjaya",
       "summary": "Interactive 3D knowledge graph of the Cyberjaya functional specification.",
       "section": "LUCT CMS",
       "keywords": [
         "obsidian",
         "fsd",
         "graph",
-        "3d"
+        "3d",
+        "cyberjaya",
+        "cmscbj"
       ],
-      "path": "diagrams/old-cms/obsidian.html"
+      "path": "diagrams/old-cms/obsidian.html?campus=cyberjaya"
+    },
+    {
+      "title": "Obsidian 3D FSD \u2014 Botswana",
+      "summary": "Interactive 3D knowledge graph of the Botswana desks, DTEF \u2192 TEF.gov.bw sync, and api_* hooks.",
+      "section": "LUCT CMS",
+      "keywords": [
+        "obsidian",
+        "fsd",
+        "graph",
+        "3d",
+        "botswana",
+        "cmsbotswana",
+        "dtef",
+        "tef"
+      ],
+      "path": "diagrams/old-cms/obsidian.html?campus=botswana"
+    },
+    {
+      "title": "Obsidian 3D FSD \u2014 Sierra Leone",
+      "summary": "Interactive 3D knowledge graph of the Sierra Leone ICA EMS desks and cmssupport email path.",
+      "section": "LUCT CMS",
+      "keywords": [
+        "obsidian",
+        "fsd",
+        "graph",
+        "3d",
+        "sierra-leone",
+        "ems",
+        "ica"
+      ],
+      "path": "diagrams/old-cms/obsidian.html?campus=sierra-leone"
     },
     {
       "title": "LUCT Botswana E2E hub",
