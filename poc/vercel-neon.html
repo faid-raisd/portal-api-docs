@@ -182,20 +182,47 @@
 
     <h2 id="architecture">Architecture (PoC only)</h2>
     <p>Portals still <strong>never</strong> talk to Postgres or the CMS directly. Only the Portal API may hold <code>DATABASE_URL</code>.</p>
-    <pre><code>Browser
-  │  HTTPS
-  ▼
-Vercel — student-portal (Vite SPA / static)
-  │  VITE_PORTAL_API_URL=https://&lt;api-project&gt;.vercel.app
-  ▼
-Vercel — portal-api (Node serverless / Fluid compute)
-  │  DATABASE_URL  (injected by Neon Marketplace integration)
-  ▼
-Neon PostgreSQL (free tier)
-  ├── poc_sessions
-  ├── poc_users / scenario seed
-  ├── application / Demo tables as needed
-  └── (not the Live CMS ledger)</code></pre>
+    <div class="card">
+      <div class="card-body">
+        <pre class="mermaid">
+flowchart TB
+  user(["Student browser"])
+
+  subgraph vercel ["Vercel (PoC hosting)"]
+    spa["student-portal<br/>Vite SPA · static · project A"]
+    api["portal-api<br/>Node serverless / Fluid compute · project B"]
+  end
+
+  subgraph neon ["Neon (free tier)"]
+    db[("PostgreSQL<br/>poc_sessions · poc_users<br/>scenario seed · Demo tables")]
+  end
+
+  subgraph pages ["GitHub Pages (unchanged)"]
+    docs["portal-api-docs<br/>OpenAPI · diagrams · SDD"]
+  end
+
+  subgraph prod ["Production — not part of this PoC"]
+    cms[("Cyberjaya CMS<br/>system of record · ADR-1")]
+    ulta["UltaHost Singapore + k3s<br/>ADR-2 / ADR-3 · SDD-12"]
+  end
+
+  user -- HTTPS --> spa
+  spa -- "PortalApi RPC over HTTPS<br/>VITE_PORTAL_API_URL" --> api
+  api -- "DATABASE_URL<br/>Neon Marketplace integration" --> db
+  user -. reads contract .-> docs
+  spa -. never .-x db
+  api -. no Live writes in PoC .-x cms
+
+  classDef poc fill:#e8f0f8,stroke:#1a4f8b,color:#152033
+  classDef store fill:#eef7ee,stroke:#2f7d32,color:#152033
+  classDef out fill:#f6f6f6,stroke:#9aa5b1,color:#5a6a7e,stroke-dasharray:4 3
+  class spa,api poc
+  class db store
+  class cms,ulta out
+        </pre>
+      </div>
+    </div>
+    <p class="lead">Solid arrows are PoC traffic. Crossed dashed arrows are forbidden paths; the grey group is production, which this PoC does not touch.</p>
 
     <div class="table-wrap">
       <table>
@@ -381,6 +408,15 @@ Neon PostgreSQL (free tier)
       </a>
     </div>
   </main>
+  <script type="module">
+    import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: "neutral",
+      securityLevel: "loose",
+      flowchart: { curve: "basis", htmlLabels: true },
+    });
+  </script>
   <script src="../diagrams/nav-dropdown.js" defer></script>
   <script src="../diagrams/site-search.js" defer></script>
 </body>
