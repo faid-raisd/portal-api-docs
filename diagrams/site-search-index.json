@@ -1,0 +1,399 @@
+{
+  "generatedFrom": "docs/site-nav.yaml",
+  "pages": [
+    {
+      "title": "Overview",
+      "summary": "Diagrams hub for Control Plane \u2014 architecture maps, CMS inventories, and entry points to SDD and OpenAPI.",
+      "section": "Overview",
+      "keywords": [
+        "home",
+        "hub",
+        "diagrams",
+        "start"
+      ],
+      "path": "diagrams/index.html"
+    },
+    {
+      "title": "Distributed CMS target",
+      "summary": "Ideal multi-country Raisd CMS with distributed data planes, white-label packs, and feature flags.",
+      "section": "Distributed CMS",
+      "keywords": [
+        "ideal",
+        "multi-country",
+        "white-label",
+        "flags",
+        "tenancy"
+      ],
+      "path": "diagrams/distributed-cms-architecture.html"
+    },
+    {
+      "title": "Current \u2192 ideal journey",
+      "summary": "Migration journey from today\u2019s portal-on-CMS phase toward the unified distributed CMS.",
+      "section": "Distributed CMS",
+      "keywords": [
+        "journey",
+        "migration",
+        "roadmap"
+      ],
+      "path": "diagrams/distributed-cms-architecture.html#journey"
+    },
+    {
+      "title": "Architecture",
+      "summary": "System architecture, ADRs, SoR/ACL boundaries, and academic model overview.",
+      "section": "Architecture",
+      "keywords": [
+        "adr",
+        "system",
+        "integration",
+        "acl"
+      ],
+      "path": "diagrams/architecture.html"
+    },
+    {
+      "title": "Migration plan",
+      "summary": "M1\u2013M5 delivery sequence, hosting stages, and critical path for campus launch.",
+      "section": "Architecture",
+      "keywords": [
+        "milestones",
+        "m1",
+        "m2",
+        "m3",
+        "hosting",
+        "k3s"
+      ],
+      "path": "diagrams/migration.html"
+    },
+    {
+      "title": "Raisd CMS hub",
+      "summary": "Raisd student CMS capabilities, portal walkthroughs, screenshots, and guides.",
+      "section": "Raisd CMS",
+      "keywords": [
+        "student",
+        "cms",
+        "capabilities"
+      ],
+      "path": "diagrams/raisd-cms/index.html"
+    },
+    {
+      "title": "Student portal capabilities",
+      "summary": "Student portal capability inventory mapped to screens and CAP IDs.",
+      "section": "Raisd CMS",
+      "keywords": [
+        "cap",
+        "student-portal",
+        "features"
+      ],
+      "path": "diagrams/raisd-cms/student-portal.html"
+    },
+    {
+      "title": "Student portal screenshots",
+      "summary": "Visual captures of student portal journeys for design and acceptance reference.",
+      "section": "Raisd CMS",
+      "keywords": [
+        "screenshots",
+        "captures",
+        "ui"
+      ],
+      "path": "diagrams/raisd-cms/student-portal-screenshots.html"
+    },
+    {
+      "title": "Student portal use guides",
+      "summary": "Step-by-step use guides for student-facing Raisd CMS flows.",
+      "section": "Raisd CMS",
+      "keywords": [
+        "guide",
+        "how-to",
+        "walkthrough"
+      ],
+      "path": "diagrams/raisd-cms/student-portal-guide.html"
+    },
+    {
+      "title": "Raisd ERD",
+      "summary": "Entity-relationship diagrams for the Raisd targeting data model.",
+      "section": "Raisd CMS",
+      "keywords": [
+        "erd",
+        "schema",
+        "entities",
+        "database"
+      ],
+      "path": "diagrams/erd.html"
+    },
+    {
+      "title": "Raisd DFD",
+      "summary": "Data-flow diagrams for portal and CMS integrations.",
+      "section": "Raisd CMS",
+      "keywords": [
+        "dfd",
+        "dataflow",
+        "integration"
+      ],
+      "path": "diagrams/dfd.html"
+    },
+    {
+      "title": "LUCT Cyberjaya E2E hub",
+      "summary": "Cyberjaya old CMS end-to-end hub \u2014 FSD, flows, ERD, database, and comparison.",
+      "section": "LUCT CMS",
+      "keywords": [
+        "cyberjaya",
+        "cmscbj",
+        "legacy",
+        "php-maker"
+      ],
+      "path": "diagrams/old-cms/index.html"
+    },
+    {
+      "title": "Obsidian 3D FSD",
+      "summary": "Interactive 3D knowledge graph of the Cyberjaya functional specification.",
+      "section": "LUCT CMS",
+      "keywords": [
+        "obsidian",
+        "fsd",
+        "graph",
+        "3d"
+      ],
+      "path": "diagrams/old-cms/obsidian.html"
+    },
+    {
+      "title": "LUCT Botswana E2E hub",
+      "summary": "Botswana campus CMS inventory including DTEF scholarship sync context.",
+      "section": "LUCT CMS",
+      "keywords": [
+        "botswana",
+        "luct",
+        "dtef",
+        "tef"
+      ],
+      "path": "diagrams/old-cms-botswana/index.html"
+    },
+    {
+      "title": "Botswana DTEF",
+      "summary": "DTEF / TEF.gov.bw scholarship sync notes on the Botswana hub.",
+      "section": "LUCT CMS",
+      "keywords": [
+        "scholarship",
+        "sponsorship",
+        "government"
+      ],
+      "path": "diagrams/old-cms-botswana/index.html#dtef"
+    },
+    {
+      "title": "LUCT Sierra Leone E2E hub",
+      "summary": "Sierra Leone CMS inventory hub with FSD, ERD, and database anchors.",
+      "section": "LUCT CMS",
+      "keywords": [
+        "sierra-leone",
+        "ems",
+        "ica"
+      ],
+      "path": "diagrams/old-cms-sierra-leone/index.html"
+    },
+    {
+      "title": "Design system",
+      "summary": "Released @raisd-campus/design-system catalogue \u2014 foundations, controls, patterns, student compositions.",
+      "section": "Design system",
+      "keywords": [
+        "tokens",
+        "components",
+        "package",
+        "catalogue"
+      ],
+      "path": "design-system/index.html"
+    },
+    {
+      "title": "Foundations",
+      "summary": "Design tokens, typography, colour roles, and scrolling foundations.",
+      "section": "Design system",
+      "keywords": [
+        "tokens",
+        "type",
+        "colour",
+        "palette"
+      ],
+      "path": "design-system/foundations.html"
+    },
+    {
+      "title": "Shared controls",
+      "summary": "Buttons, badges, fields, overlays, and other shared UI controls.",
+      "section": "Design system",
+      "keywords": [
+        "button",
+        "input",
+        "dialog",
+        "form"
+      ],
+      "path": "design-system/shared-controls.html"
+    },
+    {
+      "title": "Shared patterns",
+      "summary": "Reusable page layouts, cards, tables, media, and feedback patterns.",
+      "section": "Design system",
+      "keywords": [
+        "layout",
+        "card",
+        "table",
+        "pattern"
+      ],
+      "path": "design-system/shared-patterns.html"
+    },
+    {
+      "title": "Student components",
+      "summary": "Student-owned portal compositions built on the shared design system.",
+      "section": "Design system",
+      "keywords": [
+        "student",
+        "portal-shell",
+        "community"
+      ],
+      "path": "design-system/student-components.html"
+    },
+    {
+      "title": "AI knowledge hub",
+      "summary": "Entry to the campus AI knowledge base for agents and engineers.",
+      "section": "AI knowledge",
+      "keywords": [
+        "agents",
+        "knowledge",
+        "docs/ai"
+      ],
+      "path": "ai/index.html"
+    },
+    {
+      "title": "AGENTS.md",
+      "summary": "Campus-wide agent instructions \u2014 architecture rules, status language, and read order.",
+      "section": "AI knowledge",
+      "keywords": [
+        "agents",
+        "instructions",
+        "cursor"
+      ],
+      "path": "https://github.com/raisd-campus/control-plane/blob/main/docs/ai/AGENTS.md"
+    },
+    {
+      "title": "Architecture overview (AI)",
+      "summary": "Agent-facing architecture summary of portals, Portal API, and ADR-1.",
+      "section": "AI knowledge",
+      "keywords": [
+        "adr-1",
+        "portal-api",
+        "cms"
+      ],
+      "path": "https://github.com/raisd-campus/control-plane/blob/main/docs/ai/architecture/overview.md"
+    },
+    {
+      "title": "Distributed CMS target (AI)",
+      "summary": "Written target for distributed country data planes and white-label CMS.",
+      "section": "AI knowledge",
+      "keywords": [
+        "distributed",
+        "m5",
+        "ideal"
+      ],
+      "path": "https://github.com/raisd-campus/control-plane/blob/main/docs/ai/architecture/distributed-cms-target.md"
+    },
+    {
+      "title": "Portal API (AI)",
+      "summary": "Stage-1 Portal API behaviour, OpenAPI, and local run instructions.",
+      "section": "AI knowledge",
+      "keywords": [
+        "openapi",
+        "rpc",
+        "fastify",
+        "auth"
+      ],
+      "path": "https://github.com/raisd-campus/control-plane/blob/main/docs/ai/backend/portal-api.md"
+    },
+    {
+      "title": "CMS feature comparison",
+      "summary": "Old Cyberjaya CMS vs Raisd CAP mapping and gap analysis.",
+      "section": "AI knowledge",
+      "keywords": [
+        "cap",
+        "comparison",
+        "gap",
+        "legacy"
+      ],
+      "path": "https://github.com/raisd-campus/control-plane/blob/main/docs/ai/backend/cms-feature-comparison.md"
+    },
+    {
+      "title": "SDD hub",
+      "summary": "Software Design Documents index \u2014 product baseline for delivery.",
+      "section": "SDD",
+      "keywords": [
+        "sdd",
+        "design",
+        "baseline"
+      ],
+      "path": "sdd/index.html"
+    },
+    {
+      "title": "Nomenclature",
+      "summary": "CAP-* and milestone M1\u2013M5 naming conventions.",
+      "section": "SDD",
+      "keywords": [
+        "cap",
+        "milestone",
+        "naming"
+      ],
+      "path": "sdd/15-nomenclature.html"
+    },
+    {
+      "title": "Capability catalogue",
+      "summary": "Full CAP catalogue across applicant, student, lecturer, and staff portals.",
+      "section": "SDD",
+      "keywords": [
+        "capabilities",
+        "catalog",
+        "catalogue"
+      ],
+      "path": "sdd/11-capability-catalog.html"
+    },
+    {
+      "title": "Delivery milestones",
+      "summary": "M1\u2013M5 delivery milestones and launch sequencing.",
+      "section": "SDD",
+      "keywords": [
+        "milestones",
+        "admissions",
+        "launch"
+      ],
+      "path": "sdd/03-delivery-milestones.html"
+    },
+    {
+      "title": "OpenAPI Swagger UI",
+      "summary": "Interactive Portal API reference \u2014 auth, portal methods, and schemas.",
+      "section": "OpenAPI",
+      "keywords": [
+        "swagger",
+        "api",
+        "portal",
+        "rpc"
+      ],
+      "path": "index.html"
+    },
+    {
+      "title": "openapi.yaml",
+      "summary": "Canonical OpenAPI 3.1 source for the Raisd Portal API.",
+      "section": "OpenAPI",
+      "keywords": [
+        "yaml",
+        "contract",
+        "schema"
+      ],
+      "path": "https://github.com/raisd-campus/control-plane/blob/main/openapi.yaml"
+    },
+    {
+      "title": "Vercel + Neon PoC",
+      "summary": "PoC path to host a portal SPA and Portal API on Vercel with free Neon Postgres (not production UltaHost).",
+      "section": "AI knowledge",
+      "keywords": [
+        "vercel",
+        "neon",
+        "postgres",
+        "poc",
+        "deploy"
+      ],
+      "path": "https://github.com/raisd-campus/control-plane/blob/main/docs/ai/architecture/vercel-neon-poc.md"
+    }
+  ]
+}
