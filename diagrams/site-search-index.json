@@ -108,6 +108,21 @@
       "path": "diagrams/raisd-cms/student-portal-guide.html"
     },
     {
+      "title": "Student portal user manual",
+      "summary": "Complete student-facing manual for every portal screen, rules, limits and troubleshooting.",
+      "section": "Raisd CMS",
+      "keywords": [
+        "manual",
+        "user manual",
+        "help",
+        "faq",
+        "troubleshooting",
+        "demo",
+        "student"
+      ],
+      "path": "diagrams/raisd-cms/student-portal-manual.html"
+    },
+    {
       "title": "Raisd ERD",
       "summary": "Entity-relationship diagrams for the Raisd targeting data model.",
       "section": "Raisd CMS",

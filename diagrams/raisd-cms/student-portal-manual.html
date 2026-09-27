@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Raisd — Student portal user manual</title>
+  <link rel="stylesheet" href="../styles.css" />
+  <style>
+    .manual-part { margin: 44px 0 8px; padding-top: 8px; border-top: 2px solid var(--line); }
+    .manual-part > h2 { font-size: 1.5rem; margin: 0 0 6px; }
+    .manual-part > p { margin: 0 0 18px; color: var(--muted); }
+    .guide-card h4 { margin: 14px 0 6px; font-size: 0.95rem; }
+    .guide-card ul { margin: 0; padding-left: 1.2rem; }
+    .guide-card ul li { margin: 0 0 6px; }
+    .where { margin: 0 0 10px; font-size: 0.9rem; color: var(--muted); }
+    .where code, .guide-card code { font-family: var(--mono); font-size: 0.84em; background: #eef2f7; padding: 1px 5px; border-radius: 4px; }
+    .status { display: inline-block; margin-top: 12px; padding: 4px 10px; border-radius: 999px; font-size: 0.8rem; background: var(--warn-bg); color: var(--warn); border: 1px solid #efd6a8; }
+    .guide-card.text-only { grid-template-columns: 1fr; }
+    .ui { font-weight: 650; }
+  </style>
+  <script src="../site-auth.js"></script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="site-header-inner">
+      <a class="brand" href="../index.html">
+        <img class="brand-logo" src="../assets/raisd-logo.svg" width="80" height="22" alt="Raisd" />
+        <strong>Control Plane</strong>
+      </a>
+      <button type="button" class="site-search-trigger" aria-label="Search documentation"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="M20 20l-3.5-3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+      <nav class="nav" aria-label="Primary">
+        <div class="nav-dd">
+          <a class="nav-dd-main" href="../index.html">Overview</a>
+          <div class="nav-dd-menu" role="menu">
+            <a href="../index.html">Diagrams hub</a>
+            <a href="../distributed-cms-architecture.html">Distributed CMS</a>
+            <a href="../architecture.html">Architecture</a>
+            <a href="../migration.html">Migration</a>
+            <a href="../../poc/vercel-neon.html">Vercel + Neon PoC</a>
+          </div>
+        </div>
+        <div class="nav-dd">
+          <a class="nav-dd-main" href="../distributed-cms-architecture.html">Distributed CMS</a>
+          <div class="nav-dd-menu" role="menu">
+            <a href="../distributed-cms-architecture.html">Target architecture</a>
+            <a href="../distributed-cms-architecture.html#journey">Current → ideal</a>
+            <a href="../distributed-cms-architecture.html#phase-ideal">Ideal state</a>
+            <a href="../distributed-cms-architecture.html#tenancy">White-label &amp; flags</a>
+            <a href="../migration.html">M1–M5 migration</a>
+          </div>
+        </div>
+        <div class="nav-dd">
+          <a class="nav-dd-main" href="../architecture.html">Architecture</a>
+          <div class="nav-dd-menu" role="menu">
+            <a href="../architecture.html">Architecture home</a>
+            <a href="../distributed-cms-architecture.html">Distributed CMS target</a>
+            <a href="../architecture.html#sdd">SDD &amp; ADR catalogue</a>
+            <a href="../architecture.html#acl">SoR / ACL</a>
+            <a href="../architecture.html#academic">Academic model</a>
+            <a href="../../poc/vercel-neon.html">Vercel + Neon PoC</a>
+            <div class="nav-sub">
+              <a class="nav-sub-trigger" href="../migration.html" aria-haspopup="true" aria-expanded="false">Migration</a>
+              <div class="nav-sub-menu" role="menu">
+              <a href="../migration.html">Plan overview</a>
+              <a href="../migration.html#sequence">Milestone sequence</a>
+              <a href="../distributed-cms-architecture.html#journey">Current → ideal</a>
+              <a href="../migration.html#m1">M1–M5 detail</a>
+              <a href="../migration.html#hosting">Hosting stages</a>
+              <a href="../migration.html#critical">Critical path</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="nav-dd">
+          <a class="nav-dd-main active" href="index.html">Raisd CMS</a>
+          <div class="nav-dd-menu" role="menu">
+            <a href="index.html">Raisd CMS hub</a>
+            <a href="student-portal.html">Student portal</a>
+            <a href="student-portal-screenshots.html">Screenshots</a>
+            <a href="student-portal-guide.html">Use guides</a>
+            <a href="student-portal-manual.html">User manual</a>
+            <a href="../erd.html">ERD</a>
+            <a href="../dfd.html">DFD</a>
+          </div>
+        </div>
+        <div class="nav-dd">
+          <a class="nav-dd-main" href="../old-cms/index.html">LUCT CMS</a>
+          <div class="nav-dd-menu" role="menu">
+            <div class="nav-sub">
+              <a class="nav-sub-trigger" href="../old-cms/index.html" aria-haspopup="true" aria-expanded="false">Cyberjaya</a>
+              <div class="nav-sub-menu" role="menu">
+              <a href="../old-cms/index.html">E2E hub</a>
+              <a href="../old-cms/index.html#fsd">FSD</a>
+              <a href="../old-cms/obsidian.html?campus=cyberjaya">Obsidian 3D</a>
+              <a href="../old-cms/index.html#flows">Flows</a>
+              <a href="../old-cms/index.html#erd">ERD</a>
+              <a href="../old-cms/index.html#database">Database</a>
+              <a href="../old-cms/index.html#compare">Comparison</a>
+              </div>
+            </div>
+            <div class="nav-sub">
+              <a class="nav-sub-trigger" href="../old-cms-botswana/index.html" aria-haspopup="true" aria-expanded="false">Botswana</a>
+              <div class="nav-sub-menu" role="menu">
+              <a href="../old-cms-botswana/index.html">E2E hub</a>
+              <a href="../old-cms-botswana/index.html#fsd">FSD</a>
+              <a href="../old-cms-botswana/index.html#dtef">DTEF</a>
+              <a href="../old-cms-botswana/index.html#erd">ERD</a>
+              <a href="../old-cms-botswana/database.html">Database</a>
+              <a href="../old-cms/obsidian.html?campus=botswana">Obsidian 3D</a>
+              </div>
+            </div>
+            <div class="nav-sub">
+              <a class="nav-sub-trigger" href="../old-cms-sierra-leone/index.html" aria-haspopup="true" aria-expanded="false">Sierra Leone</a>
+              <div class="nav-sub-menu" role="menu">
+              <a href="../old-cms-sierra-leone/index.html">E2E hub</a>
+              <a href="../old-cms-sierra-leone/index.html#fsd">FSD</a>
+              <a href="../old-cms-sierra-leone/index.html#erd">ERD</a>
+              <a href="../old-cms-sierra-leone/database.html">Database</a>
+              <a href="../old-cms/obsidian.html?campus=sierra-leone">Obsidian 3D</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="nav-dd">
+          <a class="nav-dd-main" href="../../design-system/index.html">Design system</a>
+          <div class="nav-dd-menu" role="menu">
+            <a href="../../design-system/index.html">Design system hub</a>
+            <a href="../../design-system/foundations.html">Foundations</a>
+            <a href="../../design-system/shared-controls.html">Shared controls</a>
+            <a href="../../design-system/shared-patterns.html">Shared patterns</a>
+            <a href="../../design-system/student-components.html">Student components</a>
+          </div>
+        </div>
+        <div class="nav-dd">
+          <a class="nav-dd-main" href="../../ai/index.html">AI knowledge</a>
+          <div class="nav-dd-menu" role="menu">
+            <a href="../../ai/index.html">AI hub</a>
+            <a href="https://github.com/raisd-campus/control-plane/blob/main/docs/ai/AGENTS.md">AGENTS.md</a>
+            <a href="https://github.com/raisd-campus/control-plane/blob/main/docs/ai/architecture/overview.md">Architecture overview</a>
+            <a href="https://github.com/raisd-campus/control-plane/blob/main/docs/ai/architecture/distributed-cms-target.md">Distributed CMS target</a>
+            <a href="https://github.com/raisd-campus/control-plane/blob/main/docs/ai/backend/portal-api.md">Portal API</a>
+            <a href="https://github.com/raisd-campus/control-plane/blob/main/docs/ai/backend/portal-api-development-plan.md">Portal API plan</a>
+            <a href="https://github.com/raisd-campus/control-plane/blob/main/docs/ai/backend/portal-api-deployment.md">Portal API deployment</a>
+            <a href="https://github.com/raisd-campus/control-plane/blob/main/docs/ai/backend/portal-api-poc-requirements.md">PoC requirements</a>
+            <a href="https://github.com/raisd-campus/control-plane/blob/main/docs/ai/backend/cms-feature-comparison.md">CMS comparison</a>
+            <a href="../../poc/vercel-neon.html">Vercel + Neon PoC</a>
+          </div>
+        </div>
+        <div class="nav-dd">
+          <a class="nav-dd-main" href="../../sdd/index.html">SDD</a>
+          <div class="nav-dd-menu" role="menu">
+            <a href="../../sdd/index.html">SDD hub</a>
+            <a href="../../sdd/15-nomenclature.html">Nomenclature</a>
+            <a href="../../sdd/11-capability-catalog.html">Capability catalogue</a>
+            <a href="../../sdd/03-delivery-milestones.html">Milestones</a>
+          </div>
+        </div>
+        <div class="nav-dd">
+          <a class="nav-dd-main" href="../../openapi.html">OpenAPI</a>
+          <div class="nav-dd-menu" role="menu">
+            <a href="../../openapi.html">Swagger UI</a>
+            <a href="https://github.com/raisd-campus/control-plane/blob/main/openapi.yaml">openapi.yaml</a>
+          </div>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <h1>Student portal — user manual</h1>
+      <p>
+        How to use every screen of the Raisd Student portal: where to find it, what it shows,
+        what you can do, and the rules that apply. Written for students and for reviewers trying the Demo.
+      </p>
+      <div class="meta-row">
+        <span class="chip warn">Demo — sample data, changes reset</span>
+        <span class="chip"><a href="https://raisd-student-portal.vercel.app">Open the Demo portal</a></span>
+        <span class="chip"><a href="student-portal-guide.html">Quick use guides</a></span>
+        <span class="chip"><a href="student-portal-screenshots.html">Screenshots</a></span>
+        <span class="chip"><a href="student-portal.html">Capabilities</a></span>
+      </div>
+    </section>
+
+    <div class="note warn">
+      <strong>This is a Demo.</strong> Every student, invoice, message and result is synthetic.
+      Nothing you do is sent to the campus CMS, Finance, EMGS or Immigration, and most changes disappear when you refresh the page.
+      Buttons described below as “not active yet” are shown for review but do nothing in this phase.
+    </div>
+
+    <nav class="toc" aria-label="Manual contents">
+      <a href="#start"><strong>1. Getting started</strong><span>Open, sign in, header, log out</span></a>
+      <a href="#layout"><strong>2. Finding your way</strong><span>Sidebar, Community, phone &amp; tablet</span></a>
+      <a href="#home"><strong>3. Dashboard &amp; news</strong><span>Dashboard, calendar, announcements, policies</span></a>
+      <a href="#academic"><strong>4. Academic</strong><span>Modules, timetable, attendance, results, registration, graduation</span></a>
+      <a href="#profile"><strong>5. Profile</strong><span>Personal, academic, resume, portfolio, documents, privacy</span></a>
+      <a href="#money"><strong>6. Finance &amp; Immigration</strong><span>Invoices, payment proof, Student Pass</span></a>
+      <a href="#forms"><strong>7. Online Forms</strong><span>Start, draft, submit, messages</span></a>
+      <a href="#help"><strong>8. Services &amp; help</strong><span>Services, chats, IT Helpdesk</span></a>
+      <a href="#faq"><strong>9. Troubleshooting</strong><span>Common questions and limits</span></a>
+    </nav>
+
+    <!-- 1. Getting started -->
+    <section class="manual-part" id="start">
+      <h2>1. Getting started</h2>
+      <p>Open the portal, understand who you are signed in as, and read the header.</p>
+
+      <article class="guide-card" id="open">
+        <div class="guide-copy">
+          <h3>Open the portal and sign in</h3>
+          <ol>
+            <li>Go to <a href="https://raisd-student-portal.vercel.app">raisd-student-portal.vercel.app</a> in a current browser (Chrome, Edge, Safari or Firefox) on a computer, tablet or phone.</li>
+            <li>There is no login screen or password in the Demo. The portal signs you in automatically as a Demo student and opens the <span class="ui">Dashboard</span>.</li>
+            <li>The hosted Demo signs in as <strong>Alya Putri (10029841)</strong>, a first-semester Local student in Registration Week. Each page load signs in again.</li>
+          </ol>
+          <h4>Demo students</h4>
+          <p>The portal ships four Demo scenarios (all Cyberjaya campus). The hosted Demo uses the first one; the others are used by implementers.</p>
+          <div class="table-wrap">
+            <table class="attr">
+              <thead><tr><th>Scenario</th><th>Student</th><th>Situation</th></tr></thead>
+              <tbody>
+                <tr><td>Registration Week</td><td>Alya Putri · 10029841</td><td>New Semester 1 Local student about to register modules. No results, invoices or messages yet; no Immigration menu.</td></tr>
+                <tr><td>New Student Pass</td><td>Mei Lin · 10029862</td><td>Enrolled international student preparing a Student Pass application.</td></tr>
+                <tr><td>Mid-programme</td><td>Rizal Hakim · 10023456</td><td>International student, three semesters done, Semester 4 in progress, six existing conversations.</td></tr>
+                <tr><td>Graduation ready</td><td>Nadia Pratama · 10021015</td><td>International student with a completed study plan (120 credits, CGPA 3.00) and cleared fees; Graduation Clearance is due.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <a class="guide-shot" href="student-portal-screenshots.html#dashboard">
+          <img src="screenshots/student-portal/dashboard.png" alt="Student portal Dashboard" loading="lazy" width="720" height="450" />
+        </a>
+      </article>
+
+      <article class="guide-card text-only" id="header">
+        <div class="guide-copy">
+          <h3>The header, Action required and Log out</h3>
+          <ul>
+            <li><strong>Breadcrumb</strong> (top left) shows where you are, for example <em>Modules › Module Details</em>. Select an earlier part to go back.</li>
+            <li><strong>Community button</strong> (chat-bubble icon) opens or closes the Community panel.</li>
+            <li><strong>Your avatar, name and student ID</strong> open <span class="ui">Profile › Personal</span>.</li>
+            <li><strong>Action required</strong> is a red button that appears only when something needs you: <em>Outstanding Fees</em>, <em>Student Pass Required / Expiring / Expired / Cancelled</em>, or <em>Graduation Clearance</em>. It opens <span class="ui">Profile › Personal</span>, where each issue card links to the page that fixes it. On phones it is a round warning icon.</li>
+            <li><strong>Log out</strong> sits at the bottom of the sidebar. In the Demo it is not active yet: it does not end your session. Close the tab instead.</li>
+          </ul>
+        </div>
+      </article>
+    </section>
+
+    <!-- 2. Layout -->
+    <section class="manual-part" id="layout">
+      <h2>2. Finding your way</h2>
+      <p>The sidebar on the left, the Community panel on the right, and how both adapt to your screen.</p>
+
+      <article class="guide-card text-only" id="sidebar">
+        <div class="guide-copy">
+          <h3>Sidebar</h3>
+          <ul>
+            <li><strong>Dashboard</strong>, <strong>Announcements</strong>, <strong>Policies</strong>.</li>
+            <li><strong>Academic</strong> — Performance, Modules, Timetable, Attendance, Study Plan, Module Registration, Graduation.</li>
+            <li><strong>Profile</strong> — Personal, Academic, Resume, Portfolio, Documents, Privacy &amp; Security.</li>
+            <li><strong>Finance</strong>.</li>
+            <li><strong>Immigration</strong> — international students only.</li>
+            <li><strong>Online Forms</strong> — the badge counts forms with unread reviewer messages.</li>
+            <li><strong>Services</strong> — Transportation, Dining, Wellness, Accessibility Support, Connectivity, Shopping, Recreation.</li>
+          </ul>
+          <p>Academic, Profile and Services expand and collapse. The university logo always returns you to the Dashboard. On a computer you can hide the full sidebar and bring it back.</p>
+        </div>
+      </article>
+
+      <article class="guide-card text-only" id="community">
+        <div class="guide-copy">
+          <h3>Community panel</h3>
+          <ul>
+            <li><strong>Programme</strong> — your programme group chat.</li>
+            <li><strong>Modules</strong> — one group chat per registered module (“No registered modules yet” until you register).</li>
+            <li><strong>Messages</strong> — your one-to-one conversations (“No message contacts yet” until you send a first message).</li>
+            <li><strong>Upcoming Meetups</strong>.</li>
+            <li><strong>Services</strong> — Academic, IT Helpdesk, Immigration (international only), Finance and Medical Assistance.</li>
+          </ul>
+          <p>Unread badges show on group rows. Select a row to open its chat and <span class="ui">Back</span> to go up a level. See <a href="#chat">Chats and IT Helpdesk</a> for sending messages.</p>
+        </div>
+      </article>
+
+      <article class="guide-card text-only" id="devices">
+        <div class="guide-copy">
+          <h3>Phone, tablet and computer</h3>
+          <div class="table-wrap">
+            <table class="attr">
+              <thead><tr><th>Screen</th><th>Navigation</th><th>Community</th></tr></thead>
+              <tbody>
+                <tr><td>Phone (under 768 px)</td><td>Burger icon opens a full-width drawer; it closes after you pick a page. Swipe left to dismiss.</td><td>Full-screen overlay; swipe left to dismiss.</td></tr>
+                <tr><td>Tablet (768–1199 px)</td><td>Icon rail with tooltips; Academic, Profile and Services open side menus.</td><td>Full-screen overlay.</td></tr>
+                <tr><td>Computer (1200 px and wider)</td><td>Full sidebar, can be hidden.</td><td>Docked on the right; drag or use the arrow keys to resize.</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p>Chat drafts, attachments and scroll position survive a layout change. Everything works with the keyboard, focus is always visible, reduced-motion and high-contrast settings are respected, and content stays usable at 200% text size. Pinch-zoom is disabled on phones — a known limitation.</p>
+        </div>
+      </article>
+    </section>
+
+    <!-- 3. Dashboard & news -->
+    <section class="manual-part" id="home">
+      <h2>3. Dashboard, calendar, announcements and policies</h2>
+      <p>Your home screen and campus information.</p>
+
+      <article class="guide-card" id="dashboard">
+        <div class="guide-copy">
+          <h3>Dashboard</h3>
+          <p class="where">Sidebar <span class="ui">Dashboard</span> or the university logo · <code>/</code></p>
+          <ul>
+            <li><strong>News and Announcements</strong> — carousel, newest first. Select a card to read it or <span class="ui">View all</span> for the full list.</li>
+            <li><strong>Academic Performance</strong> — your GPA and CGPA charts.</li>
+            <li><strong>Timetable</strong> — select a class to open its module. During registration it links to Module Registration.</li>
+            <li><strong>Calendar</strong> — see below.</li>
+            <li><strong>Modules</strong> — your registered module cards.</li>
+          </ul>
+          <p>If you have no current semester, Calendar and Modules are replaced by a message: <em>Study plan complete</em> (with <span class="ui">Open Graduation</span>), <em>Enrolment deferred</em> or <em>Enrolment withdrawn</em> (with <span class="ui">Contact Academic Support</span>), or <em>No current study period</em>.</p>
+        </div>
+        <a class="guide-shot" href="student-portal-screenshots.html#dashboard">
+          <img src="screenshots/student-portal/dashboard.png" alt="Dashboard" loading="lazy" width="720" height="450" />
+        </a>
+      </article>
+
+      <article class="guide-card text-only" id="calendar">
+        <div class="guide-copy">
+          <h3>Calendar</h3>
+          <p class="where">On the Dashboard — there is no separate calendar page.</p>
+          <ol>
+            <li>Use the arrows to change month. The calendar opens on today (or on the month registration opens). Days outside your registration-to-semester-end period are muted.</li>
+            <li>Coloured dots mark events: <strong>Class</strong>, <strong>Assignment</strong>, <strong>Exam</strong>, <strong>Meetup</strong>, <strong>Holiday</strong>, <strong>Registration</strong>. More than three show “+n”.</li>
+            <li>Select a day to list its events below the grid (12-hour times, for example <code>12:00 pm–1:00 pm</code>).</li>
+            <li>Select a class to open Module Details, or an assignment/exam to open it in Materials. Registration, meetup and holiday cards are information only.</li>
+          </ol>
+          <p>Cancelled classes are removed and make-up classes added. Assignments and exams appear only once released. You cannot add or edit events.</p>
+        </div>
+      </article>
+
+      <article class="guide-card" id="announcements">
+        <div class="guide-copy">
+          <h3>Announcements</h3>
+          <p class="where">Sidebar <span class="ui">Announcements</span> · <code>/announcements</code></p>
+          <ol>
+            <li><strong>Important Announcements</strong> (pinned) appear first, then <strong>All Announcements</strong>.</li>
+            <li>Select a row (or press Enter/Space) to read the full article with its images and tables.</li>
+            <li>Use the breadcrumb <em>Announcements › Announcement Details</em> to return.</li>
+          </ol>
+          <p>No search, filters, read markers or notifications yet. The ten articles are sample content, not real campus notices.</p>
+        </div>
+        <a class="guide-shot" href="student-portal-screenshots.html#announcements">
+          <img src="screenshots/student-portal/announcements.png" alt="Announcements" loading="lazy" width="720" height="450" />
+        </a>
+      </article>
+
+      <article class="guide-card" id="policies">
+        <div class="guide-copy">
+          <h3>University Policies</h3>
+          <p class="where">Sidebar <span class="ui">Policies</span> · <code>/policies</code></p>
+          <ol>
+            <li>Filter by <strong>All</strong>, <strong>Academic</strong>, <strong>Student Life</strong>, <strong>Finance</strong> or <strong>Privacy &amp; IT</strong>. The filter stays in the address, so Back and Forward keep it.</li>
+            <li>Browse the 14 policies (for example Academic Regulations, Attendance Policy, Student Handbook, Student Fees and Refunds Policy).</li>
+          </ol>
+          <p>Opening a policy is not active yet — there are no full texts or downloads. Titles and summaries still need campus approval. If loading fails, choose <span class="ui">Try again</span>.</p>
+        </div>
+        <a class="guide-shot" href="student-portal-screenshots.html#policies">
+          <img src="screenshots/student-portal/policies.png" alt="University Policies" loading="lazy" width="720" height="450" />
+        </a>
+      </article>
+    </section>
+
+    <!-- 4. Academic -->
+    <section class="manual-part" id="academic">
+      <h2>4. Academic</h2>
+      <p>Your modules, schedule, attendance, results, study plan, registration and graduation.</p>
+
+      <article class="guide-card" id="modules">
+        <div class="guide-copy">
+          <h3>Modules and module details</h3>
+          <p class="where">Sidebar <span class="ui">Academic › Modules</span> · <code>/academic/modules</code></p>
+          <ol>
+            <li>Pick a <strong>Semester</strong> (1–6) with the selector or arrows. Future semesters stay empty until you register.</li>
+            <li>Select a module card to open <strong>Module Details</strong> with three tabs: <strong>Summary</strong>, <strong>Materials</strong> and <strong>Attendance</strong>.</li>
+            <li><strong>Summary</strong> — lecturers, the weighted assessment outline (for example Quiz 1 5%, Final Exam 35%), and credits, hours, mode and schedule.</li>
+            <li><strong>Materials</strong> — teaching weeks marked <em>Completed</em>, <em>Current</em> or <em>Locked</em>. A warning icon means an assessment that week needs you. Dates read <em>Due by</em>, <em>Submitted on</em> or <em>Scheduled on</em>.</li>
+          </ol>
+          <h4>Submit an assignment</h4>
+          <ol>
+            <li>Open <span class="ui">Materials</span>, open the week, select the assignment.</li>
+            <li>Under <strong>Your submission</strong> choose <span class="ui">Select file</span>, then <span class="ui">Submit assignment</span>.</li>
+            <li>To replace it: <span class="ui">Change submission</span> → <span class="ui">Update submission</span>. To remove it: <span class="ui">Delete submission</span> and confirm.</li>
+          </ol>
+          <p>One PDF or ZIP, up to 50 MiB, between release and due time. At the due time controls lock and show <em>Submission closed</em>. Notes, readings, videos and brief downloads do not open anything yet.</p>
+          <h4>Review a lecturer</h4>
+          <ol>
+            <li>Choose <span class="ui">Review</span> on a lecturer card.</li>
+            <li>Answer all 15 ratings (1 Poor – 5 Excellent); written feedback is optional (up to 2,000 characters).</li>
+            <li>Confirm. Answers cannot be changed afterwards; the button becomes <span class="ui">View Review</span>.</li>
+          </ol>
+          <p>New reviews are only for registered modules in your current semester.</p>
+          <span class="status">Demo · submissions and reviews reset on refresh; no files are uploaded</span>
+        </div>
+        <a class="guide-shot" href="student-portal-screenshots.html#modules">
+          <img src="screenshots/student-portal/modules.png" alt="Modules" loading="lazy" width="720" height="450" />
+        </a>
+      </article>
+
+      <article class="guide-card" id="timetable">
+        <div class="guide-copy">
+          <h3>Timetable</h3>
+          <p class="where">Sidebar <span class="ui">Academic › Timetable</span> · <code>/academic/timetable</code></p>
+          <ul>
+            <li>The current semester opens by default; switch to see past semesters.</li>
+            <li>Computer and tablet: a weekly grid from 07:00 to 19:00. Phone: weekday tabs with a day agenda.</li>
+            <li>A laptop icon marks online classes. The class happening now is highlighted (campus time).</li>
+            <li>Select a class to open its Module Details.</li>
+          </ul>
+          <p>Only registered classes appear; a newly confirmed registration shows immediately.</p>
+          <span class="status">Demo · read-only</span>
+        </div>
+        <a class="guide-shot" href="student-portal-screenshots.html#timetable">
+          <img src="screenshots/student-portal/timetable.png" alt="Timetable" loading="lazy" width="720" height="450" />
+        </a>
+      </article>
+
+      <article class="guide-card" id="attendance">
+        <div class="guide-copy">
+          <h3>Attendance</h3>
+          <p class="where">Sidebar <span class="ui">Academic › Attendance</span> · <code>/academic/attendance</code></p>
+          <ul>
+            <li>The <strong>Attendance Rate</strong> card is green at or above the minimum (currently 80%) and red below it.</li>
+            <li>The month calendar shows each class as <strong>Present</strong> (green), <strong>Absent</strong> (red) or <strong>Not taken</strong> (grey, future).</li>
+            <li>Select a date to list that day’s classes; select a class to open its module.</li>
+            <li>For one module, open <span class="ui">Module Details › Attendance</span>.</li>
+          </ul>
+          <p>Rate = Present ÷ (Present + Absent). With nothing recorded it shows “—”. There are no late/excused statuses or appeals.</p>
+          <span class="status">Demo · read-only</span>
+        </div>
+        <a class="guide-shot" href="student-portal-screenshots.html#attendance">
+          <img src="screenshots/student-portal/attendance.png" alt="Attendance" loading="lazy" width="720" height="450" />
+        </a>
+      </article>
+
+      <article class="guide-card" id="performance">
+        <div class="guide-copy">
+          <h3>Performance (results)</h3>
+          <p class="where">Sidebar <span class="ui">Academic › Performance</span> · <code>/academic/performance</code></p>
+          <ol>
+            <li>Pick a semester (it opens on your latest published one) or select a point on the <strong>CGPA</strong> / <strong>GPA</strong> charts.</li>
+            <li>Choose <span class="ui">View breakdown</span> to see how GPA or CGPA was calculated.</li>
+            <li>Expand a row in <strong>Grades</strong> to see each assessment’s weight, score and contribution.</li>
+          </ol>
+          <p>Only results published by the institution appear. There is no editing, appeal or transcript download here.</p>
+          <span class="status">Demo · read-only</span>
+        </div>
+        <a class="guide-shot" href="student-portal-screenshots.html#performance">
+          <img src="screenshots/student-portal/performance.png" alt="Performance" loading="lazy" width="720" height="450" />
+        </a>
+      </article>
+
+      <article class="guide-card" id="study-plan">
+        <div class="guide-copy">
+          <h3>Study Plan</h3>
+          <p class="where">Sidebar <span class="ui">Academic › Study Plan</span> · <code>/academic/study-plan</code></p>
+          <ul>
+            <li><strong>Programme Overview</strong> shows <em>In Progress</em> or <em>Eligible for Graduation</em> and four checks: <strong>Credits</strong> (for example 60 / 120), <strong>Performance</strong> (CGPA ≥ 2.0), <strong>Outstanding</strong> (fees must be zero) and <strong>Passport &amp; Visa</strong> (international students; Malaysians see <em>Not applicable</em>).</li>
+            <li><strong>Semester Outline</strong> lists all six semesters; expand one to see its modules, credits, grades, prerequisites and repeats.</li>
+            <li>When all four checks pass, <span class="ui">Open Graduation</span> appears.</li>
+          </ul>
+          <p>A payment Finance has received but not yet applied does not clear <em>Outstanding</em>.</p>
+          <span class="status">Demo · read-only</span>
+        </div>
+        <a class="guide-shot" href="student-portal-screenshots.html#study-plan">
+          <img src="screenshots/student-portal/study-plan.png" alt="Study Plan" loading="lazy" width="720" height="450" />
+        </a>
+      </article>
+
+      <article class="guide-card" id="registration">
+        <div class="guide-copy">
+          <h3>Module Registration</h3>
+          <p class="where">Sidebar <span class="ui">Academic › Module Registration</span> · <code>/academic/module-registration</code></p>
+          <ol>
+            <li>Review the pre-selected recommended modules. Required repeats come first, marked <em>(Required Repeat)</em>.</li>
+            <li>To add: <span class="ui">Add Module</span> → choose the module and class section → <span class="ui">Add Module</span>. To change a row, select it and <span class="ui">Save Changes</span>. To remove, use the trash icon. <span class="ui">Reset Changes</span> starts over.</li>
+            <li>Watch the credit bar and the timetable preview for clashes.</li>
+            <li>Choose <span class="ui">Confirm Registration</span>, check the modules and fee preview (tuition, registration fee, award credit, Service Tax, Amount Due), then <span class="ui">Confirm Registration</span> again.</li>
+            <li>You see <em>Registration completed</em> and a <span class="ui">View Study Plan</span> link.</li>
+          </ol>
+          <ul>
+            <li>12–20 credits unless you have an approved exception; no overlapping classes; every eligible required repeat included; modules with unmet prerequisites cannot be chosen.</li>
+            <li><strong>Confirmation is final</strong> — invoices are created immediately and the registration cannot be edited.</li>
+            <li>International students without a current Student Pass can plan but cannot preview fees or confirm until their new-pass application reaches eVAL approval.</li>
+            <li>Before registration opens you see “Opens [date]”; if it closes without confirmation, <em>Registration missed</em>.</li>
+          </ul>
+          <span class="status">Demo · registrations and invoices reset on refresh</span>
+        </div>
+        <a class="guide-shot" href="student-portal-screenshots.html#module-registration">
+          <img src="screenshots/student-portal/module-registration.png" alt="Module Registration" loading="lazy" width="720" height="450" />
+        </a>
+      </article>
+
+      <article class="guide-card" id="graduation">
+        <div class="guide-copy">
+          <h3>Graduation</h3>
+          <p class="where">Sidebar <span class="ui">Academic › Graduation</span> or <span class="ui">Open Graduation</span> · <code>/academic/graduation</code></p>
+          <p>If you are not yet eligible, the page explains what is missing. Once eligible, work through the steps:</p>
+          <ol>
+            <li><strong>Clearance</strong> — <span class="ui">Open Graduation Clearance</span> and submit. Faculty, Finance and Library review it (<em>Awaiting department review</em>, <em>Department clearance confirmed</em>, <em>Student action required</em>), then Registry gives final approval. Choose <span class="ui">Proceed to Step 2</span>.</li>
+            <li><strong>Graduation fee</strong> — <span class="ui">View Graduation Invoice</span> and pay through Finance (bank-transfer proof or counter). When settled, <span class="ui">Proceed to Step 3</span>.</li>
+            <li><strong>Convocation</strong> (optional) — say whether you attend; attending needs a gown size (XS–XXL) and shows <em>Under review</em> until Registry confirms. <span class="ui">Proceed to Step 4</span>.</li>
+            <li><strong>Documents / student pass</strong> — track the Completion letter, Transcript and Scroll to collection. International students also track passport handover and pass cancellation.</li>
+            <li><strong>Complete</strong> — <em>Congratulations!</em></li>
+          </ol>
+          <p>Submitted forms cannot be edited — send corrections through the form’s messages. The sample fee is RM500 whether or not you attend. <span class="ui">Download Transcript</span> is not active yet.</p>
+          <span class="status">Demo · progress resets on refresh</span>
+        </div>
+        <a class="guide-shot" href="student-portal-screenshots.html#graduation">
+          <img src="screenshots/student-portal/graduation.png" alt="Graduation" loading="lazy" width="720" height="450" />
+        </a>
+      </article>
+    </section>
+
+    <!-- 5. Profile -->
+    <section class="manual-part" id="profile">
+      <h2>5. Profile</h2>
+      <p>Your personal record, admission evidence, resume, portfolio, documents and privacy information. All Profile pages share a summary card and tab row; active account issues appear as cards under the summary.</p>
+
+      <article class="guide-card" id="personal">
+        <div class="guide-copy">
+          <h3>Personal</h3>
+          <p class="where">Sidebar <span class="ui">Profile › Personal</span> · <code>/profile/personal-info</code></p>
+          <ol>
+            <li>Choose <span class="ui">Edit</span>.</li>
+            <li>Change contact number, marital status, email, permanent or current address, and emergency contacts (<span class="ui">Add another emergency contact</span> or the trash icon).</li>
+            <li>Choose <span class="ui">Save Changes</span>, or <span class="ui">Cancel</span> to discard.</li>
+          </ol>
+          <p>Name, nationality, fee category, birth details, gender, race, ID number and passport details are locked — ask the campus to correct them. Keep at least one emergency contact. If saving fails you stay in edit mode with your changes kept.</p>
+          <span class="status">Demo · changes reset on refresh</span>
+        </div>
+        <a class="guide-shot" href="student-portal-screenshots.html#profile-personal">
+          <img src="screenshots/student-portal/profile-personal.png" alt="Profile Personal" loading="lazy" width="720" height="450" />
+        </a>
+      </article>
+
+      <article class="guide-card text-only" id="profile-academic">
+        <div class="guide-copy">
+          <h3>Academic (profile)</h3>
+          <p class="where">Sidebar <span class="ui">Profile › Academic</span> · <code>/profile/academic</code></p>
+          <p>Read-only record of the admission evidence the university holds: <strong>Academic Qualifications</strong> (newest first, labelled Qualification 1, 2 …) and <strong>English Proficiency</strong> (test, date, score, expiry). Missing values show “—”. Document names do not download yet. Your Resume education is separate and is not copied from here.</p>
+          <span class="status">Demo · read-only</span>
+        </div>
+      </article>
+
+      <article class="guide-card" id="resume">
+        <div class="guide-copy">
+          <h3>Resume</h3>
+          <p class="where">Sidebar <span class="ui">Profile › Resume</span> · <code>/profile/resume</code></p>
+          <ol>
+            <li>Type your <strong>Professional Summary</strong> and choose <span class="ui">Save Summary</span>.</li>
+            <li>Add items with <span class="ui">Add Work Experience</span>, <span class="ui">Add Education</span>, <span class="ui">Add Skill</span> or <span class="ui">Add Recognition</span>.</li>
+            <li>Select a row to edit it; use the trash icon and <span class="ui">Remove</span> to delete.</li>
+          </ol>
+          <p>Leave End Date blank for <em>Present</em>. Items sort automatically (current first, then newest). No PDF export or templates yet.</p>
+          <span class="status">Demo · changes reset on refresh</span>
+        </div>
+        <a class="guide-shot" href="student-portal-screenshots.html#profile-resume">
+          <img src="screenshots/student-portal/profile-resume.png" alt="Profile Resume" loading="lazy" width="720" height="450" />
+        </a>
+      </article>
+
+      <article class="guide-card" id="portfolio">
+        <div class="guide-copy">
+          <h3>Portfolio</h3>
+          <p class="where">Sidebar <span class="ui">Profile › Portfolio</span> · <code>/profile/portfolio</code></p>
+          <ol>
+            <li>Select the <span class="ui">Add Project</span> tile.</li>
+            <li>Enter the project name and <strong>Date Created</strong>, a description and optional tools (comma-separated).</li>
+            <li>Choose your artwork (required) and select <span class="ui">Add Project</span>.</li>
+            <li>Open a card to view it; select the artwork for full size. Use the card menu to <span class="ui">Edit</span> or <span class="ui">Delete</span>.</li>
+          </ol>
+          <p>Artwork: one JPEG, PNG, WebP, GIF or PDF, up to 25 MiB. <span class="ui">Share</span> is not active yet.</p>
+          <span class="status">Demo · projects reset on refresh; nothing is uploaded</span>
+        </div>
+        <a class="guide-shot" href="student-portal-screenshots.html#profile-portfolio">
+          <img src="screenshots/student-portal/profile-portfolio.png" alt="Profile Portfolio" loading="lazy" width="720" height="450" />
+        </a>
+      </article>
+
+      <article class="guide-card" id="documents">
+        <div class="guide-copy">
+          <h3>Documents</h3>
+          <p class="where">Sidebar <span class="ui">Profile › Documents</span> · <code>/profile/documents</code></p>
+          <p>A list of the documents the university holds for you: passport photo and scan, qualification transcripts and certificates, English certificates, and letters such as Enrolment Confirmation. Opening or downloading a document is not active yet, and you cannot upload here — files you attach to an Online Form stay with that form. The Student Handbook is under <a href="#policies">Policies</a>.</p>
+          <span class="status">Demo · read-only</span>
+        </div>
+        <a class="guide-shot" href="student-portal-screenshots.html#profile-documents">
+          <img src="screenshots/student-portal/profile-documents.png" alt="Profile Documents" loading="lazy" width="720" height="450" />
+        </a>
+      </article>
+
+      <article class="guide-card" id="privacy">
+        <div class="guide-copy">
+          <h3>Privacy &amp; Security</h3>
+          <p class="where">Sidebar <span class="ui">Profile › Privacy &amp; Security</span> · <code>/profile/privacy-security</code></p>
+          <ul>
+            <li><strong>Your information</strong> — what the portal uses and why.</li>
+            <li><strong>Your portal access</strong> — what you can do in each area (explanation, not a setting).</li>
+            <li><strong>Keeping your account secure</strong> — campus tips.</li>
+            <li><strong>Privacy questions and requests</strong> — <span class="ui">Open IT Helpdesk</span> or <span class="ui">Open Online Forms</span>.</li>
+          </ul>
+          <p>There are no settings to change here (no consent toggles or password change). Use IT Helpdesk for privacy questions.</p>
+          <span class="status">Demo · read-only</span>
+        </div>
+        <a class="guide-shot" href="student-portal-screenshots.html#privacy-security">
+          <img src="screenshots/student-portal/privacy-security.png" alt="Privacy and Security" loading="lazy" width="720" height="450" />
+        </a>
+      </article>
+    </section>
+
+    <!-- 6. Finance & Immigration -->
+    <section class="manual-part" id="money">
+      <h2>6. Finance and Immigration</h2>
+      <p>Pay fees and follow your Student Pass.</p>
+
+      <article class="guide-card" id="finance">
+        <div class="guide-copy">
+          <h3>Finance</h3>
+          <p class="where">Sidebar <span class="ui">Finance</span> · <code>/finance</code> · tabs <strong>Invoices</strong>, <strong>Payment History</strong>, <strong>Scholarships &amp; Incentives</strong></p>
+          <h4>Read your balance</h4>
+          <p>The top card shows <strong>Amount Outstanding</strong> (or <strong>Account Credit</strong>). <strong>Unapplied Credit</strong> is money Finance has received but not yet applied to an invoice. Invoices show <em>Unpaid</em>, <em>Partially Paid</em>, <em>Paid</em> or <em>Void</em>.</p>
+          <h4>Pay an invoice</h4>
+          <ol>
+            <li>Choose <span class="ui">How to Pay</span> for counter hours, bank details and the payment reference format. Posting takes 3–5 working days.</li>
+            <li>Pay at the campus counter or by bank transfer — there is no online card payment.</li>
+          </ol>
+          <h4>Upload bank-transfer proof</h4>
+          <ol>
+            <li>Open the invoice and choose <span class="ui">Submit Transfer Proof</span>.</li>
+            <li>Enter the amount, transfer date and bank reference, attach one file, then <span class="ui">Submit Proof</span>.</li>
+            <li>To change it: <span class="ui">Change Transfer Proof</span> → <span class="ui">Save Changes</span>. To remove: <span class="ui">Withdraw Transfer Proof</span> → <span class="ui">Withdraw Proof</span>.</li>
+          </ol>
+          <p>Amount above 0 and no more than the balance; date not in the future; one PDF, JPEG or PNG up to 10 MiB; one pending proof per invoice. A proof shows <em>Pending verification</em> and does not reduce your balance until Finance verifies it. <span class="ui">Download Invoice</span> is not active yet.</p>
+          <span class="status">Demo · proofs reset on refresh; verification is simulated; bank details are fictional</span>
+        </div>
+        <a class="guide-shot" href="student-portal-screenshots.html#finance">
+          <img src="screenshots/student-portal/finance.png" alt="Finance" loading="lazy" width="720" height="450" />
+        </a>
+      </article>
+
+      <article class="guide-card" id="immigration">
+        <div class="guide-copy">
+          <h3>Immigration (Student Pass)</h3>
+          <p class="where">Sidebar <span class="ui">Immigration</span> · <code>/immigration</code> · international students at Cyberjaya only</p>
+          <ol>
+            <li>On <strong>Student Pass</strong>, check your pass status (<em>Valid</em>, <em>Expiring</em>, <em>Expired</em>, <em>Cancelled</em>) and start a case: <span class="ui">Start New Student Pass Application</span>, <span class="ui">Start Student Pass Renewal</span> or <span class="ui">Request Student Pass Cancellation</span>.</li>
+            <li>Follow the numbered steps on <strong>Applications</strong>. A new pass goes through: application and documents → review and fee (<span class="ui">View Immigration Invoice</span>) → EMGS processing and eVAL approval → medical screening (<span class="ui">Open Medical Screening Form</span>) → passport and endorsement.</li>
+            <li>Use <span class="ui">Proceed to Step N</span> to move on and <span class="ui">View Application Form</span> to review what you sent.</li>
+          </ol>
+          <p>One active case at a time. Sample fees: new pass RM2,650, renewal RM954, cancellation RM53 (no fee when triggered by graduation). Only full payment unlocks the next step. Submit a new application from outside Malaysia. If your pass has expired, contact the International Office.</p>
+          <span class="status">Demo · nothing is sent to EMGS or Immigration</span>
+        </div>
+        <a class="guide-shot" href="student-portal-screenshots.html#immigration">
+          <img src="screenshots/student-portal/immigration.png" alt="Immigration" loading="lazy" width="720" height="450" />
+        </a>
+      </article>
+    </section>
+
+    <!-- 7. Online Forms -->
+    <section class="manual-part" id="forms">
+      <h2>7. Online Forms</h2>
+      <p>Requests to the campus: clearance, Student Pass, appeals, accessibility and complaints.</p>
+
+      <article class="guide-card" id="online-forms">
+        <div class="guide-copy">
+          <h3>Start, draft and submit a form</h3>
+          <p class="where">Sidebar <span class="ui">Online Forms</span> · <code>/online-forms</code> · tabs <strong>Available Forms</strong> and <strong>My Forms</strong></p>
+          <ol>
+            <li>On <strong>Available Forms</strong>, filter by category and choose a form. Forms you are not eligible for stay visible with the reason.</li>
+            <li>Read <strong>Prefilled Details</strong> and <strong>Before you start</strong>, then choose <span class="ui">Start</span> (or <span class="ui">Resume</span>).</li>
+            <li>Fill in the fields and attach files where asked. Your draft saves as you go; <span class="ui">Save and close</span> keeps it for later.</li>
+            <li>Submit and confirm. You get a reference number and your answers are locked.</li>
+            <li>Follow the case in <strong>My Forms</strong>: <em>Draft</em>, <em>Submitted</em>, <em>Under review</em>, <em>Completed</em>, <em>Rejected</em> or <em>Withdrawn</em>.</li>
+          </ol>
+          <h4>Messages and withdrawing</h4>
+          <ul>
+            <li>Use the case chat to answer reviewers or add evidence. Unread replies show on the list, in the <strong>Messages</strong> column and as the sidebar badge.</li>
+            <li>You can withdraw an open case after confirming. Finished cases are read-only and cannot be deleted.</li>
+          </ul>
+          <p>Forms: Graduation Clearance, Convocation Registration, New Student Pass Application, Student Pass Renewal, Student Pass Cancellation, Academic Appeal, Accessibility Support, Student Complaint. Medical Screening Result opens only from Immigration after eVAL approval.</p>
+          <p>Attachments: up to 5 files per field, 25 MiB each, 75 MiB total (passport, photo and medical fields take one file; medical results must be PDF, JPEG or PNG).</p>
+          <span class="status">Demo · reviewers do not reply; drafts and submissions reset on refresh</span>
+        </div>
+        <a class="guide-shot" href="student-portal-screenshots.html#online-forms">
+          <img src="screenshots/student-portal/online-forms.png" alt="Online Forms" loading="lazy" width="720" height="450" />
+        </a>
+      </article>
+    </section>
+
+    <!-- 8. Services & help -->
+    <section class="manual-part" id="help">
+      <h2>8. Services and getting help</h2>
+      <p>Campus service information, chats and IT Helpdesk.</p>
+
+      <article class="guide-card" id="services">
+        <div class="guide-copy">
+          <h3>Services</h3>
+          <p class="where">Sidebar <span class="ui">Services</span> · <code>/services</code></p>
+          <p>Information pages for Transportation, Dining, Wellness, Accessibility Support, Connectivity, Shopping and Recreation, with photos and tables. There are no bookings or payments. Accessibility Support links to the <span class="ui">Open Accessibility Support Form</span> for formal requests.</p>
+          <span class="status">Demo · read-only</span>
+        </div>
+        <a class="guide-shot" href="student-portal-screenshots.html#services">
+          <img src="screenshots/student-portal/services.png" alt="Services" loading="lazy" width="720" height="450" />
+        </a>
+      </article>
+
+      <article class="guide-card text-only" id="chat">
+        <div class="guide-copy">
+          <h3>Chats and IT Helpdesk</h3>
+          <ol>
+            <li>Open Community (chat-bubble icon) and choose a Programme, Module, Message or Service row.</li>
+            <li>Type a message, attach files if needed, and send. One-to-one and service chats show <em>Sent</em> or <em>Read</em>.</li>
+            <li>Select one of your own messages to delete it.</li>
+            <li>For technical problems, open <strong>Services › IT Helpdesk</strong> in Community (or <span class="ui">Open IT Helpdesk</span> on Privacy &amp; Security).</li>
+          </ol>
+          <p>Up to 5 files per message, 25 MB each, 75 MB total. Only safe image types preview inline. If sending fails, your draft is kept. IT Helpdesk does not create a ticket number yet, and <span class="ui">View profile</span> is not active.</p>
+          <span class="status">Demo · messages reset on refresh</span>
+        </div>
+      </article>
+    </section>
+
+    <!-- 9. Troubleshooting -->
+    <section class="manual-part" id="faq">
+      <h2>9. Troubleshooting and limits</h2>
+      <p>Answers to common questions in the Demo.</p>
+      <div class="table-wrap">
+        <table class="attr">
+          <thead><tr><th>What you notice</th><th>Why, and what to do</th></tr></thead>
+          <tbody>
+            <tr><td>My changes disappeared after a refresh.</td><td>Expected in the Demo: profile edits, forms, registrations, proofs and messages last only for the current session.</td></tr>
+            <tr><td>The page says <em>Loading portal content</em> for a few seconds.</td><td>The Demo server wakes up on the first request. Wait a moment; later pages load quickly.</td></tr>
+            <tr><td><span class="ui">Log out</span> does nothing.</td><td>Not active in the Demo. Close the browser tab.</td></tr>
+            <tr><td>I can’t see Immigration.</td><td>It only appears for international students. The hosted Demo student is Local.</td></tr>
+            <tr><td>I can’t confirm Module Registration.</td><td>Check the credit total (12–20), timetable clashes, required repeats and prerequisites. International students need an eVAL-approved Student Pass application.</td></tr>
+            <tr><td>My payment proof didn’t reduce my balance.</td><td>Proofs stay <em>Pending verification</em> until Finance verifies them.</td></tr>
+            <tr><td>A document, policy or download doesn’t open.</td><td>Those links are not active in this phase.</td></tr>
+            <tr><td>Something looks wrong.</td><td>Use <strong>Community › IT Helpdesk</strong> in the portal, or tell the Raisd working group.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="note">
+        Live delivery connects the portal to the campus CMS through the Portal API (<a href="../../sdd/11-capability-catalog.html#cap-53">CAP-53</a>).
+        Until then every screen above is Demo behaviour. Contract and endpoints: <a href="../../openapi.html">Swagger UI</a>.
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    Raisd CMS · Student portal user manual · Demo (sample data) · raisd-campus/control-plane
+  </footer>
+  <script src="../abbr-tooltips.js" defer></script>
+  <script src="../nav-dropdown.js" defer></script>
+  <script src="../site-search.js" defer></script>
+</body>
+</html>

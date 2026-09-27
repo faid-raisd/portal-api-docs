@@ -24,6 +24,7 @@ targets:
   raisd-sp: diagrams/raisd-cms/student-portal.html
   raisd-sp-shots: diagrams/raisd-cms/student-portal-screenshots.html
   raisd-sp-guide: diagrams/raisd-cms/student-portal-guide.html
+  raisd-sp-manual: diagrams/raisd-cms/student-portal-manual.html
   erd: diagrams/erd.html
   dfd: diagrams/dfd.html
   luct: diagrams/old-cms/index.html
@@ -91,6 +92,8 @@ path_rules:
     section: luct-database
   - match: { prefix: diagrams/old-cms/ }
     section: luct
+  - match: { path_contains: raisd-cms, name_contains: student-portal-manual }
+    section: raisd-sp-manual
   - match: { path_contains: raisd-cms, name_contains: student-portal-guide }
     section: raisd-sp-guide
   - match: { path_contains: raisd-cms, name_contains: student-portal-screenshots }
@@ -169,12 +172,13 @@ menu:
 
   - label: Raisd CMS
     href: raisd
-    active: [raisd, erd, dfd, raisd-sp, raisd-sp-shots, raisd-sp-guide]
+    active: [raisd, erd, dfd, raisd-sp, raisd-sp-shots, raisd-sp-guide, raisd-sp-manual]
     children:
       - { label: Raisd CMS hub, href: raisd }
       - { label: Student portal, href: raisd-sp }
       - { label: Screenshots, href: raisd-sp-shots }
       - { label: Use guides, href: raisd-sp-guide }
+      - { label: User manual, href: raisd-sp-manual }
       - { label: ERD, href: erd }
       - { label: DFD, href: dfd }
 
@@ -326,6 +330,12 @@ search:
     section: Raisd CMS
     summary: Step-by-step use guides for student-facing Raisd CMS flows.
     keywords: [guide, how-to, walkthrough]
+
+  - title: Student portal user manual
+    href: raisd-sp-manual
+    section: Raisd CMS
+    summary: Complete student-facing manual for every portal screen, rules, limits and troubleshooting.
+    keywords: [manual, user manual, help, faq, troubleshooting, demo, student]
 
   - title: Raisd ERD
     href: erd
