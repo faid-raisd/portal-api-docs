@@ -111,7 +111,7 @@ info:
     name: Proprietary
 
 servers:
-  - url: https://portal-api-gray.vercel.app
+  - url: https://raisd-portal-api.vercel.app
     description: Demo PoC on Vercel + Neon (stub CMS, Demo scenarios only; data may be wiped)
   - url: http://127.0.0.1:8080
     description: Local portal-api (`npm start` in the raisd-campus/portal-api checkout)
