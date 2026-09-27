@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
   title: Raisd Portal API
-  version: 0.3.0
+  version: 0.4.0
   summary: Stage-1 HTTP face of the campus Portal API
   description: |
     Bearer-authenticated RPC over the student-portal `PortalApi` surface.
@@ -10,7 +10,9 @@ info:
     They never talk to Postgres or the existing CMS directly.
 
     **Stage 1 behaviour**
-    - Sessions are in-memory and reuse the student-portal `MockPortalApi` engine.
+    - Sessions reuse the student-portal `MockPortalApi` engine. Session rows are
+      in memory locally and in Neon Postgres on the Vercel Demo (`sessions` in
+      `/health` and `/v1/meta` says which). Demo edits can reset on a cold instance.
     - Mutating calls return `cms.acknowledged: true` with `cms.mode: stub`.
     - CAP-53 will replace the stub with a live CMS adapter.
 
@@ -109,6 +111,8 @@ info:
     name: Proprietary
 
 servers:
+  - url: https://portal-api-gray.vercel.app
+    description: Demo PoC on Vercel + Neon (stub CMS, Demo scenarios only; data may be wiped)
   - url: http://127.0.0.1:8080
     description: Local portal-api (`npm start` in the raisd-campus/portal-api checkout)
   - url: https://api.raisd.co
@@ -171,6 +175,7 @@ paths:
                 ok: true
                 service: portal-api
                 mode: stub-session
+                sessions: postgres
                 cms: stub
                 time: "2026-09-21T09:25:12.975Z"
 
@@ -179,7 +184,7 @@ paths:
       tags: [Health]
       operationId: getOpenApiDocument
       summary: OpenAPI document
-      description: Returns this OpenAPI YAML from the control-plane repository root.
+      description: Returns this OpenAPI YAML from the control-plane repository root, or redirects to the GitHub Pages copy when the spec is not packaged (Vercel Demo).
       security: []
       responses:
         "200":
@@ -188,19 +193,15 @@ paths:
             application/yaml:
               schema:
                 type: string
-        "503":
-          description: Spec file not packaged in this deployment
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ErrorBody"
+        "302":
+          description: Redirect to https://raisd-campus.github.io/portal-api-docs/openapi.yaml
 
   /docs:
     get:
       tags: [Health]
       operationId: getSwaggerUi
       summary: Swagger UI
-      description: Interactive explorer for this API (same UI as GitHub Pages).
+      description: Interactive explorer for this API (same UI as GitHub Pages). Redirects to GitHub Pages when the HTML is not packaged (Vercel Demo).
       security: []
       responses:
         "200":
@@ -209,12 +210,8 @@ paths:
             text/html:
               schema:
                 type: string
-        "503":
-          description: Docs HTML not packaged in this deployment
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ErrorBody"
+        "302":
+          description: Redirect to https://raisd-campus.github.io/portal-api-docs/openapi.html
 
   /v1/meta:
     get:
@@ -239,6 +236,7 @@ paths:
                   - graduation-ready
                 defaultScenarioId: first-semester-registration
                 cmsMode: stub
+                sessions: postgres
                 docs: /docs
                 openapi: /openapi.yaml
                 note: Sessions use MockPortalApi until CAP-53 connects the existing CMS.
@@ -2611,6 +2609,10 @@ components:
         mode:
           type: string
           example: stub-session
+        sessions:
+          type: string
+          enum: [memory, postgres]
+          description: Where session rows live. `postgres` when `DATABASE_URL` is set.
         cms:
           type: string
           example: stub
@@ -2635,6 +2637,9 @@ components:
         cmsMode:
           type: string
           example: stub
+        sessions:
+          type: string
+          enum: [memory, postgres]
         docs:
           type: string
           example: /docs
