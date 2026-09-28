@@ -515,5 +515,5 @@ search:
   - title: Vercel + Neon PoC
     href: vercel-poc
     section: Architecture
-    summary: Hosted Demo on Vercel + Neon — live targets, CI/CD pipelines, target deployment, poc_sessions schema, and request flows (not production UltaHost).
-    keywords: [vercel, neon, postgres, poc, deploy, marketplace, ci, cd, github actions, pipeline, schema, poc_sessions, flows, db admin]
+    summary: Hosted Demo on Vercel + Neon — live targets, CI/CD pipelines, target deployment, Demo record tables and session schema, and request flows (not production UltaHost).
+    keywords: [vercel, neon, postgres, poc, deploy, marketplace, ci, cd, github actions, pipeline, schema, poc_sessions, portal_meta, student_portal_state, record tables, seed, db reset, flows, db admin]

@@ -283,7 +283,7 @@ flowchart TB
   end
 
   subgraph neon ["Neon · aws-ap-southeast-1"]
-    db[("neondb · Postgres 18<br/>poc_sessions")]
+    db[("neondb · Postgres 18<br/>73 record tables · student_portal_state<br/>portal_meta · poc_sessions")]
   end
 
   subgraph prod ["Production — not part of this PoC"]
@@ -460,17 +460,47 @@ npm run deploy                 # vercel deploy --prod --scope &lt;team&gt;</code
           <tr><td>Database</td><td><code>neondb</code></td></tr>
           <tr><td>Connections</td><td>Pooled endpoint for runtime (<code>DATABASE_URL</code>); direct endpoint for DDL / admin (<code>DATABASE_URL_UNPOOLED</code>); TLS with channel binding</td></tr>
           <tr><td>Roles</td><td><code>neondb_owner</code> — used by the Portal API. <code>raisd_db_admin_reader</code> — DB admin only: <code>pg_read_all_data</code>, <code>default_transaction_read_only = on</code>, no write grants</td></tr>
-          <tr><td>Migrations</td><td>None yet: the API runs idempotent <code>create table if not exists</code> on first use per instance</td></tr>
-          <tr><td>Data</td><td>Session rows for Demo students only — no student PII, no CMS records</td></tr>
+          <tr><td>Migrations</td><td>None yet: on first use per instance the API runs idempotent DDL and, under an advisory lock, seeds the record tables from the student-portal fixtures if <code>portal_meta</code> is missing (new collections get their table added). <code>npm run db:reset</code> in portal-api drops and reseeds the records (sessions kept)</td></tr>
+          <tr><td>Data</td><td>Demo records for the four sample students (2,895 rows across 73 tables), their per-student portal state, and session rows — fictional data only, no CMS records</td></tr>
         </tbody>
       </table>
     </div>
 
     <h3 id="schema">Schema</h3>
+    <p>
+      Every collection of the student-portal <code>PortalRecordGraph</code> is one table, named in snake case
+      (<code>studentProfiles</code> → <code>student_profiles</code>): people, student profiles, programmes and versions,
+      modules, offerings, registrations, class schedules and sessions, attendance, assessments and results,
+      finance accounts, invoices, payments, funding, online forms, immigration, graduation, announcements, campus
+      services and more. The <code>record</code> jsonb is the source of truth; every top-level field is also a
+      read-only generated column so rows are readable in DB admin.
+    </p>
     <div class="card">
       <div class="card-body">
         <pre class="mermaid">
 erDiagram
+  RECORD_TABLE {
+    text id PK "record id"
+    integer position "fixture order"
+    jsonb record "source of truth"
+    timestamptz updated_at "last write"
+    generated fields "one column per top-level field"
+  }
+  student_portal_state {
+    text student_profile_id PK
+    jsonb personal_profile
+    jsonb resume_profile
+    jsonb portfolio_profile
+    jsonb finance_payment_proofs
+    jsonb chat_store
+    timestamptz updated_at
+  }
+  portal_meta {
+    boolean id PK "single row"
+    bigint revision "+1 per record write"
+    timestamptz seeded_at
+    text_array collections
+  }
   poc_sessions {
     text token_hash PK "sha256 hex of the bearer token"
     text scenario_id "Demo student scenario"
@@ -482,7 +512,19 @@ erDiagram
         </pre>
       </div>
     </div>
-    <pre><code>create table if not exists poc_sessions (
+    <pre><code>-- one per collection, e.g. invoices
+create table if not exists invoices (
+  id                 text primary key,
+  position           integer not null,
+  record             jsonb not null,
+  updated_at         timestamptz not null default now(),
+  finance_account_id text    generated always as (record->>'financeAccountId') stored,
+  total_minor        numeric generated always as ((record->>'totalMinor')::numeric) stored,
+  status             text    generated always as (record->>'status') stored
+  -- … one column per top-level field
+);
+
+create table if not exists poc_sessions (
   token_hash         text primary key,
   scenario_id        text not null,
   student_profile_id text not null,
@@ -496,7 +538,8 @@ create index if not exists poc_sessions_expires_at on poc_sessions (expires_at);
       <li>A session is valid when <code>revoked_at is null and expires_at &gt; now()</code>.</li>
       <li><code>scenario_id</code> is one of <code>mid-programme</code>, <code>first-semester-registration</code>, <code>new-student-pass</code>, <code>graduation-ready</code>.</li>
       <li>Expired and revoked rows are kept (no purge job yet).</li>
-      <li>Portal domain data (modules, finance, forms, …) is <strong>not</strong> in Postgres: it comes from the bundled mock engine, rebuilt per function instance from <code>scenario_id</code>.</li>
+      <li><code>student_portal_state</code> holds engine state kept outside the record graph (edited profile, resume, portfolio, payment proofs, chat), one row per Demo student.</li>
+      <li>Fixture dates are relative to <code>seeded_at</code>, so the Demo drifts as days pass; reseed with <code>npm run db:reset</code>.</li>
     </ul>
 
     <h2 id="flows">Flows</h2>
@@ -534,21 +577,30 @@ sequenceDiagram
   autonumber
   participant SP as Student portal
   participant API as Portal API instance
-  participant DB as Neon poc_sessions
-  participant M as MockPortalApi (in instance memory)
-  SP->>API: POST /v1/portal/getDashboard {args: []} + Bearer
-  API->>DB: select … where token_hash = sha256(token) and not revoked and not expired
+  participant DB as Neon
+  participant M as MockPortalApi (per request)
+  SP->>API: POST /v1/portal/submitOnlineForm {args} + Bearer
+  API->>DB: poc_sessions lookup by sha256(token)
   alt no row
     API-->>SP: 401 Session expired or missing
   else session found
-    API->>M: reuse cached engine, or build one from scenario_id (cold instance)
-    M-->>API: result
+    API->>DB: portal_meta revision + student_portal_state row
+    opt cache is not at seeded_at + revision
+      API->>DB: read all record tables (one read-only snapshot)
+    end
+    API->>M: fresh engine over the records for scenario_id
+    M-->>API: result (+ changed records / student state)
+    opt method wrote
+      API->>DB: begin · lock portal_meta · revision unchanged?
+      API->>DB: upsert / delete changed rows · revision + 1 · upsert student state · commit
+      Note over API,DB: revision moved → reload and rerun (3 tries, then 409)
+    end
     API-->>SP: 200 {result, cms: {acknowledged: true, mode: "stub"}}
   end
         </pre>
       </div>
     </div>
-    <p>Any instance accepts any token because sessions live in Neon. Demo edits live in instance memory, so they can reset when Vercel starts a new instance.</p>
+    <p>Any instance accepts any token and sees the same records because both live in Neon. Edits persist across instances and cold starts, and everyone signed in as the same Demo student sees them. Only the 55 <code>PortalApi</code> methods are callable (<code>404</code> otherwise); database errors return <code>503</code>.</p>
 
     <h3 id="flow-session">Switch student and sign out</h3>
     <div class="card">
@@ -615,7 +667,8 @@ sequenceDiagram
     <h2 id="limits">Limitations</h2>
     <ul>
       <li><strong>No CMS:</strong> every write is Demo; <code>cms.mode</code> is <code>stub</code> until CAP-53 connects the Cyberjaya CMS.</li>
-      <li><strong>Per-instance Demo state:</strong> edits can reset on a cold start or when requests land on another instance.</li>
+      <li><strong>Mock engine:</strong> records are in Neon but still run through the student-portal <code>MockPortalApi</code> rules; student state (profile, portfolio, proofs, chat) is last-write-wins per student.</li>
+      <li><strong>Date drift:</strong> fixture dates are relative to the seed time; reseed with <code>npm run db:reset</code>.</li>
       <li><strong>No file store:</strong> uploads (evidence, assignments, payment proofs) are metadata only.</li>
       <li><strong>Shared Demo logins:</strong> four sample students, passwords held by the team.</li>
       <li><strong>Free tier:</strong> Neon 0.5 GB storage, 50 CU-hours / month, scale-to-zero (first request after idle is slower).</li>
