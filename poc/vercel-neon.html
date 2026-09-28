@@ -279,7 +279,7 @@ flowchart TB
     lp["raisd-lecturer-portal<br/>placeholder"]
     stp["raisd-staff-portal<br/>placeholder"]
     api["raisd-portal-api<br/>Node 22 function · Fastify<br/>MockPortalApi bundled"]
-    dba["raisd-db-admin<br/>read-only · Basic auth"]
+    dba["raisd-db-admin<br/>read-only · sign-in"]
   end
 
   subgraph neon ["Neon · aws-ap-southeast-1"]
@@ -298,7 +298,7 @@ flowchart TB
   sp -- "PortalApi RPC · bearer<br/>VITE_PORTAL_API_URL" --> api
   pages -. "Swagger Try it out" .-> api
   api -- "DATABASE_URL (pooled, TLS)" --> db
-  team -- "Basic auth" --> dba
+  team -- "sign-in (session cookie)" --> dba
   dba -- "raisd_db_admin_reader<br/>READ ONLY" --> db
   repos -- "npm ci" --> pkg
   repos -- "vercel deploy --prebuilt" --> sp
