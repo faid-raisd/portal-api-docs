@@ -1,5 +1,5 @@
 {
-  "packageVersion": "0.3.0",
+  "packageVersion": "0.3.1",
   "studentPortalCommit": "84c6bf541a4ecefc985a6429cac8a302b0098723",
   "capturedAt": "2026-09-26",
   "captureRoute": "/dev/design-system",
@@ -412,7 +412,7 @@
       "image": "assets/detail-field-undivided-desktop.png",
       "sourceRoute": "design-system/examples/consumer/",
       "sourceSelector": "[data-slot=\"fixture-detail-field-undivided\"]",
-      "packageVersion": "0.3.0",
+      "packageVersion": "0.3.1",
       "capturedAt": "2026-09-28"
     },
     {
@@ -425,7 +425,7 @@
       "image": "assets/detail-field-undivided-phone.png",
       "sourceRoute": "design-system/examples/consumer/",
       "sourceSelector": "[data-slot=\"fixture-detail-field-undivided\"]",
-      "packageVersion": "0.3.0",
+      "packageVersion": "0.3.1",
       "capturedAt": "2026-09-28"
     },
     {
@@ -859,7 +859,7 @@
       "image": "assets/portal-shell-phone.png",
       "sourceSelector": "[data-slot=\"portal-shell\"]",
       "captureRoute": "/?shell",
-      "packageVersion": "0.2.0",
+      "packageVersion": "0.3.1",
       "capturedAt": "2026-09-26"
     },
     {
@@ -872,7 +872,7 @@
       "image": "assets/portal-shell-tablet.png",
       "sourceSelector": "[data-slot=\"portal-shell\"]",
       "captureRoute": "/?shell",
-      "packageVersion": "0.2.0",
+      "packageVersion": "0.3.1",
       "capturedAt": "2026-09-26"
     },
     {
@@ -885,7 +885,7 @@
       "image": "assets/portal-shell-desktop.png",
       "sourceSelector": "[data-slot=\"portal-shell\"]",
       "captureRoute": "/?shell",
-      "packageVersion": "0.2.0",
+      "packageVersion": "0.3.1",
       "capturedAt": "2026-09-26"
     }
   ]
