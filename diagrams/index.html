@@ -21,6 +21,7 @@
           <a class="nav-dd-main active" href="index.html">Overview</a>
           <div class="nav-dd-menu" role="menu">
             <a href="index.html">Diagrams hub</a>
+            <a href="index.html#endpoints">Public endpoints</a>
             <a href="distributed-cms-architecture.html">Distributed CMS</a>
             <a href="architecture.html">Architecture</a>
             <a href="migration.html">Migration</a>
@@ -173,6 +174,7 @@
     <nav class="toc" aria-label="On this page">
       <a href="#exec"><strong>Executive summary</strong><span>In one minute</span></a>
       <a href="#architecture"><strong>Architecture</strong><span>This-phase picture</span></a>
+      <a href="#endpoints"><strong>Public endpoints</strong><span>Sites and API you can reach</span></a>
       <a href="#distributed"><strong>Distributed CMS</strong><span>Ideal end state</span></a>
       <a href="#states"><strong>Current → target</strong><span>And what to do</span></a>
       <a href="#migration"><strong>Migration stages</strong><span>M1 through Ideal</span></a>
@@ -277,6 +279,133 @@ flowchart LR
           <strong>CMS (SoR)</strong>
           <span>Authoritative campus records for this phase (Cyberjaya / LUCT).</span>
         </div>
+      </div>
+    </section>
+
+    <section class="section" id="endpoints">
+      <h2>Public endpoints</h2>
+      <p class="lead">
+        Everything below is reachable from the internet today. It is the hosted <strong>Demo</strong>
+        (<a href="../poc/vercel-neon.html">Vercel + Neon PoC</a>) — sample students, no Live CMS writes.
+        Production campus hostnames (<code>apply.raisd.co</code>, <code>api.raisd.co</code>, …) are not live yet.
+        Checked 29 Sep 2026.
+      </p>
+
+      <h3>Websites</h3>
+      <div class="table-wrap">
+        <table class="attr">
+          <thead>
+            <tr><th>Site</th><th>URL</th><th>Access</th><th>Hosted on · deployed by</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Student portal</td>
+              <td><a href="https://raisd-student-portal.vercel.app">raisd-student-portal.vercel.app</a></td>
+              <td>Demo student number + password (issued by the team)</td>
+              <td>Vercel · GitHub Actions on push to <code>main</code></td>
+            </tr>
+            <tr>
+              <td>Applicant portal</td>
+              <td><a href="https://raisd-applicant-portal.vercel.app">raisd-applicant-portal.vercel.app</a></td>
+              <td>Open (early build)</td>
+              <td>Vercel · GitHub Actions on push to <code>main</code></td>
+            </tr>
+            <tr>
+              <td>Lecturer portal</td>
+              <td><a href="https://raisd-lecturer-portal.vercel.app">raisd-lecturer-portal.vercel.app</a></td>
+              <td>Open (“Coming soon” placeholder)</td>
+              <td>Vercel · GitHub Actions on push to <code>main</code></td>
+            </tr>
+            <tr>
+              <td>Staff portal</td>
+              <td><a href="https://raisd-staff-portal.vercel.app">raisd-staff-portal.vercel.app</a></td>
+              <td>Open (“Coming soon” placeholder)</td>
+              <td>Vercel · GitHub Actions on push to <code>main</code></td>
+            </tr>
+            <tr>
+              <td>Portal API</td>
+              <td><a href="https://raisd-portal-api.vercel.app/v1/meta">raisd-portal-api.vercel.app</a></td>
+              <td>Meta routes open; portal calls need a bearer token</td>
+              <td>Vercel (Singapore) · manual deploy from a local checkout</td>
+            </tr>
+            <tr>
+              <td>Documentation (this site)</td>
+              <td><a href="https://raisd-campus.github.io/portal-api-docs/">raisd-campus.github.io/portal-api-docs</a></td>
+              <td>Site password</td>
+              <td>GitHub Pages · GitHub Actions on push to <code>main</code></td>
+            </tr>
+            <tr>
+              <td>Swagger UI</td>
+              <td><a href="../openapi.html">…/portal-api-docs/openapi.html</a></td>
+              <td>Site password; “Try it out” calls the Portal API</td>
+              <td>GitHub Pages</td>
+            </tr>
+            <tr>
+              <td>DB admin</td>
+              <td><a href="https://raisd-db-admin.vercel.app">raisd-db-admin.vercel.app</a></td>
+              <td>Team only — HTTP Basic auth; read-only</td>
+              <td>Vercel (Singapore) · manual deploy from a local checkout</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Portal API routes</h3>
+      <p>
+        Base URL <code>https://raisd-portal-api.vercel.app</code>. Contract:
+        <a href="../openapi.html">Swagger UI</a> · <code>openapi.yaml</code>.
+        Browsers may call it only from the student portal and this docs site (CORS allowlist).
+      </p>
+      <div class="table-wrap">
+        <table class="attr">
+          <thead>
+            <tr><th>Method</th><th>Path</th><th>Auth</th><th>What it does</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>GET</td><td><code>/</code></td><td>None</td><td>Redirects to <code>/v1/meta</code></td></tr>
+            <tr><td>GET</td><td><code>/health</code></td><td>None</td><td>Liveness: service, session store (<code>postgres</code>), CMS mode (<code>stub</code>), server time</td></tr>
+            <tr><td>GET</td><td><code>/v1/meta</code></td><td>None</td><td>Version, Demo scenarios, default scenario, CMS and session modes</td></tr>
+            <tr><td>GET</td><td><code>/v1/meta/staff-progression</code></td><td>None</td><td>Reserved staff methods — <code>deferred</code> until a Live staff API exists</td></tr>
+            <tr><td>GET</td><td><code>/openapi.yaml</code></td><td>None</td><td>Redirects to the published contract</td></tr>
+            <tr><td>GET</td><td><code>/docs</code></td><td>None</td><td>Redirects to Swagger UI</td></tr>
+            <tr><td>GET</td><td><code>/favicon.ico</code> · <code>/favicon.svg</code> · <code>/apple-touch-icon.png</code></td><td>None</td><td>Redirect to the Raisd icons on this site</td></tr>
+            <tr><td>POST</td><td><code>/v1/auth/login</code></td><td>Body: <code>scenarioId</code> + <code>password</code></td><td>Issues a 12-hour bearer token. <code>401</code> wrong password · <code>400</code> bad body · <code>503</code> credentials not configured</td></tr>
+            <tr><td>POST</td><td><code>/v1/auth/logout</code></td><td>Bearer</td><td>Revokes the token</td></tr>
+            <tr><td>POST</td><td><code>/v1/auth/scenario</code></td><td>Bearer</td><td>Switches the session to another Demo student</td></tr>
+            <tr><td>POST</td><td><code>/v1/portal/{method}</code></td><td>Bearer</td><td>Calls one portal method with <code>{ "args": [...] }</code>; returns <code>{ result, cms }</code>. <code>401</code> no session · <code>404</code> unknown method</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Portal methods (<code>POST /v1/portal/{method}</code>)</h3>
+      <p>
+        55 methods, all bearer-authenticated. Writes are Demo only: every response carries
+        <code>cms.acknowledged = true, mode = "stub"</code> until the CMS bridge
+        (<a href="../sdd/11-capability-catalog.html#cap-53">CAP-53</a>) is connected.
+      </p>
+      <div class="table-wrap">
+        <table class="attr">
+          <thead>
+            <tr><th>Area</th><th>Read</th><th>Write (Demo)</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Dashboard &amp; records</td><td><code>getDashboard</code> · <code>getPortalRecordGraph</code> · <code>getCalendarMonth</code> · <code>getCommunity</code></td><td>—</td></tr>
+            <tr><td>Academic</td><td><code>getAcademicContext</code> · <code>getAcademicPerformance</code> · <code>getAcademicModules</code> · <code>getAcademicModuleDetail</code> · <code>getAcademicModuleAttendance</code> · <code>getAcademicModuleMaterials</code> · <code>getAcademicModuleMaterialDetail</code> · <code>getAcademicTimetable</code> · <code>getAcademicStudyPlan</code> · <code>getAcademicGraduation</code> · <code>getAcademicModuleRegistration</code> · <code>getModuleRegistrationFeePreview</code></td><td><code>confirmModuleRegistrations</code> · <code>submitAssignment</code> · <code>deleteAssignmentSubmission</code></td></tr>
+            <tr><td>Online forms</td><td><code>getOnlineForms</code> · <code>getOnlineForm</code> · <code>getOnlineFormSubmission</code></td><td><code>startOnlineForm</code> · <code>saveOnlineFormDraft</code> · <code>submitOnlineForm</code> · <code>withdrawOnlineForm</code> · <code>sendOnlineFormMessage</code> · <code>markOnlineFormRead</code></td></tr>
+            <tr><td>Immigration</td><td><code>getImmigration</code></td><td>—</td></tr>
+            <tr><td>Finance</td><td><code>getFinanceStatement</code></td><td><code>submitFinancePaymentProof</code> · <code>deleteFinancePaymentProof</code></td></tr>
+            <tr><td>Profile</td><td><code>getPersonalProfile</code> · <code>getAcademicProfile</code> · <code>getDocumentsProfile</code> · <code>getPrivacySecurity</code> · <code>getResumeProfile</code> · <code>getPortfolioProfile</code></td><td><code>updatePersonalProfile</code> · <code>updateResumeProfile</code> · <code>createPortfolioProject</code> · <code>updatePortfolioProject</code> · <code>deletePortfolioProject</code></td></tr>
+            <tr><td>Announcements &amp; policies</td><td><code>getAnnouncements</code> · <code>getAnnouncement</code> · <code>getUniversityPolicies</code></td><td>—</td></tr>
+            <tr><td>Services</td><td><code>getServices</code> · <code>getServicePage</code></td><td>—</td></tr>
+            <tr><td>Lecturer review</td><td><code>getLecturerReview</code></td><td><code>submitLecturerReview</code></td></tr>
+            <tr><td>Chat</td><td><code>getChatConversations</code> · <code>getChatConversation</code></td><td><code>markChatConversationRead</code> · <code>sendChatMessage</code> · <code>deleteChatMessage</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="note" style="margin-top:16px">
+        <strong>Not public:</strong> the Neon database has no public web surface — only the Portal API
+        (and the read-only DB admin) hold connection strings. Deployment, CI/CD, schema, and request flows:
+        <a href="../poc/vercel-neon.html">Vercel frontend + Portal API + Neon PostgreSQL</a>.
       </div>
     </section>
 

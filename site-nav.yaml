@@ -135,6 +135,7 @@ menu:
     active: [overview]
     children:
       - { label: Diagrams hub, href: overview }
+      - { label: Public endpoints, href: "overview#endpoints" }
       - { label: Distributed CMS, href: distributed }
       - { label: Architecture, href: architecture }
       - { label: Migration, href: migration }
@@ -280,8 +281,8 @@ search:
   - title: Overview
     href: overview
     section: Overview
-    summary: Diagrams hub for Control Plane — architecture maps, CMS inventories, and entry points to SDD and OpenAPI.
-    keywords: [home, hub, diagrams, start]
+    summary: Diagrams hub for Control Plane — architecture maps, public endpoints, CMS inventories, and entry points to SDD and OpenAPI.
+    keywords: [home, hub, diagrams, start, endpoints, urls, routes, api, public]
 
   - title: Distributed CMS target
     href: distributed
@@ -514,5 +515,5 @@ search:
   - title: Vercel + Neon PoC
     href: vercel-poc
     section: Architecture
-    summary: PoC path to host a portal SPA and Portal API on Vercel with free Neon Postgres (not production UltaHost).
-    keywords: [vercel, neon, postgres, poc, deploy, marketplace]
+    summary: Hosted Demo on Vercel + Neon — live targets, CI/CD pipelines, target deployment, poc_sessions schema, and request flows (not production UltaHost).
+    keywords: [vercel, neon, postgres, poc, deploy, marketplace, ci, cd, github actions, pipeline, schema, poc_sessions, flows, db admin]

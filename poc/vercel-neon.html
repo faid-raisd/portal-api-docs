@@ -21,6 +21,7 @@
           <a class="nav-dd-main" href="../diagrams/index.html">Overview</a>
           <div class="nav-dd-menu" role="menu">
             <a href="../diagrams/index.html">Diagrams hub</a>
+            <a href="../diagrams/index.html#endpoints">Public endpoints</a>
             <a href="../diagrams/distributed-cms-architecture.html">Distributed CMS</a>
             <a href="../diagrams/architecture.html">Architecture</a>
             <a href="../diagrams/migration.html">Migration</a>
@@ -155,18 +156,18 @@
   </header>
   <main>
     <section class="hero">
-      <p class="eyebrow">Proof of concept · not production</p>
+      <p class="eyebrow">Proof of concept · Demo · not production</p>
       <h1>Vercel frontend + Portal API + Neon PostgreSQL</h1>
       <p>
-        Throwaway / early hosted Demo path for a Raisd portal SPA and Portal API on
-        <strong>Vercel</strong>, with free <strong>Neon</strong> Postgres used only by the API.
+        The hosted Demo of the Raisd portals: four portal webs and the Portal API on
+        <strong>Vercel</strong> (Singapore), with <strong>Neon</strong> Postgres used only by the API for sessions.
         Does <strong>not</strong> replace UltaHost + k3s (<a href="../diagrams/migration.html#hosting">SDD-12</a> / ADR-2 / ADR-3).
       </p>
       <div class="meta-row">
-        <span class="chip">Status: Not started</span>
-        <span class="chip warn">PoC only</span>
+        <span class="chip ok">Status: Demo deployed (28–29 Sep 2026)</span>
+        <span class="chip warn">PoC only — no Live CMS writes</span>
         <span class="chip ok">Portals → Portal API only</span>
-        <span class="chip">Neon free tier</span>
+        <span class="chip">Neon free tier · Postgres 18</span>
       </div>
     </section>
 
@@ -178,31 +179,111 @@
       <a href="https://github.com/raisd-campus/control-plane/blob/main/docs/ai/architecture/vercel-neon-poc.md">docs/ai/architecture/vercel-neon-poc.md</a>.
     </div>
 
-    <h2 id="goal">Goal</h2>
-    <p>
-      Deploy a portal web and the Portal API on Vercel. Neon provides serverless PostgreSQL for
-      PoC session / prototype tables. Bind the SPA with one public API URL env var.
-    </p>
+    <nav class="toc" aria-label="On this page">
+      <a href="#targets"><strong>Live targets</strong><span>URLs, hosts, repos</span></a>
+      <a href="#architecture"><strong>Target deployment</strong><span>Topology and runtime</span></a>
+      <a href="#cicd"><strong>CI/CD pipelines</strong><span>Per repo, trigger to deploy</span></a>
+      <a href="#database"><strong>Neon database</strong><span>Instance, roles, schema</span></a>
+      <a href="#flows"><strong>Flows</strong><span>Sign-in, calls, deploys</span></a>
+      <a href="#secrets"><strong>Config &amp; secrets</strong><span>Where each value lives</span></a>
+      <a href="#limits"><strong>Limitations</strong><span>What this Demo is not</span></a>
+    </nav>
 
-    <h2 id="architecture">Architecture (PoC only)</h2>
-    <p>Portals still <strong>never</strong> talk to Postgres or the CMS directly. Only the Portal API may hold <code>DATABASE_URL</code>.</p>
+    <h2 id="targets">Live targets</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Component</th><th>URL</th><th>Repo</th><th>Runtime</th><th>Deploy path</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Student portal</td>
+            <td><a href="https://raisd-student-portal.vercel.app">raisd-student-portal.vercel.app</a></td>
+            <td><a href="https://github.com/raisd-campus/student-portal">student-portal</a></td>
+            <td>Vite + React SPA, static prebuilt output</td>
+            <td>GitHub Actions <code>CI/CD</code> on push to <code>main</code></td>
+          </tr>
+          <tr>
+            <td>Applicant portal</td>
+            <td><a href="https://raisd-applicant-portal.vercel.app">raisd-applicant-portal.vercel.app</a></td>
+            <td><a href="https://github.com/raisd-campus/applicant-portal">applicant-portal</a></td>
+            <td>Vite SPA (early build), static</td>
+            <td>GitHub Actions <code>CI/CD</code> on push to <code>main</code></td>
+          </tr>
+          <tr>
+            <td>Lecturer portal</td>
+            <td><a href="https://raisd-lecturer-portal.vercel.app">raisd-lecturer-portal.vercel.app</a></td>
+            <td><a href="https://github.com/raisd-campus/lecturer-portal">lecturer-portal</a></td>
+            <td>“Coming soon” placeholder until the repo has an app</td>
+            <td>GitHub Actions <code>CI/CD</code> on push to <code>main</code></td>
+          </tr>
+          <tr>
+            <td>Staff portal</td>
+            <td><a href="https://raisd-staff-portal.vercel.app">raisd-staff-portal.vercel.app</a></td>
+            <td><a href="https://github.com/raisd-campus/staff-portal">staff-portal</a></td>
+            <td>“Coming soon” placeholder until the repo has an app</td>
+            <td>GitHub Actions <code>CI/CD</code> on push to <code>main</code></td>
+          </tr>
+          <tr>
+            <td>Portal API</td>
+            <td><a href="https://raisd-portal-api.vercel.app/v1/meta">raisd-portal-api.vercel.app</a></td>
+            <td><a href="https://github.com/raisd-campus/portal-api">portal-api</a></td>
+            <td>Fastify in one Node 22 Vercel Function, region <code>sin1</code>, 30 s max</td>
+            <td>Manual: <code>npm run deploy:vercel</code> from a local checkout (CI runs checks only)</td>
+          </tr>
+          <tr>
+            <td>Database</td>
+            <td>No public URL</td>
+            <td>—</td>
+            <td>Neon Postgres 18, <code>aws-ap-southeast-1</code>, database <code>neondb</code></td>
+            <td>Provisioned via the Vercel Neon integration on the portal-api project</td>
+          </tr>
+          <tr>
+            <td>DB admin</td>
+            <td><a href="https://raisd-db-admin.vercel.app">raisd-db-admin.vercel.app</a> (team only)</td>
+            <td><a href="https://github.com/raisd-campus/db-admin">db-admin</a></td>
+            <td>Vercel Functions, <code>sin1</code>; read-only table browser + SQL</td>
+            <td>Manual: <code>npm run deploy</code> from a local checkout (no CI/CD)</td>
+          </tr>
+          <tr>
+            <td>Docs &amp; OpenAPI</td>
+            <td><a href="https://raisd-campus.github.io/portal-api-docs/">raisd-campus.github.io/portal-api-docs</a></td>
+            <td><a href="https://github.com/raisd-campus/portal-api-docs">portal-api-docs</a></td>
+            <td>GitHub Pages, site password gate</td>
+            <td>GitHub Actions <code>Pages</code> on push to <code>main</code></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p>All Vercel projects live in one team and are <strong>not Git-connected</strong>: deploys only happen through the workflows or manual commands below, always as prebuilt output (<code>vercel deploy --prebuilt --prod</code>). Public routes are listed on the <a href="../diagrams/index.html#endpoints">overview</a>.</p>
+
+    <h2 id="architecture">Target deployment</h2>
+    <p>Portals still <strong>never</strong> talk to Postgres or the CMS directly. Only the Portal API (and the read-only DB admin) hold a connection string.</p>
     <div class="card">
       <div class="card-body">
         <pre class="mermaid">
 flowchart TB
-  user(["Student browser"])
+  user(["Browser"])
+  team(["Raisd team"])
 
-  subgraph vercel ["Vercel (PoC hosting)"]
-    spa["student-portal<br/>Vite SPA · static · project A"]
-    api["portal-api<br/>Node serverless / Fluid compute · project B"]
+  subgraph gh ["GitHub · raisd-campus"]
+    repos["Portal repos<br/>ci-cd.yml"]
+    apirepo["portal-api<br/>ci.yml (checks)"]
+    pkg[("GitHub Packages<br/>@raisd-campus/design-system")]
+    pages["portal-api-docs<br/>GitHub Pages"]
   end
 
-  subgraph neon ["Neon (free tier)"]
-    db[("PostgreSQL<br/>poc_sessions · poc_users<br/>scenario seed · Demo tables")]
+  subgraph vercel ["Vercel team · Singapore sin1"]
+    sp["raisd-student-portal<br/>static SPA"]
+    ap["raisd-applicant-portal<br/>static SPA"]
+    lp["raisd-lecturer-portal<br/>placeholder"]
+    stp["raisd-staff-portal<br/>placeholder"]
+    api["raisd-portal-api<br/>Node 22 function · Fastify<br/>MockPortalApi bundled"]
+    dba["raisd-db-admin<br/>read-only · Basic auth"]
   end
 
-  subgraph pages ["GitHub Pages (unchanged)"]
-    docs["portal-api-docs<br/>OpenAPI · diagrams · SDD"]
+  subgraph neon ["Neon · aws-ap-southeast-1"]
+    db[("neondb · Postgres 18<br/>poc_sessions")]
   end
 
   subgraph prod ["Production — not part of this PoC"]
@@ -210,218 +291,382 @@ flowchart TB
     ulta["UltaHost Singapore + k3s<br/>ADR-2 / ADR-3 · SDD-12"]
   end
 
-  user -- HTTPS --> spa
-  spa -- "PortalApi RPC over HTTPS<br/>VITE_PORTAL_API_URL" --> api
-  api -- "DATABASE_URL<br/>Neon Marketplace integration" --> db
-  user -. reads contract .-> docs
-  spa -. never .-x db
-  api -. no Live writes in PoC .-x cms
+  user -- HTTPS --> sp
+  user --> ap
+  user --> lp
+  user --> stp
+  sp -- "PortalApi RPC · bearer<br/>VITE_PORTAL_API_URL" --> api
+  pages -. "Swagger Try it out" .-> api
+  api -- "DATABASE_URL (pooled, TLS)" --> db
+  team -- "Basic auth" --> dba
+  dba -- "raisd_db_admin_reader<br/>READ ONLY" --> db
+  repos -- "npm ci" --> pkg
+  repos -- "vercel deploy --prebuilt" --> sp
+  team -- "npm run deploy:vercel" --> api
+  sp -. never .-x db
+  api -. no Live writes .-x cms
 
   classDef poc fill:#e8f0f8,stroke:#1a4f8b,color:#152033
   classDef store fill:#eef7ee,stroke:#2f7d32,color:#152033
   classDef out fill:#f6f6f6,stroke:#9aa5b1,color:#5a6a7e,stroke-dasharray:4 3
-  class spa,api poc
-  class db store
+  class sp,ap,lp,stp,api,dba poc
+  class db,pkg store
   class cms,ulta out
         </pre>
       </div>
     </div>
-    <p class="lead">Solid arrows are PoC traffic. Crossed dashed arrows are forbidden paths; the grey group is production, which this PoC does not touch.</p>
+    <p class="lead">Solid arrows are live traffic or deploys. Crossed dashed arrows are forbidden paths; the grey group is production, which this PoC does not touch.</p>
 
+    <h3>Vercel projects</h3>
     <div class="table-wrap">
       <table>
         <thead>
-          <tr><th>Layer</th><th>Raisd repo today</th><th>PoC host</th></tr>
+          <tr><th>Project</th><th>Output</th><th>Routing</th><th>Environment variables (names only)</th></tr>
         </thead>
         <tbody>
           <tr>
-            <td>Student UI</td>
-            <td><a href="https://github.com/raisd-campus/student-portal">student-portal</a> (Vite + React)</td>
-            <td>Vercel project A (static / SPA)</td>
+            <td><code>student-portal</code></td>
+            <td><code>npm run build:vercel</code> → <code>dist/</code> as <code>.vercel/output/static</code></td>
+            <td>Immutable cache on <code>/assets/*</code>; missing hashed chunk → 404; everything else → <code>index.html</code></td>
+            <td><code>VITE_PORTAL_API_URL</code> baked in at build (build fails if unset, so MockPortalApi never ships)</td>
           </tr>
           <tr>
-            <td>Portal API</td>
-            <td><a href="https://github.com/raisd-campus/portal-api">portal-api</a> (Fastify)</td>
-            <td>Vercel project B (Node)</td>
+            <td><code>applicant-portal</code></td>
+            <td><code>npm run build</code> → <code>dist/</code> packaged by the workflow</td>
+            <td>Filesystem, then SPA fallback to <code>index.html</code></td>
+            <td><code>VITE_PORTAL_API_URL</code> (build time)</td>
           </tr>
           <tr>
-            <td>OpenAPI docs</td>
-            <td><a href="https://github.com/raisd-campus/portal-api-docs">portal-api-docs</a></td>
-            <td>Keep on GitHub Pages (this site)</td>
+            <td><code>lecturer-portal</code> · <code>staff-portal</code></td>
+            <td>Generated “Coming soon” page (no <code>package.json</code> yet)</td>
+            <td>Static</td>
+            <td>—</td>
           </tr>
           <tr>
-            <td>Database</td>
-            <td>Stage-1 mock / in-memory sessions</td>
-            <td>Neon via Vercel Marketplace</td>
+            <td><code>portal-api</code></td>
+            <td><code>scripts/build-vercel.mjs</code>: esbuild bundles <code>src/vercel.ts</code> plus the student-portal mock engine into <code>functions/index.func</code></td>
+            <td>All paths → the one function; Fastify routes inside</td>
+            <td><code>DATABASE_URL</code> / <code>DATABASE_URL_UNPOOLED</code> + <code>PG*</code> / <code>POSTGRES_*</code> (Neon integration), <code>CORS_ORIGIN</code>. Demo passwords are inlined at build from the gitignored credentials file</td>
+          </tr>
+          <tr>
+            <td><code>db-admin</code></td>
+            <td>Zero-build Vercel Functions (<code>api/*.ts</code>) + <code>public/</code> icons</td>
+            <td><code>/</code> → UI function; <code>noindex</code>, no framing, <code>no-store</code></td>
+            <td><code>DATABASE_URL</code> (reader role), <code>DB_ADMIN_USER</code>, <code>DB_ADMIN_PASSWORD</code></td>
           </tr>
         </tbody>
       </table>
     </div>
-    <p>Start with <strong>student-portal + portal-api</strong>; other portals can follow the same pattern later.</p>
+    <p><code>CORS_ORIGIN</code> on the API is exactly <code>https://raisd-student-portal.vercel.app,https://raisd-campus.github.io</code> (SPA + Swagger). Add an origin there before another portal calls the API from a browser.</p>
 
-    <h2 id="neon">Why Neon on Vercel (2026)</h2>
-    <p>
-      Vercel’s first-party <strong>Vercel Postgres has been discontinued</strong>. New databases come from
-      <strong>Vercel Marketplace</strong> (Neon, Supabase, Prisma Postgres, AWS Aurora Postgres, and others).
-      <strong>Neon</strong> is the simplest free Postgres option for this PoC: Native integration, $0 start,
-      scale-to-zero, branching.
-    </p>
+    <h2 id="cicd">CI/CD pipelines</h2>
+    <div class="card">
+      <div class="card-body">
+        <pre class="mermaid">
+flowchart LR
+  subgraph portals ["Portal repos · ci-cd.yml"]
+    pr1["Pull request"] --> chk["Check<br/>npm ci · lint · test · build"]
+    push1["Push to main"] --> chk
+    chk -- "main only" --> dep["Deploy<br/>build Vercel output<br/>vercel deploy --prebuilt --prod"]
+    dep --> v1(["raisd-&lt;repo&gt;.vercel.app"])
+  end
+  subgraph api ["portal-api · ci.yml"]
+    pr2["PR / push to main"] --> smoke["Checkout api + student-portal + control-plane<br/>npm ci · docs:check · boot + smoke"]
+    dev(["Developer laptop"]) --> man["npm run deploy:vercel"]
+    man --> v2(["raisd-portal-api.vercel.app"])
+  end
+  subgraph docs ["portal-api-docs · pages.yml"]
+    push3["Push to main"] --> lint["Redocly lint openapi.yaml<br/>validate design-system pages"]
+    lint --> pub["Assemble _site + site auth<br/>deploy-pages"]
+    pub --> v3(["GitHub Pages"])
+  end
+  dev --> man2["npm run deploy"] --> v4(["raisd-db-admin.vercel.app"])
+        </pre>
+      </div>
+    </div>
 
-    <h3>Neon Free tier (indicative)</h3>
     <div class="table-wrap">
       <table>
         <thead>
-          <tr><th>Resource</th><th>Neon Free</th></tr>
+          <tr><th>Repo · workflow</th><th>Triggers</th><th>Checks</th><th>Deploy</th><th>Repo configuration</th></tr>
         </thead>
         <tbody>
-          <tr><td>PostgreSQL</td><td>Full Postgres</td></tr>
-          <tr><td>Cost</td><td>$0</td></tr>
-          <tr><td>Storage</td><td>0.5 GB / project</td></tr>
-          <tr><td>Compute</td><td>50 CU-hours / month / project</td></tr>
-          <tr><td>Egress</td><td>5 GB / month</td></tr>
-          <tr><td>Scale-to-zero</td><td>Yes</td></tr>
-          <tr><td>Autoscaling</td><td>up to 2 CU</td></tr>
-          <tr><td>Branching</td><td>Yes</td></tr>
-          <tr><td>Vercel integration</td><td>Native</td></tr>
+          <tr>
+            <td>student / applicant / lecturer / staff portal · <code>CI/CD</code> (<code>.github/workflows/ci-cd.yml</code>)</td>
+            <td>Pull request, push to <code>main</code>, manual</td>
+            <td>Node from <code>.nvmrc</code> (default 22); <code>npm ci</code> with GitHub Packages auth; <code>lint</code>, <code>test</code>, <code>build</code> if present</td>
+            <td>Only push/manual on <code>main</code>: <code>build:vercel</code> if defined, else <code>build</code> + SPA packaging, else placeholder; then <code>vercel@60 deploy --prebuilt --prod</code>. PR runs never deploy; main runs are never cancelled mid-deploy</td>
+            <td>Secret <code>VERCEL_TOKEN</code>; variables <code>VERCEL_ORG_ID</code>, <code>VERCEL_PROJECT_ID</code>, <code>VITE_PORTAL_API_URL</code>. Design-system package grants each repo Actions read access</td>
+          </tr>
+          <tr>
+            <td>portal-api · <code>CI</code> (<code>ci.yml</code>)</td>
+            <td>Pull request, push to <code>main</code></td>
+            <td>Checks out portal-api, student-portal, control-plane; <code>npm ci</code>; <code>docs:check</code> (mirrored docs in sync); boots the API with throwaway demo passwords and runs <code>scripts/smoke.sh</code> (health, meta, login, wrong password → 401, portal call, logout → token revoked)</td>
+            <td>None — deploy is manual (<code>npm run deploy:vercel</code>) because the build needs the sibling student-portal and the gitignored demo credentials</td>
+            <td>Secret <code>RAISD_READ_TOKEN</code> (read-only PAT for the private sibling checkouts)</td>
+          </tr>
+          <tr>
+            <td>portal-api-docs · <code>Pages</code> (<code>pages.yml</code>)</td>
+            <td>Push to <code>main</code>, manual; PRs touching published paths run validation only</td>
+            <td>Redocly lint of <code>openapi.yaml</code>; <code>validate-design-system.py</code></td>
+            <td>Assemble <code>_site</code>, verify required pages, inject site password, <code>actions/deploy-pages</code></td>
+            <td>Secrets <code>DOCS_SITE_USER</code>, <code>DOCS_SITE_PASSWORD</code></td>
+          </tr>
+          <tr>
+            <td>control-plane · <code>OpenAPI</code>, <code>Sync diagrams note</code></td>
+            <td>Changes to <code>openapi.yaml</code>, <code>docs/**</code></td>
+            <td>Validates the contract and design-system pages</td>
+            <td>None — canonical sources; copies are mirrored into portal-api-docs</td>
+            <td>—</td>
+          </tr>
+          <tr>
+            <td>design-system · <code>Package check and release</code></td>
+            <td>Pull request, push to <code>main</code>, <code>v*</code> tags</td>
+            <td>Docs-impact check, build, tests</td>
+            <td>Publishes <code>@raisd-campus/design-system</code> to GitHub Packages on tags</td>
+            <td><code>GITHUB_TOKEN</code> with <code>packages: write</code></td>
+          </tr>
+          <tr>
+            <td>db-admin</td>
+            <td>—</td>
+            <td><code>npm run typecheck</code> locally</td>
+            <td>Manual <code>npm run deploy</code> (<code>vercel deploy --prod</code>, remote build)</td>
+            <td>Vercel env only</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p>The portal workflow is one shared file: canonical copy <code>control-plane/scripts/templates/portal-ci-cd.yml</code>, copied verbatim into each portal repo. Deployment status across repos: <code>npm run ci</code> in control-plane.</p>
+
+    <h3 id="manual-deploy">Manual deploys</h3>
+    <pre><code># Portal API (needs ../student-portal and ../control-plane/.credentials/demo-students.json)
+cd portal-api
+npm run deploy:vercel          # build:vercel + vercel deploy --prebuilt --prod --scope &lt;team&gt;
+API_URL=https://raisd-portal-api.vercel.app npm run smoke
+
+# DB admin
+cd db-admin
+npm run deploy                 # vercel deploy --prod --scope &lt;team&gt;</code></pre>
+
+    <h2 id="database">Neon database</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Property</th><th>Value</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Provider</td><td>Neon (Vercel Marketplace native integration, attached to <code>portal-api</code>)</td></tr>
+          <tr><td>Engine · region</td><td>PostgreSQL 18 · <code>aws-ap-southeast-1</code> (Singapore, next to Vercel <code>sin1</code>)</td></tr>
+          <tr><td>Database</td><td><code>neondb</code></td></tr>
+          <tr><td>Connections</td><td>Pooled endpoint for runtime (<code>DATABASE_URL</code>); direct endpoint for DDL / admin (<code>DATABASE_URL_UNPOOLED</code>); TLS with channel binding</td></tr>
+          <tr><td>Roles</td><td><code>neondb_owner</code> — used by the Portal API. <code>raisd_db_admin_reader</code> — DB admin only: <code>pg_read_all_data</code>, <code>default_transaction_read_only = on</code>, no write grants</td></tr>
+          <tr><td>Migrations</td><td>None yet: the API runs idempotent <code>create table if not exists</code> on first use per instance</td></tr>
+          <tr><td>Data</td><td>Session rows for Demo students only — no student PII, no CMS records</td></tr>
         </tbody>
       </table>
     </div>
 
-    <h3>When to prefer Supabase</h3>
-    <p>
-      Choose <strong>Supabase</strong> from the same Marketplace if the PoC also needs bundled Auth, Storage,
-      Realtime, or Supabase client APIs. For Raisd’s shape (<code>SPA → Portal API → Postgres</code>), prefer Neon.
-    </p>
-
-    <h2 id="fit">Free-tier fit for Raisd</h2>
-    <p><strong>Enough for:</strong> Demo session tokens, small seed graphs, a handful of concurrent testers, schema branching without claiming Live CMS parity.</p>
-    <p><strong>Not for:</strong> Production cohorts, evidence blobs, CMS ledger replica, treating Neon as Live SoR (contradicts ADR-1), heavy CI against one free project.</p>
-    <p>
-      <strong>Graduation path:</strong> keep the Portal API contract; move durable data to SDD-12 Postgres on UltaHost
-      (or CAP-53 CMS adapter). Swap <code>DATABASE_URL</code> / CMS adapter — do not teach the SPA a second data plane.
-    </p>
-
-    <h2 id="deploy">Implement and deploy</h2>
-
-    <h3 id="provision">1. Provision Neon from Vercel</h3>
-    <p><strong>Dashboard:</strong> Vercel → Marketplace → Neon → Install (attach to the <strong>portal-api</strong> project).</p>
-    <p><strong>CLI:</strong></p>
-    <pre><code>vc i neon/neon</code></pre>
-    <p>
-      Confirm <code>DATABASE_URL</code> (and any unpooled / branch URLs) appear under the API project’s
-      Environment Variables for Preview and Production. Schema and rows can be inspected from the
-      Vercel dashboard for Neon integrations (2026).
-    </p>
-
-    <h3 id="portal-api">2. Portal API project (Vercel)</h3>
-    <ol>
-      <li>Create a Vercel project from the <code>raisd-campus/portal-api</code> repository. It must build without a student-portal checkout first (plan phase 1).</li>
-      <li>Persist sessions in Neon: serverless instances do not share memory, so the in-memory session map is not enough.</li>
-      <li>Adapt the Fastify HTTP entry to Vercel Node serverless / Fluid compute (request-listener adapter or equivalent handler calling the same PortalApi methods).</li>
-      <li>Set environment:</li>
-    </ol>
-    <div class="table-wrap">
-      <table>
-        <thead>
-          <tr><th>Variable</th><th>Purpose</th></tr>
-        </thead>
-        <tbody>
-          <tr><td><code>DATABASE_URL</code></td><td>Neon (Marketplace-injected)</td></tr>
-          <tr><td><code>STUDENT_PORTAL_ROOT</code></td><td>Only if still bridging the mock engine from a packaged path — prefer contracts without a sibling checkout</td></tr>
-          <tr><td><code>CORS_ORIGIN</code></td><td>Exact student-portal Vercel origin(s)</td></tr>
-          <tr><td><code>NODE_ENV</code></td><td><code>production</code> on Production</td></tr>
-        </tbody>
-      </table>
+    <h3 id="schema">Schema</h3>
+    <div class="card">
+      <div class="card-body">
+        <pre class="mermaid">
+erDiagram
+  poc_sessions {
+    text token_hash PK "sha256 hex of the bearer token"
+    text scenario_id "Demo student scenario"
+    text student_profile_id "profile for the scenario"
+    timestamptz created_at "default now()"
+    timestamptz expires_at "created + 12 h (indexed)"
+    timestamptz revoked_at "set on logout, else null"
+  }
+        </pre>
+      </div>
     </div>
-    <ol start="4">
-      <li>Keep OpenAPI behaviour: <code>POST /v1/auth/login</code>, <code>POST /v1/portal/{method}</code>. Contract SoT: <a href="../openapi.html">OpenAPI Swagger</a>.</li>
-      <li>PoC Neon writes are <strong>Demo / Partial</strong> until CAP-53 CMS acknowledgement — do not mark Live.</li>
-    </ol>
-    <p>Optional first slice: persist only sessions and scenario id in Neon; leave domain reads on the mock projection until a table plan exists.</p>
-
-    <h3 id="student-portal">3. Student portal project (Vercel)</h3>
-    <ol>
-      <li>Second Vercel project from <code>student-portal</code> (Vite → <code>dist/</code>).</li>
-      <li>Build: <code>npm ci &amp;&amp; npm run build</code> (needs <code>NODE_AUTH_TOKEN</code> for <code>@raisd-campus/design-system</code>).</li>
-      <li>Output directory: <code>dist</code>.</li>
-      <li>Env: <code>VITE_PORTAL_API_URL=https://&lt;portal-api-project&gt;.vercel.app</code>.</li>
-      <li>Production builds must use the HTTP PortalApi adapter (no MockPortalApi in the ship bundle).</li>
-      <li>SPA rewrites so client routes serve <code>index.html</code>.</li>
-    </ol>
-
-    <h3 id="smoke">4. Bind and smoke-test</h3>
-    <pre><code>1. Open student Vercel URL → sign-in Demo scenario
-2. Network: POST {VITE_PORTAL_API_URL}/v1/auth/login → 200 + bearer
-3. Network: POST .../v1/portal/getDashboard (or getImmigration) → 200 + cms ack
-4. Vercel / Neon dashboard: session row present (if sessions persisted)
-5. This Pages OpenAPI remains the contract SoT — do not fork openapi.yaml on Vercel</code></pre>
-    <p>CORS must allow the SPA origin; the current bearer model does not require cookies.</p>
-
-    <h3 id="secrets">5. Secrets and hygiene</h3>
+    <pre><code>create table if not exists poc_sessions (
+  token_hash         text primary key,
+  scenario_id        text not null,
+  student_profile_id text not null,
+  created_at         timestamptz not null default now(),
+  expires_at         timestamptz not null,
+  revoked_at         timestamptz
+);
+create index if not exists poc_sessions_expires_at on poc_sessions (expires_at);</code></pre>
     <ul>
-      <li>Never commit <code>.env</code>, Neon connection strings, or Vercel tokens.</li>
-      <li>Prefer Marketplace-injected <code>DATABASE_URL</code>.</li>
-      <li>Rotate the Neon role if a Preview URL or log leaks the connection string.</li>
+      <li>The raw token is never stored — only its SHA-256 hash, so a database read cannot replay sessions.</li>
+      <li>A session is valid when <code>revoked_at is null and expires_at &gt; now()</code>.</li>
+      <li><code>scenario_id</code> is one of <code>mid-programme</code>, <code>first-semester-registration</code>, <code>new-student-pass</code>, <code>graduation-ready</code>.</li>
+      <li>Expired and revoked rows are kept (no purge job yet).</li>
+      <li>Portal domain data (modules, finance, forms, …) is <strong>not</strong> in Postgres: it comes from the bundled mock engine, rebuilt per function instance from <code>scenario_id</code>.</li>
+    </ul>
+
+    <h2 id="flows">Flows</h2>
+
+    <h3 id="flow-login">Sign-in</h3>
+    <div class="card">
+      <div class="card-body">
+        <pre class="mermaid">
+sequenceDiagram
+  autonumber
+  actor S as Student
+  participant SP as Student portal (Vercel static)
+  participant API as Portal API (Vercel function)
+  participant DB as Neon poc_sessions
+  S->>SP: Student number + password
+  SP->>API: POST /v1/auth/login {scenarioId, password}
+  API->>API: Validate body, constant-time password check
+  alt wrong password
+    API-->>SP: 401 "Student and password do not match."
+  else ok
+    API->>DB: create table if not exists (first use)
+    API->>DB: insert token_hash, scenario, profile, expires_at
+    API-->>SP: 200 {accessToken, expiresIn 43200, scenarioId, studentProfileId}
+    SP->>SP: Keep bearer token for the session
+  end
+        </pre>
+      </div>
+    </div>
+
+    <h3 id="flow-call">Portal call</h3>
+    <div class="card">
+      <div class="card-body">
+        <pre class="mermaid">
+sequenceDiagram
+  autonumber
+  participant SP as Student portal
+  participant API as Portal API instance
+  participant DB as Neon poc_sessions
+  participant M as MockPortalApi (in instance memory)
+  SP->>API: POST /v1/portal/getDashboard {args: []} + Bearer
+  API->>DB: select … where token_hash = sha256(token) and not revoked and not expired
+  alt no row
+    API-->>SP: 401 Session expired or missing
+  else session found
+    API->>M: reuse cached engine, or build one from scenario_id (cold instance)
+    M-->>API: result
+    API-->>SP: 200 {result, cms: {acknowledged: true, mode: "stub"}}
+  end
+        </pre>
+      </div>
+    </div>
+    <p>Any instance accepts any token because sessions live in Neon. Demo edits live in instance memory, so they can reset when Vercel starts a new instance.</p>
+
+    <h3 id="flow-session">Switch student and sign out</h3>
+    <div class="card">
+      <div class="card-body">
+        <pre class="mermaid">
+sequenceDiagram
+  participant SP as Portal
+  participant API as Portal API
+  participant DB as Neon
+  SP->>API: POST /v1/auth/scenario {scenarioId} + Bearer
+  API->>DB: update scenario_id, student_profile_id
+  API-->>SP: 200 {scenarioId, studentProfileId}
+  SP->>API: POST /v1/auth/logout + Bearer
+  API->>DB: update revoked_at = now()
+  API-->>SP: 200 {ok: true}
+        </pre>
+      </div>
+    </div>
+
+    <h3 id="flow-deploy">Portal deploy</h3>
+    <div class="card">
+      <div class="card-body">
+        <pre class="mermaid">
+sequenceDiagram
+  actor Dev as Developer
+  participant GH as GitHub (portal repo)
+  participant GA as GitHub Actions ci-cd.yml
+  participant PK as GitHub Packages
+  participant V as Vercel
+  Dev->>GH: merge / push to main
+  GH->>GA: push event
+  GA->>PK: npm ci (@raisd-campus/design-system via GITHUB_TOKEN)
+  GA->>GA: lint · test · build
+  GA->>GA: build .vercel/output (VITE_PORTAL_API_URL baked in)
+  GA->>V: vercel deploy --prebuilt --prod (VERCEL_TOKEN)
+  V-->>GA: deployment URL, alias raisd-&lt;repo&gt;.vercel.app
+        </pre>
+      </div>
+    </div>
+
+    <h2 id="secrets">Config and secrets</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Value</th><th>Lives in</th><th>Used by</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Neon owner connection strings</td><td>Vercel env on <code>portal-api</code> (integration-managed)</td><td>Portal API runtime</td></tr>
+          <tr><td>Reader connection string, DB admin login</td><td>Vercel env on <code>db-admin</code></td><td>DB admin</td></tr>
+          <tr><td>Demo student passwords</td><td>Gitignored <code>control-plane/.credentials/</code>; inlined into the API bundle at build</td><td><code>POST /v1/auth/login</code></td></tr>
+          <tr><td><code>VERCEL_TOKEN</code></td><td>GitHub secret on each portal repo</td><td>Portal deploy job</td></tr>
+          <tr><td><code>RAISD_READ_TOKEN</code></td><td>GitHub secret on portal-api</td><td>Sibling checkouts in CI</td></tr>
+          <tr><td>Docs site login</td><td>GitHub secrets on portal-api-docs</td><td>Pages assembly</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <ul>
+      <li>Never commit <code>.env</code>, Neon connection strings, Vercel tokens, or demo passwords. Local copies sit only in the gitignored <code>control-plane/.credentials/</code>.</li>
+      <li>API logs redact <code>Authorization</code> and the login password.</li>
+      <li>Rotate the Neon role (and redeploy) if a connection string leaks; recreate the reader with <code>npm run db:create-reader</code> in db-admin.</li>
       <li>PoC databases may be wiped; do not store real student PII.</li>
     </ul>
+
+    <h2 id="limits">Limitations</h2>
+    <ul>
+      <li><strong>No CMS:</strong> every write is Demo; <code>cms.mode</code> is <code>stub</code> until CAP-53 connects the Cyberjaya CMS.</li>
+      <li><strong>Per-instance Demo state:</strong> edits can reset on a cold start or when requests land on another instance.</li>
+      <li><strong>No file store:</strong> uploads (evidence, assignments, payment proofs) are metadata only.</li>
+      <li><strong>Shared Demo logins:</strong> four sample students, passwords held by the team.</li>
+      <li><strong>Free tier:</strong> Neon 0.5 GB storage, 50 CU-hours / month, scale-to-zero (first request after idle is slower).</li>
+      <li><strong>Session rows accumulate:</strong> no cleanup job for expired / revoked rows.</li>
+    </ul>
+
+    <h2 id="neon">Why Neon on Vercel</h2>
+    <p>
+      Vercel’s first-party Vercel Postgres is discontinued; databases come from Vercel Marketplace.
+      <strong>Neon</strong> is the simplest free option: native integration, $0 start, scale-to-zero, branching.
+      Prefer <strong>Supabase</strong> only if a PoC needs bundled Auth / Storage / Realtime — Raisd’s shape
+      (<code>SPA → Portal API → Postgres</code>) does not.
+    </p>
+    <p>
+      <strong>Graduation path:</strong> keep the Portal API contract; move durable data to SDD-12 Postgres on UltaHost
+      (or the CAP-53 CMS adapter). Swap <code>DATABASE_URL</code> / CMS adapter — do not teach the SPA a second data plane.
+    </p>
 
     <h2 id="out-of-scope">Out of scope</h2>
     <ul>
       <li>Replacing UltaHost / k3s stages or hostnames (<code>apply.raisd.co</code>, <code>api.raisd.co</code>, …).</li>
       <li>Moving the existing Cyberjaya CMS onto Neon or Vercel.</li>
-      <li>Durable evidence / payment-proof object storage (Live still needs a file store).</li>
-      <li>Staff Live progression APIs (still deferred).</li>
+      <li>Staff Live progression APIs (still deferred — <code>GET /v1/meta/staff-progression</code>).</li>
       <li>Using free-tier Neon as production capacity planning.</li>
     </ul>
 
-    <h2 id="status">Checklist language</h2>
-    <div class="table-wrap">
-      <table>
-        <thead>
-          <tr><th>Item</th><th>Status word</th></tr>
-        </thead>
-        <tbody>
-          <tr><td>This page / agent note</td><td>Placeholder / Not started (guidance only)</td></tr>
-          <tr><td>Vercel SPA deploy</td><td>Not started until a project ships</td></tr>
-          <tr><td>Vercel Portal API + Neon</td><td>Not started until <code>DATABASE_URL</code> is used by handlers</td></tr>
-          <tr><td>Production campus hosting</td><td>Remains <a href="../sdd/12-deployment-architecture.html">SDD-12</a> — not this PoC</td></tr>
-        </tbody>
-      </table>
-    </div>
-
     <h2 id="related">Related</h2>
     <div class="toc">
-      <a href="../diagrams/migration.html#hosting">
-        <strong>Migration — hosting stages</strong>
-        <span>Production UltaHost / k3s sequence</span>
-      </a>
-      <a href="../diagrams/architecture.html">
-        <strong>Architecture</strong>
-        <span>ADRs, SoR / ACL, academic model</span>
+      <a href="../diagrams/index.html#endpoints">
+        <strong>Public endpoints</strong>
+        <span>Every reachable site and API route</span>
       </a>
       <a href="../openapi.html">
         <strong>OpenAPI Swagger</strong>
         <span>Portal API contract</span>
       </a>
+      <a href="../diagrams/migration.html#hosting">
+        <strong>Migration — hosting stages</strong>
+        <span>Production UltaHost / k3s sequence</span>
+      </a>
       <a href="https://github.com/raisd-campus/control-plane/blob/main/docs/ai/architecture/vercel-neon-poc.md">
         <strong>Agent Markdown source</strong>
         <span>docs/ai/architecture/vercel-neon-poc.md</span>
-      </a>
-      <a href="https://github.com/raisd-campus/control-plane/blob/main/docs/ai/backend/portal-api.md">
-        <strong>Portal API agent notes</strong>
-        <span>Stage-1 behaviour and local run</span>
       </a>
       <a href="https://github.com/raisd-campus/control-plane/blob/main/docs/ai/backend/portal-api-poc-requirements.md">
         <strong>PoC requirements</strong>
         <span>Prerequisites, functional, security, acceptance</span>
       </a>
       <a href="https://github.com/raisd-campus/control-plane/blob/main/docs/ai/backend/portal-api-deployment.md">
-        <strong>Target deployment</strong>
-        <span>k3s stage 1 shape for portal-api</span>
-      </a>
-      <a href="https://github.com/raisd-campus/control-plane/blob/main/docs/ai/backend/portal-api-development-plan.md">
-        <strong>Development plan</strong>
-        <span>Phases 0–8 against M1–M5</span>
+        <strong>Target deployment (k3s)</strong>
+        <span>Production stage 1 shape for portal-api</span>
       </a>
     </div>
   </main>
