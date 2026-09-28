@@ -1,6 +1,8 @@
 # Online Forms (CAP-51)
 
-Online Forms is the desktop student frontend for campus-owned forms, drafts, submission tracking and case conversations. It replaces the Requests placeholder. All changes are held in the mock Portal API session and reset on refresh. Changing the development student view retains each student's owned form records while clearing scoped UI queries. No staff portal or production submission service is included.
+On phone layouts, preparation guidance links wrap within their card rather than clipping at the panel edge. Prefilled records use the shared stacked `DetailField` treatment, and category segments grow with their coarse-pointer targets while keeping long labels clear of their dividers. The selected category is restored into view after Safari page restoration or a late layout resize. These presentation rules preserve all existing submission and case ownership behavior.
+
+Online Forms is the responsive student frontend for campus-owned forms, drafts, submission tracking and case conversations. It replaces the Requests placeholder. All changes are held in the mock Portal API session and reset on refresh. Changing the development student view retains each student's owned form records while clearing scoped UI queries. No staff portal or production submission service is included.
 
 ## Pages and references
 
@@ -20,7 +22,7 @@ Graduation, Immigration and Services Accessibility link to their published templ
 
 | Template                 | Category        | Required and optional input                                                                           |
 | ------------------------ | --------------- | ----------------------------------------------------------------------------------------------------- |
-| Graduation Clearance     | Academic        | Eligibility-gated clearance request; optional comments; read-only academic summary                    |
+| Graduation Clearance     | Academic        | Eligibility-gated clearance request; optional Additional comments only; read-only academic summary                    |
 | Convocation Registration | Academic        | Attend or decline; gown size required when attending; optional note; opens after approval and payment |
 | New Student Pass Application | Immigration | University-held passport, photograph, expiry, offer, academic and English evidence; uploaded health declaration |
 | Student Pass Renewal     | Immigration     | University-held passport and photograph, with case-specific replacement when needed                    |
@@ -62,9 +64,9 @@ Unsent and sent preview ownership stays in the current session. Removal, draft/s
 
 ## Verification and remaining responsibilities
 
-Tests cover both student scenarios, reordered fixtures, campus isolation, foreign IDs, missing enrolments/content, result attempts, latest-profile prefills, validation, draft ordering, retries, immutable submissions, duplicate operations, withdrawal, file limits, closed threads and read watermarks. Desktop checks use 1280px and 1440px with Community open/closed/resized, keyboard/focus, navigation/history and all page states. The existing white-on-orange IssueCard exception remains narrow; other accessibility violations fail.
+Tests cover both student scenarios, reordered fixtures, campus isolation, foreign IDs, missing enrolments/content, result attempts, latest-profile prefills, validation, draft ordering, retries, immutable submissions, duplicate operations, withdrawal, file limits, closed threads and read watermarks. Responsive checks cover the catalogue, template, draft, submission, file, Messages, confirmation, action-footer, and route states; the broad Chromium matrix includes 390/768/1024 and focused WebKit includes 375/768/1440, while existing 1280/1440 workflow coverage remains. The existing white-on-orange IssueCard exception remains narrow; other accessibility violations fail.
 
-CAP-51 Student Frontend is **Demo** for eight catalogue samples, including CAP-15 Convocation Registration and the three CAP-50 Student Pass application templates, plus the case-linked CAP-50 Medical Screening Result form. Current verification is recorded in [handoff](handoff.md). Mobile remains Not started and Backend Needs checking. Campus approval of form content, reviewer identity/authorization, workflow decisions, notifications, real uploads, retention, persistence and case operations remain backend/admin responsibilities. Dedicated privacy-request forms and additional catalogue templates remain outside this delivery. The live planning tracker remains unchanged.
+CAP-51 Student Frontend is **Demo** for eight catalogue samples, including CAP-15 Convocation Registration and the three CAP-50 Student Pass application templates, plus the case-linked CAP-50 Medical Screening Result form. Current verification is recorded in [handoff](handoff.md). Responsive browser support is implemented; physical-device certification remains outstanding and Backend Needs checking. Campus approval of form content, reviewer identity/authorization, workflow decisions, notifications, real uploads, retention, persistence and case operations remain backend/admin responsibilities. Dedicated privacy-request forms and additional catalogue templates remain outside this delivery. The live planning tracker remains unchanged.
 
 ## CAP-15 integration
 

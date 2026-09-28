@@ -2,11 +2,11 @@
 
 ## Current behaviour
 
-University Policies is a standalone CAP-55 destination at `/policies`, immediately after Announcements in the main sidebar. The shared page heading and breadcrumb both read **University Policies**. The route is a frontend-only, desktop-first catalogue; it does not provide policy bodies or policy transactions.
+University Policies is a standalone CAP-55 destination at `/policies`, immediately after Announcements in the main sidebar. The shared page heading and breadcrumb both read **University Policies**. The route is a frontend-only responsive catalogue; it does not provide policy bodies or policy transactions.
 
 The page uses a navigation-free `PagePanelLayout`. Its first child is the shared copy-free, gradient-free 288px banner with the existing Cyberjaya library photograph.
 
-The panel content contains full-width, URL-backed `SegmentedTabs` for **All**, **Academic**, **Student Life**, **Finance**, and **Privacy & IT**. All is the default. Category URLs use `?category=academic`, `student-life`, `finance`, or `privacy-it`; an absent or unknown value presents All without rewriting the URL. Normal browser Back and Forward restore the selected category. Inactive-neighbour dividers use the shared SegmentedTabs default, and the selected list begins 24px below the filters.
+The panel content contains full-width, URL-backed `SegmentedTabs` for **All**, **Academic**, **Student Life**, **Finance**, and **Privacy & IT**. All is the default. Category URLs use `?category=academic`, `student-life`, `finance`, or `privacy-it`; an absent or unknown value presents All without rewriting the URL. Normal browser Back and Forward restore the selected category. Inactive-neighbour dividers use the shared SegmentedTabs default, and the selected list begins 24px below the filters. On phones, the rounded black tab frame remains solid while only its tab content scrolls and fades at whichever edge has more tabs available.
 
 Every policy appears as a raised `LinkedList` action row with a policy-document icon, title, concise summary and decorative chevron. It is an enabled native button, so pointer, Enter and Space activation work. Activation deliberately performs no action and leaves the route unchanged until approved policy details exist. The student UI does not show demo, mockup, availability, acknowledgement, version or effective-date labels.
 
@@ -39,7 +39,7 @@ The table order is the explicit campus display order. Category filters preserve 
 
 `UniversityPolicyRecord` is campus-owned and contains stable `id`, `campusId`, fixed `category`, `title`, `summary`, and non-negative integer `displayOrder`. The canonical graph rejects unknown campuses and duplicate policy IDs. Equal display positions remain deterministic through stable ID tie-breaking.
 
-`PortalApi.getUniversityPolicies()` represents logical `GET /api/v1/university-policies`. Its Zod-validated `UniversityPoliciesResponse` contains detached `UniversityPolicySummary` rows without `campusId`. The mock projection starts from the selected Student Profile, resolves the exact URL-backed Programme Enrolment and campus, filters only that campus's records, then sorts by `displayOrder` with stable ID tie-breaking. When the route omits an enrolment ID, the shared selector uses its documented deterministic default. A configured campus without records returns an empty collection; an unknown student or foreign/missing enrolment is rejected. It never substitutes another campus's catalogue.
+`PortalApi.getUniversityPolicies()` represents `PortalApi.getUniversityPolicies (`POST /v1/portal/getUniversityPolicies`)`. Its Zod-validated `UniversityPoliciesResponse` contains detached `UniversityPolicySummary` rows without `campusId`. The mock projection starts from the selected Student Profile, resolves the exact URL-backed Programme Enrolment and campus, filters only that campus's records, then sorts by `displayOrder` with stable ID tie-breaking. When the route omits an enrolment ID, the shared selector uses its documented deterministic default. A configured campus without records returns an empty collection; an unknown student or foreign/missing enrolment is rejected. It never substitutes another campus's catalogue.
 
 `useUniversityPoliciesQuery` uses the existing scenario and session generation cache scope. The catalogue has no mutation or cache invalidation workflow. Both canonical and derived Data Model Explorer entries use the same fixtures and relationships.
 
@@ -49,17 +49,17 @@ The Student Handbook previously existed as the sole University Document in Profi
 
 - `LinkedListItem.onSelect` creates a native full-row button. `to` continues to create a route link, and an item with neither action retains the disabled presentation.
 - `PagePanelLayout.navigation` is optional. Supplying it retains the existing navigation row and divider; omitting it lets a banner begin the panel directly.
-- The Design System Explorer demonstrates the route, action and disabled LinkedList states plus the navigation-free page-panel state.
+- The published design system catalogue captures the route, action and disabled LinkedList states plus the navigation-free page-panel state.
 
 ## Status and exclusions
 
-CAP-55 Student Frontend remains **Partial**. Actual policy bodies, detail routes, files/downloads, search, version history, effective dates, acknowledgements, notifications, administrative publishing, production data and mobile remediation remain outside this release.
+CAP-55 Student Frontend remains **Partial**. Actual policy bodies, detail routes, files/downloads, search, version history, effective dates, acknowledgements, notifications, administrative publishing, and production data remain outside this release.
 
 ## Verification
 
 Unit coverage validates contracts, unique IDs, categories, ordering, campus isolation, missing enrolments, unknown students, response independence, explorer registration, category URL fallback, shared-component variants, states, no-op actions, and Profile Documents removal.
 
-Playwright covers route/sidebar/breadcrumb activation, lazy loading, banner and panel geometry, dividers, category URLs and history, card copy/order, pointer and keyboard no-op activation, loading/error/empty states, accessibility and horizontal overflow with Community open, resized and closed at 1280px and 1440px. The full repository quality gate remains required.
+Playwright covers route/sidebar/breadcrumb activation, lazy loading, responsive banner and panel geometry, scrollable category tabs, dividers, category URLs and history, card copy/order, pointer and keyboard no-op activation, loading/error/empty states, accessibility and horizontal overflow across the supported browser widths. Existing Community open, resized and closed checks remain at 1280px and 1440px. The full repository quality gate remains required.
 
 ## Implementation references
 
@@ -72,6 +72,6 @@ Playwright covers route/sidebar/breadcrumb activation, lazy loading, banner and 
 - `src/components/features/policies/university-policies-page-shell.tsx`
 - `src/features/policies/university-policy-routes.ts`
 - `src/components/system/linked-list.tsx`
-- `src/components/system/page-panel-layout.tsx`
+- `@raisd-campus/design-system/system/page-panel-layout`
 - `src/tests/university-policies.test.tsx`
 - `tests/e2e/university-policies.spec.ts`

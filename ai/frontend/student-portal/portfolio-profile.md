@@ -19,7 +19,7 @@ Nested views use `ContentBreadcrumb`; Back and Cancel return to their documented
 
 ## Project grid
 
-The grid uses a panel-type `ContentSection` titled Portfolio and the shared four-column `CardGrid` portfolio variant. Projects are ordered by creation date newest first, then alphabetically for equal dates. Each feature-owned `PortfolioProjectCard` contains a 4:3 artwork preview or labelled PDF artwork tile, a regular-weight title-colour body-style project name, formatted creation date, a full-card detail action, and a sibling overflow menu with Edit and Delete actions. Its artwork opacity and metadata-row surface update immediately on hover; neither project-card effect is animated. Keeping the menu outside the detail button avoids nested interactive controls.
+The grid uses a panel-type `ContentSection` titled Portfolio and the shared responsive `CardGrid` portfolio variant: one column on phones, two on tablet-sized containers, and up to four on desktop. Projects are ordered by creation date newest first, then alphabetically for equal dates. Each feature-owned `PortfolioProjectCard` contains a 4:3 artwork preview or labelled PDF artwork tile, a regular-weight title-colour body-style project name, formatted creation date, a full-card detail action, and a sibling overflow menu with Edit and Delete actions. Its artwork opacity and metadata-row surface update immediately on hover; neither project-card effect is animated. Keeping the menu outside the detail button avoids nested interactive controls.
 
 Delete opens the shared confirmation `Popup`. A dashed, keyboard-accessible Add Project tile is always the final grid item. It is the sole item for a student without projects and then includes first-project guidance.
 
@@ -37,10 +37,10 @@ Each canonical Portfolio Project belongs directly to one stable Student Profile 
 
 Logical Portal API boundaries are:
 
-- `GET /api/v1/profile/portfolio` returns `PortfolioProfileResponse`.
-- `POST /api/v1/profile/portfolio/projects` validates `CreatePortfolioProjectInput` and returns the saved project with a generated opaque ID.
-- `PATCH /api/v1/profile/portfolio/projects/:projectId` validates `UpdatePortfolioProjectInput` and returns the saved project.
-- `DELETE /api/v1/profile/portfolio/projects/:projectId` removes the selected student's project.
+- `PortalApi.getPortfolioProfile (`POST /v1/portal/getPortfolioProfile`)` returns `PortfolioProfileResponse`.
+- `PortalApi.createPortfolioProject (`POST /v1/portal/createPortfolioProject`)` validates `CreatePortfolioProjectInput` and returns the saved project with a generated opaque ID.
+- `PortalApi.updatePortfolioProject (`POST /v1/portal/updatePortfolioProject`)` validates `UpdatePortfolioProjectInput` and returns the saved project.
+- `PortalApi.deletePortfolioProject (`POST /v1/portal/deletePortfolioProject`)` removes the selected student's project.
 
 The mock adapter rejects project IDs owned by another student. It stores only file metadata and an object URL for a newly selected local preview; there is no upload. Replacing or deleting a session-created preview revokes its object URL. Query mutations upsert or remove the saved record without changing other Profile query caches.
 

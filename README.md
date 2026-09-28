@@ -2,7 +2,8 @@
 
 Public OpenAPI description, Swagger UI, and architecture diagrams for the Raisd Portal API.
 
-**Live docs:** https://raisd-campus.github.io/portal-api-docs/  
+**Live docs:** https://raisd-campus.github.io/portal-api-docs/ (redirects to the overview)  
+**Swagger UI:** https://raisd-campus.github.io/portal-api-docs/openapi.html  
 **ERD & DFD:** https://raisd-campus.github.io/portal-api-docs/diagrams/
 **Distributed CMS:** https://raisd-campus.github.io/portal-api-docs/diagrams/distributed-cms-architecture.html
 **[LUCT CMS](https://raisd-campus.github.io/portal-api-docs/diagrams/old-cms/) analysis:** https://raisd-campus.github.io/portal-api-docs/diagrams/old-cms/
@@ -23,6 +24,6 @@ Public OpenAPI description, Swagger UI, and architecture diagrams for the Raisd 
 | [`design-system/`](design-system/) | Released `@raisd-campus/design-system` catalogue (captures + foundations) |
 | [`sdd/`](sdd/) | SDD copies; CAP-* / M* nomenclature ([15-nomenclature.md](sdd/15-nomenclature.html)) |
 
-The implementation and diagram source of truth live in the private [`control-plane`](https://github.com/raisd-campus/control-plane) repo (`portal-api/`, `docs/diagrams/`). Keep this published copy in sync when those change.
+The contract (`openapi.yaml`) and diagram source of truth live in the private [`control-plane`](https://github.com/raisd-campus/control-plane) repo (`openapi.yaml`, `docs/diagrams/`); the service code lives in the private [`portal-api`](https://github.com/raisd-campus/portal-api) repo. Keep this published copy in sync when those change.
 
 **Agent knowledge:** [AGENTS.md](AGENTS.md) → control-plane [`docs/ai/`](https://github.com/raisd-campus/control-plane/tree/main/docs/ai) (OpenAPI source of truth remains `control-plane/openapi.yaml`).

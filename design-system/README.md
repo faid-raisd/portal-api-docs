@@ -21,13 +21,21 @@ changes before their package release. Capture affected phone, tablet, and
 desktop states when their layouts differ. Keep historical provenance for
 unchanged images; update each changed image's metadata and source commit.
 
+For `system/portal-shell`, start the package's `examples/consumer` Vite fixture
+on port 4183 and run `node capture-shell.mjs <this-directory>/assets` from that
+fixture. It writes mock phone, tablet, and desktop PNGs. Review all three before
+updating their entries in `captures.json` and rebuilding the pages.
+
 From the `control-plane` root, regenerate and validate:
 
 ```sh
+# Edit docs/site-nav.yaml for Primary header + design-system in-page strip
 python scripts/build-design-system-pages.py
 python docs/sdd/_pages/build-dropdown-nav.py
 python scripts/validate-design-system.py docs
 ```
+
+Primary site navigation is **only** defined in [`docs/site-nav.yaml`](../site-nav.yaml). Do not hand-edit `<nav class="nav">` in HTML — re-run the generator so control-plane and `portal-api-docs` stay identical.
 
 Mirror the five HTML files, `styles.css`, `assets/`, and `captures.json` into
 `portal-api-docs/design-system/`, then run

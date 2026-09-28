@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
   title: Raisd Portal API
-  version: 0.3.0
+  version: 0.4.0
   summary: Stage-1 HTTP face of the campus Portal API
   description: |
     Bearer-authenticated RPC over the student-portal `PortalApi` surface.
@@ -10,7 +10,9 @@ info:
     They never talk to Postgres or the existing CMS directly.
 
     **Stage 1 behaviour**
-    - Sessions are in-memory and reuse the student-portal `MockPortalApi` engine.
+    - Sessions reuse the student-portal `MockPortalApi` engine. Session rows are
+      in memory locally and in Neon Postgres on the Vercel Demo (`sessions` in
+      `/health` and `/v1/meta` says which). Demo edits can reset on a cold instance.
     - Mutating calls return `cms.acknowledged: true` with `cms.mode: stub`.
     - CAP-53 will replace the stub with a live CMS adapter.
 
@@ -20,17 +22,22 @@ info:
     - `applicant-portal`, `lecturer-portal`, and `staff-portal` are stubs.
     - HTTP transport: `createHttpPortalApi` → `POST /v1/auth/login` then
       `POST /v1/portal/{method}` with `{ "args": [...] }`.
-    - Scenario switches in the UI recreate the client (new login); they do not
-      yet call `POST /v1/auth/scenario` or `POST /v1/auth/logout`.
+    - Scenario switches over HTTP use `POST /v1/auth/scenario` on the existing
+      bearer session (`createHttpPortalApi` / `getHttpPortalHandle`). Logout uses
+      `POST /v1/auth/logout`. Mock in-process sessions still call
+      `selectStudentScenario` locally.
 
     **Typical flow**
     1. `POST /v1/auth/login`
     2. `POST /v1/portal/{method}` with `Authorization: Bearer <accessToken>`
+    3. Optional `POST /v1/auth/scenario` to switch Demo scenarios without a new login
 
     **Blocked over HTTP (404)**
     `dispose`, `selectStudentScenario`, `runDevelopmentAction`, and any
     `_`-prefixed name. Use `POST /v1/auth/scenario` instead of
-    `selectStudentScenario`.
+    `selectStudentScenario`. Staff milestone simulation stays on student-portal
+    `/dev/admin-actions` until Live staff PortalApi methods land (see
+    `StaffProgressionDeferred`).
 
     **PortalApi methods (55)** — each appears as its own `POST /v1/portal/<method>` operation in Swagger UI.\n\n    **PortalApi method catalog (55 methods from student-portal)**
 
@@ -104,8 +111,10 @@ info:
     name: Proprietary
 
 servers:
+  - url: https://raisd-portal-api.vercel.app
+    description: Demo PoC on Vercel + Neon (stub CMS, Demo scenarios only; data may be wiped)
   - url: http://127.0.0.1:8080
-    description: Local portal-api (`npm start` in portal-api/)
+    description: Local portal-api (`npm start` in the raisd-campus/portal-api checkout)
   - url: https://api.raisd.co
     description: Planned public name (not provisioned yet)
 
@@ -166,6 +175,7 @@ paths:
                 ok: true
                 service: portal-api
                 mode: stub-session
+                sessions: postgres
                 cms: stub
                 time: "2026-09-21T09:25:12.975Z"
 
@@ -174,7 +184,7 @@ paths:
       tags: [Health]
       operationId: getOpenApiDocument
       summary: OpenAPI document
-      description: Returns this OpenAPI YAML from the control-plane repository root.
+      description: Returns this OpenAPI YAML from the control-plane repository root, or redirects to the GitHub Pages copy when the spec is not packaged (Vercel Demo).
       security: []
       responses:
         "200":
@@ -183,19 +193,15 @@ paths:
             application/yaml:
               schema:
                 type: string
-        "503":
-          description: Spec file not packaged in this deployment
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ErrorBody"
+        "302":
+          description: Redirect to https://raisd-campus.github.io/portal-api-docs/openapi.yaml
 
   /docs:
     get:
       tags: [Health]
       operationId: getSwaggerUi
       summary: Swagger UI
-      description: Interactive explorer for this API (same UI as GitHub Pages).
+      description: Interactive explorer for this API (same UI as GitHub Pages). Redirects to GitHub Pages when the HTML is not packaged (Vercel Demo).
       security: []
       responses:
         "200":
@@ -204,12 +210,8 @@ paths:
             text/html:
               schema:
                 type: string
-        "503":
-          description: Docs HTML not packaged in this deployment
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ErrorBody"
+        "302":
+          description: Redirect to https://raisd-campus.github.io/portal-api-docs/openapi.html
 
   /v1/meta:
     get:
@@ -234,9 +236,43 @@ paths:
                   - graduation-ready
                 defaultScenarioId: first-semester-registration
                 cmsMode: stub
+                sessions: postgres
                 docs: /docs
                 openapi: /openapi.yaml
                 note: Sessions use MockPortalApi until CAP-53 connects the existing CMS.
+
+
+  /v1/meta/staff-progression:
+    get:
+      tags: [Meta]
+      operationId: staffProgressionDeferred
+      summary: Describe deferred Live staff progression contracts
+      description: |
+        Documents reserved staff PortalApi method names for Immigration,
+        Graduation, Online Forms review, and Finance proof verification.
+        These are not callable in Stage 1. Demo staff advances use
+        student-portal Admin Actions (`runDevelopmentAction`, HTTP-blocked).
+      security: []
+      responses:
+        "200":
+          description: Deferred staff contract catalogue
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StaffProgressionDeferred"
+              example:
+                status: deferred
+                reservedMethods:
+                  - reviewOnlineForm
+                  - advanceImmigrationCase
+                  - verifyFinancePaymentProof
+                  - postFinanceCounterPayment
+                  - recordGraduationDepartmentDecision
+                  - approveGraduationClearance
+                  - advanceGraduationDocument
+                  - advanceGraduationStudentPass
+                note: Staff progression is Admin Actions only until Live staff PortalApi exists.
+
 
   /v1/auth/login:
     post:
@@ -275,7 +311,7 @@ paths:
       tags: [Auth]
       operationId: logout
       summary: End the current session
-      description: Available on the server; student-portal HTTP client does not call this yet.
+      description: Ends the bearer session. `createHttpPortalApi` calls this when the HTTP handle is disposed.
       security:
         - bearerAuth: []
       responses:
@@ -300,8 +336,9 @@ paths:
       summary: Switch the demo student scenario on the current session
       description: |
         Preferred remote alternative to MockPortalApi.selectStudentScenario
-        (which is blocked over HTTP). The student-portal UI currently recreates
-        the HTTP client (new login) instead of calling this endpoint.
+        (which is blocked over HTTP). The student-portal HTTP client calls this
+        endpoint via `getHttpPortalHandle().switchScenario` when switching Demo
+        scenarios.
       security:
         - bearerAuth: []
       requestBody:
@@ -358,7 +395,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/PortalCallResponse"
+                $ref: "#/components/schemas/PortalCallResponseImmigration"
         "400":
           $ref: "#/components/responses/BadRequest"
         "401":
@@ -395,7 +432,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/PortalCallResponse"
+                $ref: "#/components/schemas/PortalCallResponseOnlineForms"
         "400":
           $ref: "#/components/responses/BadRequest"
         "401":
@@ -432,7 +469,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/PortalCallResponse"
+                $ref: "#/components/schemas/PortalCallResponseOnlineFormContext"
         "400":
           $ref: "#/components/responses/BadRequest"
         "401":
@@ -469,7 +506,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/PortalCallResponse"
+                $ref: "#/components/schemas/PortalCallResponseOnlineFormSubmission"
         "400":
           $ref: "#/components/responses/BadRequest"
         "401":
@@ -506,7 +543,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/PortalCallResponse"
+                $ref: "#/components/schemas/PortalCallResponseOnlineFormSubmission"
         "400":
           $ref: "#/components/responses/BadRequest"
         "401":
@@ -546,7 +583,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/PortalCallResponse"
+                $ref: "#/components/schemas/PortalCallResponseOnlineFormSubmission"
         "400":
           $ref: "#/components/responses/BadRequest"
         "401":
@@ -584,7 +621,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/PortalCallResponse"
+                $ref: "#/components/schemas/PortalCallResponseOnlineFormSubmission"
         "400":
           $ref: "#/components/responses/BadRequest"
         "401":
@@ -621,7 +658,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/PortalCallResponse"
+                $ref: "#/components/schemas/PortalCallResponseOnlineFormSubmission"
         "400":
           $ref: "#/components/responses/BadRequest"
         "401":
@@ -662,7 +699,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/PortalCallResponse"
+                $ref: "#/components/schemas/PortalCallResponseOnlineFormSubmission"
         "400":
           $ref: "#/components/responses/BadRequest"
         "401":
@@ -700,7 +737,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/PortalCallResponse"
+                $ref: "#/components/schemas/PortalCallResponseOnlineFormSubmission"
         "400":
           $ref: "#/components/responses/BadRequest"
         "401":
@@ -1079,7 +1116,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/PortalCallResponse"
+                $ref: "#/components/schemas/PortalCallResponseGraduation"
         "400":
           $ref: "#/components/responses/BadRequest"
         "401":
@@ -1153,7 +1190,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/PortalCallResponse"
+                $ref: "#/components/schemas/PortalCallResponseModuleRegistration"
         "400":
           $ref: "#/components/responses/BadRequest"
         "401":
@@ -1193,7 +1230,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/PortalCallResponse"
+                $ref: "#/components/schemas/PortalCallResponseModuleRegistrationFeePreview"
         "400":
           $ref: "#/components/responses/BadRequest"
         "401":
@@ -1233,7 +1270,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/PortalCallResponse"
+                $ref: "#/components/schemas/PortalCallResponseModuleRegistration"
         "400":
           $ref: "#/components/responses/BadRequest"
         "401":
@@ -2140,7 +2177,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/PortalCallResponse"
+                $ref: "#/components/schemas/PortalCallResponseFinance"
         "400":
           $ref: "#/components/responses/BadRequest"
         "401":
@@ -2185,7 +2222,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/PortalCallResponse"
+                $ref: "#/components/schemas/PortalCallResponseFinance"
         "400":
           $ref: "#/components/responses/BadRequest"
         "401":
@@ -2222,7 +2259,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/PortalCallResponse"
+                $ref: "#/components/schemas/PortalCallResponseFinance"
         "400":
           $ref: "#/components/responses/BadRequest"
         "401":
@@ -2572,6 +2609,10 @@ components:
         mode:
           type: string
           example: stub-session
+        sessions:
+          type: string
+          enum: [memory, postgres]
+          description: Where session rows live. `postgres` when `DATABASE_URL` is set.
         cms:
           type: string
           example: stub
@@ -2596,6 +2637,9 @@ components:
         cmsMode:
           type: string
           example: stub
+        sessions:
+          type: string
+          enum: [memory, postgres]
         docs:
           type: string
           example: /docs
@@ -2691,8 +2735,12 @@ components:
               maxLength: 10000
             attachments:
               type: array
+              maxItems: 5
+              description: |
+                Max 5 files, 25 MiB each, 75 MiB total (enforced by Zod /
+                MockPortalApi). Matches student-portal onlineFormAttachmentsSchema.
               items:
-                type: object
+                $ref: "#/components/schemas/OnlineFormAttachment"
             clientMessageId:
               type: string
 
@@ -3012,8 +3060,9 @@ components:
           type: string
         attachments:
           type: array
+          maxItems: 5
           items:
-            type: object
+            $ref: "#/components/schemas/OnlineFormAttachment"
         programmeEnrolmentId:
           type: ["string", "null"]
 
@@ -3097,6 +3146,1191 @@ components:
         moduleRegistrationSelectionInput:
           $ref: "#/components/schemas/ModuleRegistrationSelectionInput"
 
+
+    OnlineFormAttachment:
+      type: object
+      required: [id, kind, name, mimeType, sizeBytes, sizeLabel]
+      description: |
+        Online Forms / chat-style message attachment metadata.
+        Constraints: sizeBytes <= 26214400 (25 MiB); arrays max 5 items and
+        78643200 bytes total. Image kind requires a safe raster MIME type.
+      properties:
+        id:
+          type: string
+          minLength: 1
+        kind:
+          type: string
+          enum: [image, file]
+        name:
+          type: string
+          minLength: 1
+        mimeType:
+          type: string
+        sizeBytes:
+          type: integer
+          minimum: 0
+          maximum: 26214400
+        sizeLabel:
+          type: string
+          minLength: 1
+        src:
+          type: string
+          description: "Optional blob: preview URL for safe inline images (session-only)"
+
+    ImmigrationCaseStatus:
+      type: string
+      enum:
+        - submitted
+        - information-required
+        - rejected
+        - documents-accepted
+        - emgs-processing
+        - eval-approved
+        - arrival-medical
+        - awaiting-passport
+        - passport-received
+        - endorsement-processing
+        - cancellation-processing
+        - cancelled
+        - ready-for-collection
+        - completed
+
+    ImmigrationCaseType:
+      type: string
+      enum: [new, renewal, cancellation]
+
+    OnlineFormStatus:
+      type: string
+      enum: [draft, submitted, under-review, completed, rejected, withdrawn]
+
+    FinanceInvoiceStatus:
+      type: string
+      enum: [unpaid, partially-paid, paid, void]
+
+    FinanceProofStatus:
+      type: string
+      enum: [pending, verified, rejected]
+
+    GraduationStudentPassStatus:
+      type: string
+      description: |
+        Graduation hub projection of a graduation-triggered Immigration
+        cancellation. Immigration `completed` maps to `passport-returned`
+        (see student-portal immigration-graduation-projection.ts).
+      enum:
+        - awaiting-handover
+        - passport-received
+        - cancellation-processing
+        - cancelled
+        - ready-for-collection
+        - passport-returned
+
+    ImmigrationStepValue:
+      type: string
+      enum: ["1", "2", "3", "4", "5"]
+
+    ImmigrationResponse:
+      type: object
+      description: Demo wire contract for getImmigration (Zod immigrationResponseSchema).
+      required:
+        - studentProfileId
+        - programmeEnrolmentId
+        - campusId
+        - timeZone
+        - configured
+        - applicable
+        - officeName
+        - passportCollectionLocation
+        - currentPass
+        - applicationActions
+        - case
+        - steps
+        - recommendedStep
+      properties:
+        studentProfileId: { type: string, minLength: 1 }
+        programmeEnrolmentId: { type: string, minLength: 1 }
+        campusId: { type: string, minLength: 1 }
+        timeZone: { type: string, minLength: 1 }
+        configured: { type: boolean }
+        applicable: { type: boolean }
+        officeName: { type: ["string", "null"] }
+        passportCollectionLocation: { type: ["string", "null"] }
+        currentPass:
+          type: ["object", "null"]
+          required: [id, passType, passNumber, passportNumber, passportExpiresOn, passExpiresOn, status, cancelledAt]
+          properties:
+            id: { type: string, minLength: 1 }
+            passType: { type: string, minLength: 1 }
+            passNumber: { type: string, minLength: 1 }
+            passportNumber: { type: string, minLength: 1 }
+            passportExpiresOn: { type: string, format: date }
+            passExpiresOn: { type: string, format: date }
+            status: { type: string, enum: [valid, expiring, expired, cancelled] }
+            cancelledAt: { type: ["string", "null"], format: date-time }
+        applicationActions:
+          type: array
+          items:
+            type: object
+            required: [caseType, formId, label, available, reason]
+            properties:
+              caseType: { $ref: "#/components/schemas/ImmigrationCaseType" }
+              formId: { type: string, minLength: 1 }
+              label: { type: string, minLength: 1 }
+              available: { type: boolean }
+              reason: { type: ["string", "null"] }
+        case:
+          type: ["object", "null"]
+          description: Extended Immigration case with invoice, documents, events, progress, medical form link
+          required:
+            - id
+            - studentProfileId
+            - programmeEnrolmentId
+            - campusId
+            - caseType
+            - trigger
+            - formSubmissionId
+            - visaPassId
+            - invoiceId
+            - feeWaived
+            - status
+            - submittedAt
+            - updatedAt
+            - completedAt
+            - updatedPassExpiresOn
+            - medicalResult
+            - revision
+            - reference
+            - invoice
+            - invoicePaid
+            - documents
+            - events
+            - progress
+            - medicalFormSubmission
+          properties:
+            id: { type: string, minLength: 1 }
+            studentProfileId: { type: string, minLength: 1 }
+            programmeEnrolmentId: { type: string, minLength: 1 }
+            campusId: { type: string, minLength: 1 }
+            caseType: { $ref: "#/components/schemas/ImmigrationCaseType" }
+            trigger: { type: string, enum: [student-requested, graduation, university-directed] }
+            formSubmissionId: { type: ["string", "null"] }
+            visaPassId: { type: ["string", "null"] }
+            invoiceId: { type: ["string", "null"] }
+            feeWaived: { type: boolean }
+            status: { $ref: "#/components/schemas/ImmigrationCaseStatus" }
+            submittedAt: { type: string, format: date-time }
+            updatedAt: { type: string, format: date-time }
+            completedAt: { type: ["string", "null"], format: date-time }
+            updatedPassExpiresOn: { type: ["string", "null"], format: date }
+            medicalResult:
+              type: ["object", "null"]
+              required: [id, name, mimeType, sizeBytes, submittedAt]
+              properties:
+                id: { type: string, minLength: 1 }
+                name: { type: string, minLength: 1 }
+                mimeType: { type: string, minLength: 1 }
+                sizeBytes: { type: integer, minimum: 1 }
+                submittedAt: { type: string, format: date-time }
+            revision: { type: integer, minimum: 0 }
+            reference: { type: ["string", "null"] }
+            invoice: { oneOf: [{ $ref: "#/components/schemas/FinanceInvoice" }, { type: "null" }] }
+            invoicePaid: { type: boolean }
+            documents:
+              type: array
+              items: { $ref: "#/components/schemas/ImmigrationDocumentCheck" }
+            events:
+              type: array
+              items: { $ref: "#/components/schemas/ImmigrationCaseEvent" }
+            progress:
+              type: array
+              minItems: 1
+              items: { $ref: "#/components/schemas/ImmigrationProgressMilestone" }
+            medicalFormSubmission:
+              type: ["object", "null"]
+              required: [id, status]
+              properties:
+                id: { type: string, minLength: 1 }
+                status: { $ref: "#/components/schemas/OnlineFormStatus" }
+        steps:
+          type: array
+          minItems: 3
+          maxItems: 5
+          items:
+            type: object
+            required: [value, label, title, complete, available]
+            properties:
+              value: { $ref: "#/components/schemas/ImmigrationStepValue" }
+              label: { type: string, minLength: 1 }
+              title: { type: string, minLength: 1 }
+              complete: { type: boolean }
+              available: { type: boolean }
+        recommendedStep: { $ref: "#/components/schemas/ImmigrationStepValue" }
+
+    ImmigrationDocumentCheck:
+      type: object
+      required: [id, immigrationCaseId, label, status, note, updatedAt]
+      properties:
+        id: { type: string, minLength: 1 }
+        immigrationCaseId: { type: string, minLength: 1 }
+        label: { type: string, minLength: 1 }
+        status: { type: string, enum: [pending, action-required, accepted] }
+        note: { type: string }
+        updatedAt: { type: string, format: date-time }
+
+    ImmigrationCaseEvent:
+      type: object
+      required: [id, immigrationCaseId, status, label, occurredAt]
+      properties:
+        id: { type: string, minLength: 1 }
+        immigrationCaseId: { type: string, minLength: 1 }
+        status: { $ref: "#/components/schemas/ImmigrationCaseStatus" }
+        label: { type: string, minLength: 1 }
+        occurredAt: { type: string, format: date-time }
+
+    ImmigrationProgressMilestone:
+      type: object
+      required: [id, label, state, statusLabel, occurredAt]
+      properties:
+        id: { type: string, minLength: 1 }
+        label: { type: string, minLength: 1 }
+        state: { type: string, enum: [completed, current, upcoming] }
+        statusLabel: { type: string, minLength: 1 }
+        occurredAt: { type: ["string", "null"], format: date-time }
+
+    AcademicGraduationResponse:
+      type: object
+      description: Demo wire contract for getAcademicGraduation.
+      required:
+        - studentProfileId
+        - programmeEnrolmentId
+        - campusId
+        - timeZone
+        - configured
+        - collectionLocation
+        - academicCompletedOn
+        - eligibility
+        - process
+        - application
+        - invoice
+        - accountSettled
+        - convocation
+        - complete
+      properties:
+        studentProfileId: { type: string, minLength: 1 }
+        programmeEnrolmentId: { type: string, minLength: 1 }
+        campusId: { type: string, minLength: 1 }
+        timeZone: { type: string, minLength: 1 }
+        configured: { type: boolean }
+        collectionLocation: { type: ["string", "null"] }
+        academicCompletedOn: { type: ["string", "null"], format: date }
+        eligibility:
+          type: object
+          required: [eligible, checks]
+          properties:
+            eligible: { type: boolean }
+            checks:
+              type: array
+              items:
+                type: object
+                required: [id, label, met, detail]
+                properties:
+                  id: { type: string }
+                  label: { type: string }
+                  met: { type: boolean }
+                  detail: { type: string }
+        process:
+          type: ["object", "null"]
+          required:
+            - id
+            - studentProfileId
+            - programmeEnrolmentId
+            - campusId
+            - clearanceSubmissionId
+            - approvedAt
+            - invoiceId
+            - convocationSubmissionId
+            - checks
+            - documents
+            - studentPass
+            - createdAt
+            - revision
+          properties:
+            id: { type: string, minLength: 1 }
+            studentProfileId: { type: string, minLength: 1 }
+            programmeEnrolmentId: { type: string, minLength: 1 }
+            campusId: { type: string, minLength: 1 }
+            clearanceSubmissionId: { type: string, minLength: 1 }
+            approvedAt: { type: ["string", "null"], format: date-time }
+            invoiceId: { type: ["string", "null"] }
+            convocationSubmissionId: { type: ["string", "null"] }
+            checks:
+              type: array
+              minItems: 3
+              maxItems: 3
+              items: { $ref: "#/components/schemas/GraduationClearanceCheck" }
+            documents:
+              type: array
+              minItems: 3
+              maxItems: 3
+              items: { $ref: "#/components/schemas/GraduationDocument" }
+            studentPass:
+              type: ["object", "null"]
+              required: [visaPassId, immigrationCaseId, status, updatedAt]
+              properties:
+                visaPassId: { type: string, minLength: 1 }
+                immigrationCaseId: { type: ["string", "null"] }
+                status: { $ref: "#/components/schemas/GraduationStudentPassStatus" }
+                updatedAt: { type: string, format: date-time }
+            createdAt: { type: string, format: date-time }
+            revision: { type: integer, minimum: 0 }
+        application: { oneOf: [{ $ref: "#/components/schemas/OnlineFormSummary" }, { type: "null" }] }
+        invoice: { oneOf: [{ $ref: "#/components/schemas/FinanceInvoice" }, { type: "null" }] }
+        accountSettled: { type: boolean }
+        convocation:
+          type: ["object", "null"]
+          required: [submission, attendance, gownSize]
+          properties:
+            submission: { $ref: "#/components/schemas/OnlineFormSummary" }
+            attendance: { type: ["string", "null"] }
+            gownSize: { type: ["string", "null"] }
+        complete: { type: boolean }
+
+    GraduationClearanceCheck:
+      type: object
+      required: [id, department, status, note, updatedAt]
+      properties:
+        id: { type: string, minLength: 1 }
+        department: { type: string, enum: [Faculty, Finance, Library] }
+        status: { type: string, enum: [pending, action-required, cleared] }
+        note: { type: string }
+        updatedAt: { type: string, format: date-time }
+
+    GraduationDocument:
+      type: object
+      required: [id, title, status, updatedAt, collectedAt]
+      properties:
+        id: { type: string, minLength: 1 }
+        title: { type: string, enum: ["Completion letter", Transcript, Scroll] }
+        status: { type: string, enum: [not-started, preparing, ready, collected] }
+        updatedAt: { type: string, format: date-time }
+        collectedAt: { type: ["string", "null"], format: date-time }
+
+    ModuleRegistrationConfirmationAccess:
+      oneOf:
+        - type: object
+          required: [code, canConfirm, reason]
+          properties:
+            code: { type: string, const: available }
+            canConfirm: { type: boolean, const: true }
+            reason: { type: "null" }
+        - type: object
+          required: [code, canConfirm, reason]
+          properties:
+            code:
+              type: string
+              enum:
+                - new-pass-application-required
+                - eval-approval-required
+                - student-pass-expired
+                - student-pass-cancelled
+                - immigration-unavailable
+                - enrolment-inactive
+            canConfirm: { type: boolean, const: false }
+            reason: { type: string, minLength: 1 }
+
+    ModuleRegistrationStudentPassProgress:
+      type: object
+      required: [state, caseStatus]
+      properties:
+        state:
+          type: string
+          enum:
+            - not-required
+            - current
+            - new-application-required
+            - pre-eval
+            - post-eval
+            - rejected
+            - expired
+            - cancelled
+            - unavailable
+        caseStatus:
+          oneOf:
+            - $ref: "#/components/schemas/ImmigrationCaseStatus"
+            - type: "null"
+
+    PortalProgramme:
+      type: object
+      required: [id, title, facultyName, totalSemesterCount]
+      properties:
+        id: { type: string, minLength: 1 }
+        title: { type: string, minLength: 1 }
+        facultyName: { type: string, minLength: 1 }
+        totalSemesterCount: { type: integer, minimum: 1 }
+
+    PortalSemester:
+      type: object
+      required: [id, semesterNumber, label, startsAt, endsAt, registrationOpensAt, registrationClosesAt]
+      properties:
+        id: { type: string, minLength: 1 }
+        semesterNumber: { type: integer, minimum: 1 }
+        label: { type: string, minLength: 1 }
+        startsAt: { type: string, format: date-time }
+        endsAt: { type: string, format: date-time }
+        registrationOpensAt: { type: string, format: date-time }
+        registrationClosesAt: { type: string, format: date-time }
+
+    PortalLecturer:
+      type: object
+      required: [id, displayName, avatarUrl]
+      properties:
+        id: { type: string, minLength: 1 }
+        displayName: { type: string, minLength: 1 }
+        avatarUrl: { type: ["string", "null"], format: uri }
+
+    PortalTimetableEntry:
+      type: object
+      required: [id, moduleId, semesterId, title, location, dayOfWeek, startsAtLocal, endsAtLocal, effectiveFrom, effectiveTo]
+      properties:
+        id: { type: string, minLength: 1 }
+        moduleId: { type: string, minLength: 1 }
+        semesterId: { type: string, minLength: 1 }
+        title: { type: string, minLength: 1 }
+        location: { type: string, minLength: 1 }
+        dayOfWeek: { type: integer, minimum: 1, maximum: 7 }
+        startsAtLocal: { type: string, pattern: "^([01]\\d|2[0-3]):[0-5]\\d$" }
+        endsAtLocal: { type: string, pattern: "^([01]\\d|2[0-3]):[0-5]\\d$" }
+        effectiveFrom: { type: string, format: date }
+        effectiveTo: { type: string, format: date }
+
+    RegistrationPrerequisite:
+      type: object
+      required: [moduleId, code, title, minimumGrade, isMet]
+      properties:
+        moduleId: { type: string, minLength: 1 }
+        code: { type: string, minLength: 1 }
+        title: { type: string, minLength: 1 }
+        minimumGrade: { type: ["string", "null"] }
+        isMet: { type: boolean }
+
+    RegistrationOffering:
+      type: object
+      required: [id, moduleId, sectionCode, deliveryMode, lecturers, timetable]
+      properties:
+        id: { type: string, minLength: 1 }
+        moduleId: { type: string, minLength: 1 }
+        sectionCode: { type: string, minLength: 1 }
+        deliveryMode: { type: string, enum: [online, physical, hybrid] }
+        lecturers:
+          type: array
+          items: { $ref: "#/components/schemas/PortalLecturer" }
+        timetable:
+          type: array
+          items: { $ref: "#/components/schemas/PortalTimetableEntry" }
+
+    RegistrationCandidateModule:
+      type: object
+      required:
+        - curriculumModuleId
+        - moduleId
+        - code
+        - title
+        - requirementType
+        - creditHours
+        - candidateType
+        - prerequisites
+        - eligibility
+        - eligibilityReason
+        - offerings
+      properties:
+        curriculumModuleId: { type: string, minLength: 1 }
+        moduleId: { type: string, minLength: 1 }
+        code: { type: string, minLength: 1 }
+        title: { type: string, minLength: 1 }
+        requirementType: { type: string, enum: [core, elective] }
+        creditHours: { type: integer, minimum: 1 }
+        candidateType: { type: string, enum: [recommended, required-repeat] }
+        prerequisites:
+          type: array
+          items: { $ref: "#/components/schemas/RegistrationPrerequisite" }
+        eligibility: { type: string, enum: [eligible, prerequisite-not-met] }
+        eligibilityReason: { type: ["string", "null"] }
+        offerings:
+          type: array
+          minItems: 1
+          items: { $ref: "#/components/schemas/RegistrationOffering" }
+
+    ConfirmedModuleRegistration:
+      type: object
+      required: [id, moduleOfferingId, registeredAt]
+      properties:
+        id: { type: string, minLength: 1 }
+        moduleOfferingId: { type: string, minLength: 1 }
+        registeredAt: { type: string, format: date-time }
+
+    AcademicModuleRegistrationResponse:
+      type: object
+      description: Demo wire contract for getAcademicModuleRegistration / confirmModuleRegistrations.
+      required:
+        - studentId
+        - programme
+        - semester
+        - studyPeriodId
+        - studyPeriodStatus
+        - timeZone
+        - confirmationAccess
+        - studentPassProgress
+        - policy
+        - candidates
+        - registrations
+      properties:
+        studentId: { type: string, minLength: 1 }
+        programme: { $ref: "#/components/schemas/PortalProgramme" }
+        semester: { $ref: "#/components/schemas/PortalSemester" }
+        studyPeriodId: { type: string, minLength: 1 }
+        studyPeriodStatus:
+          type: string
+          enum: [completed, current, planned, deferred]
+        timeZone: { type: string, minLength: 1 }
+        confirmationAccess: { $ref: "#/components/schemas/ModuleRegistrationConfirmationAccess" }
+        studentPassProgress: { $ref: "#/components/schemas/ModuleRegistrationStudentPassProgress" }
+        policy:
+          type: object
+          required: [minimumCredits, standardMaximumCredits, effectiveMaximumCredits, creditLoadOverrideId]
+          properties:
+            minimumCredits: { type: integer, minimum: 1 }
+            standardMaximumCredits: { type: integer, minimum: 1 }
+            effectiveMaximumCredits: { type: integer, minimum: 1 }
+            creditLoadOverrideId: { type: ["string", "null"] }
+        candidates:
+          type: array
+          items: { $ref: "#/components/schemas/RegistrationCandidateModule" }
+        registrations:
+          type: array
+          items: { $ref: "#/components/schemas/ConfirmedModuleRegistration" }
+
+    ModuleRegistrationFeePreviewResponse:
+      type: object
+      required:
+        - studyPeriodId
+        - currencyCode
+        - tuitionAmountMinor
+        - registrationAmountMinor
+        - totalAmountMinor
+        - eligibleAwardCreditMinor
+        - serviceTaxMinor
+        - amountDueMinor
+      properties:
+        studyPeriodId: { type: string }
+        currencyCode: { type: string, pattern: "^[A-Z]{3}$" }
+        tuitionAmountMinor: { type: integer, minimum: 0 }
+        registrationAmountMinor: { type: integer, minimum: 0 }
+        totalAmountMinor: { type: integer, minimum: 0 }
+        eligibleAwardCreditMinor: { type: integer, minimum: 0 }
+        serviceTaxMinor: { type: integer, minimum: 0 }
+        amountDueMinor: { type: integer, minimum: 0 }
+
+    OnlineFormField:
+      type: object
+      required: [id, label, type, required, section, description, maxLength, maxFiles, acceptedMimeTypes]
+      properties:
+        id: { type: string, minLength: 1 }
+        label: { type: string, minLength: 1 }
+        type: { type: string, enum: [text, textarea, date, result, upload, select] }
+        required: { type: boolean }
+        options:
+          type: array
+          items:
+            type: object
+            required: [value, label]
+            properties:
+              value: { type: string, minLength: 1 }
+              label: { type: string, minLength: 1 }
+        requiredWhen:
+          type: object
+          required: [fieldId, value]
+          properties:
+            fieldId: { type: string, minLength: 1 }
+            value: { type: string, minLength: 1 }
+        section: { type: string, minLength: 1 }
+        description: { type: ["string", "null"] }
+        maxLength: { type: ["integer", "null"], minimum: 1 }
+        maxFiles: { type: ["integer", "null"], minimum: 1, maximum: 5 }
+        acceptedMimeTypes:
+          type: ["array", "null"]
+          items: { type: string, minLength: 1 }
+          minItems: 1
+        evidenceKind:
+          type: ["string", "null"]
+          enum: [passport-copy, passport-photo, offer-letter, academic-records, english-language, null]
+
+    OnlineFormDefinition:
+      type: object
+      required: [id, campusId, version, title, description, category, department, displayOrder, eligibility, includeGraduationSummary, fields]
+      properties:
+        id: { type: string, minLength: 1 }
+        campusId: { type: string, minLength: 1 }
+        version: { type: integer, minimum: 1 }
+        title: { type: string, minLength: 1 }
+        description: { type: string, minLength: 1 }
+        category: { type: string, enum: [Academic, Immigration, "Student Support"] }
+        department: { type: string, minLength: 1 }
+        displayOrder: { type: integer, minimum: 0 }
+        eligibility:
+          type: string
+          enum:
+            - all
+            - new-student-pass
+            - visa-renewal
+            - visa-cancellation
+            - immigration-medical-result
+            - published-result
+            - graduation
+            - convocation
+        includeGraduationSummary: { type: boolean }
+        fields:
+          type: array
+          minItems: 1
+          items: { $ref: "#/components/schemas/OnlineFormField" }
+
+    OnlineFormPrefillItem:
+      type: object
+      required: [label, value]
+      properties:
+        label: { type: string, minLength: 1 }
+        value: { type: string }
+
+    OnlineFormOwnedEvidence:
+      type: object
+      required: [fieldId, sourceLabel, documents]
+      properties:
+        fieldId: { type: string, minLength: 1 }
+        sourceLabel: { type: string, minLength: 1 }
+        documents:
+          type: array
+          minItems: 1
+          items:
+            type: object
+            required: [id, name, sizeBytes]
+            properties:
+              id: { type: string, minLength: 1 }
+              name: { type: string, minLength: 1 }
+              sizeBytes: { type: ["integer", "null"], minimum: 0 }
+
+    OnlineFormStatusEvent:
+      type: object
+      required: [id, status, label, occurredAt]
+      properties:
+        id: { type: string, minLength: 1 }
+        status: { $ref: "#/components/schemas/OnlineFormStatus" }
+        label: { type: string, minLength: 1 }
+        occurredAt: { type: string, format: date-time }
+
+    OnlineFormResultOption:
+      type: object
+      required: [value, label, moduleCode, semester, mark, attempt]
+      properties:
+        value: { type: string, minLength: 1 }
+        label: { type: string, minLength: 1 }
+        moduleCode: { type: string, minLength: 1 }
+        semester: { type: string, minLength: 1 }
+        mark: { type: string, minLength: 1 }
+        attempt: { type: integer, minimum: 1 }
+
+    OnlineFormMessage:
+      type: object
+      required: [id, submissionId, sequence, sender, senderName, text, attachments, sentAt]
+      properties:
+        id: { type: string, minLength: 1 }
+        submissionId: { type: string, minLength: 1 }
+        sequence: { type: integer, minimum: 1 }
+        sender: { type: string, enum: [student, reviewer] }
+        senderName: { type: string, minLength: 1 }
+        text: { type: string, maxLength: 10000 }
+        attachments:
+          type: array
+          items: { $ref: "#/components/schemas/OnlineFormAttachment" }
+        sentAt: { type: string, format: date-time }
+
+    OnlineFormSubmission:
+      type: object
+      required:
+        - id
+        - formId
+        - studentProfileId
+        - programmeEnrolmentId
+        - form
+        - prefill
+        - answers
+        - revision
+        - evidenceSnapshot
+        - status
+        - reference
+        - createdAt
+        - updatedAt
+        - submittedAt
+        - statusEvents
+        - messages
+        - readThroughSequence
+        - outcome
+        - visaPassId
+        - moduleRegistrationId
+        - immigrationCaseId
+        - resultSnapshot
+      properties:
+        id: { type: string, minLength: 1 }
+        formId: { type: string, minLength: 1 }
+        studentProfileId: { type: string, minLength: 1 }
+        programmeEnrolmentId: { type: string, minLength: 1 }
+        form: { $ref: "#/components/schemas/OnlineFormDefinition" }
+        prefill:
+          type: array
+          items: { $ref: "#/components/schemas/OnlineFormPrefillItem" }
+        answers:
+          type: object
+          additionalProperties:
+            oneOf:
+              - type: string
+                maxLength: 10000
+              - type: array
+                items: { $ref: "#/components/schemas/OnlineFormAttachment" }
+        revision: { type: integer, minimum: 0 }
+        evidenceSnapshot:
+          type: array
+          items: { $ref: "#/components/schemas/OnlineFormOwnedEvidence" }
+        status: { $ref: "#/components/schemas/OnlineFormStatus" }
+        reference: { type: ["string", "null"] }
+        createdAt: { type: string, format: date-time }
+        updatedAt: { type: string, format: date-time }
+        submittedAt: { type: ["string", "null"], format: date-time }
+        statusEvents:
+          type: array
+          items: { $ref: "#/components/schemas/OnlineFormStatusEvent" }
+        messages:
+          type: array
+          items: { $ref: "#/components/schemas/OnlineFormMessage" }
+        readThroughSequence: { type: integer, minimum: 0 }
+        outcome: { type: ["string", "null"] }
+        visaPassId: { type: ["string", "null"] }
+        moduleRegistrationId: { type: ["string", "null"] }
+        immigrationCaseId: { type: ["string", "null"] }
+        resultSnapshot: { oneOf: [{ $ref: "#/components/schemas/OnlineFormResultOption" }, { type: "null" }] }
+
+    OnlineFormSummary:
+      type: object
+      required: [id, formId, title, category, department, status, reference, updatedAt, unreadCount]
+      properties:
+        id: { type: string, minLength: 1 }
+        formId: { type: string, minLength: 1 }
+        title: { type: string, minLength: 1 }
+        category: { type: string, minLength: 1 }
+        department: { type: string, minLength: 1 }
+        status: { $ref: "#/components/schemas/OnlineFormStatus" }
+        reference: { type: ["string", "null"] }
+        updatedAt: { type: string, format: date-time }
+        unreadCount: { type: integer, minimum: 0 }
+
+    OnlineFormContext:
+      type: object
+      description: Demo wire contract for getOnlineForm (nullable).
+      required: [timeZone, form, availability, prefill, evidence, resultOptions, draftId]
+      properties:
+        timeZone: { type: string, minLength: 1 }
+        form: { $ref: "#/components/schemas/OnlineFormDefinition" }
+        availability:
+          type: object
+          required: [eligible, reason]
+          properties:
+            eligible: { type: boolean }
+            reason: { type: ["string", "null"] }
+        prefill:
+          type: array
+          items: { $ref: "#/components/schemas/OnlineFormPrefillItem" }
+        evidence:
+          type: array
+          items: { $ref: "#/components/schemas/OnlineFormOwnedEvidence" }
+        resultOptions:
+          type: array
+          items: { $ref: "#/components/schemas/OnlineFormResultOption" }
+        draftId: { type: ["string", "null"] }
+
+    OnlineFormsResponse:
+      type: object
+      description: Demo wire contract for getOnlineForms.
+      required: [campusId, timeZone, forms, submissions, unreadCaseCount]
+      properties:
+        campusId: { type: string, minLength: 1 }
+        timeZone: { type: string, minLength: 1 }
+        forms:
+          type: array
+          items: { $ref: "#/components/schemas/OnlineFormContext" }
+        submissions:
+          type: array
+          items: { $ref: "#/components/schemas/OnlineFormSummary" }
+        unreadCaseCount: { type: integer, minimum: 0 }
+
+    OnlineFormSubmissionResponse:
+      type: object
+      description: Demo wire contract for Online Forms mutation/read methods.
+      required: [submission, context]
+      properties:
+        submission: { $ref: "#/components/schemas/OnlineFormSubmission" }
+        context: { $ref: "#/components/schemas/OnlineFormContext" }
+
+    FeeCategory:
+      type: string
+      enum:
+        - tuition
+        - registration
+        - books
+        - resource
+        - international-services
+        - repeat-administration
+        - other
+
+    FinanceInvoiceServiceTax:
+      type: object
+      required: [outcome, taxableBaseMinor, rateBasisPoints, amountMinor, exemptionReason]
+      properties:
+        outcome: { type: string, enum: [charged, exempt, not-applicable] }
+        taxableBaseMinor: { type: integer, minimum: 0 }
+        rateBasisPoints: { type: integer, minimum: 0 }
+        amountMinor: { type: integer, minimum: 0 }
+        exemptionReason:
+          type: ["string", "null"]
+          enum: [books, transport, food-beverage, refundable-deposit, study-tour, student-pass-visa, other, null]
+
+    FinanceInvoice:
+      type: object
+      required:
+        - id
+        - invoiceNumber
+        - category
+        - title
+        - semester
+        - issuedAt
+        - currencyCode
+        - subtotalMinor
+        - totalMinor
+        - balanceMinor
+        - status
+        - proofPending
+        - chargeLines
+        - serviceTax
+      properties:
+        id: { type: string, minLength: 1 }
+        invoiceNumber: { type: string, pattern: "^INV-\\d{6}$" }
+        category: { $ref: "#/components/schemas/FeeCategory" }
+        title: { type: string, minLength: 1 }
+        semester:
+          type: ["object", "null"]
+          required: [id, number, label]
+          properties:
+            id: { type: string, minLength: 1 }
+            number: { type: integer, minimum: 1 }
+            label: { type: string, minLength: 1 }
+        issuedAt: { type: string, format: date-time }
+        currencyCode: { type: string, pattern: "^[A-Z]{3}$" }
+        subtotalMinor: { type: integer, minimum: 0 }
+        totalMinor: { type: integer, minimum: 0 }
+        balanceMinor: { type: integer, minimum: 0 }
+        status: { $ref: "#/components/schemas/FinanceInvoiceStatus" }
+        proofPending: { type: boolean }
+        chargeLines:
+          type: array
+          minItems: 1
+          items:
+            type: object
+            required: [id, description, amountMinor]
+            properties:
+              id: { type: string, minLength: 1 }
+              description: { type: string, minLength: 1 }
+              amountMinor: { type: integer, minimum: 0 }
+        serviceTax: { $ref: "#/components/schemas/FinanceInvoiceServiceTax" }
+
+    FinancePaymentProof:
+      type: object
+      required:
+        - id
+        - invoiceId
+        - invoiceNumber
+        - transferAmountMinor
+        - transferDate
+        - bankReference
+        - fileName
+        - mimeType
+        - sizeBytes
+        - submittedAt
+        - status
+        - reviewedAt
+        - reviewNote
+        - paymentId
+      properties:
+        id: { type: string, minLength: 1 }
+        invoiceId: { type: string, minLength: 1 }
+        invoiceNumber: { type: string, pattern: "^INV-\\d{6}$" }
+        transferAmountMinor: { type: integer, minimum: 1 }
+        transferDate: { type: string, format: date }
+        bankReference: { type: string, minLength: 1 }
+        fileName: { type: string, minLength: 1 }
+        mimeType: { type: string, enum: ["application/pdf", "image/jpeg", "image/png"] }
+        sizeBytes: { type: integer, minimum: 1 }
+        submittedAt: { type: string, format: date-time }
+        status: { $ref: "#/components/schemas/FinanceProofStatus" }
+        reviewedAt: { type: ["string", "null"], format: date-time }
+        reviewNote: { type: ["string", "null"] }
+        paymentId: { type: ["string", "null"] }
+
+    FinancePayment:
+      type: object
+      required: [id, reference, paidAt, amountMinor, currencyCode, method, status, unappliedMinor, allocations]
+      properties:
+        id: { type: string, minLength: 1 }
+        reference: { type: string, minLength: 1 }
+        paidAt: { type: string, format: date-time }
+        amountMinor: { type: integer, minimum: 1 }
+        currencyCode: { type: string, pattern: "^[A-Z]{3}$" }
+        method: { type: string, enum: [bank-transfer, card, cash] }
+        status: { type: string, enum: [confirmed, reversed] }
+        unappliedMinor: { type: integer, minimum: 0 }
+        allocations:
+          type: array
+          items:
+            type: object
+            required: [invoiceId, invoiceNumber, amountMinor]
+            properties:
+              invoiceId: { type: string, minLength: 1 }
+              invoiceNumber: { type: string, pattern: "^INV-\\d{6}$" }
+              amountMinor: { type: integer, minimum: 1 }
+
+    FinanceAdjustment:
+      type: object
+      required:
+        - id
+        - invoiceId
+        - invoiceNumber
+        - studentFundingBenefitId
+        - studentFundingAwardId
+        - studentFundingAwardName
+        - kind
+        - reason
+        - amountMinor
+        - appliedAt
+      properties:
+        id: { type: string, minLength: 1 }
+        invoiceId: { type: ["string", "null"] }
+        invoiceNumber: { type: ["string", "null"], pattern: "^INV-\\d{6}$" }
+        studentFundingBenefitId: { type: ["string", "null"] }
+        studentFundingAwardId: { type: ["string", "null"] }
+        studentFundingAwardName: { type: ["string", "null"] }
+        kind: { type: string, enum: [credit, debit] }
+        reason: { type: string, minLength: 1 }
+        amountMinor: { type: integer, minimum: 1 }
+        appliedAt: { type: string, format: date-time }
+
+    FinanceAwardPeriod:
+      type: object
+      required: [id, number, label]
+      properties:
+        id: { type: string, minLength: 1 }
+        number: { type: integer, minimum: 1 }
+        label: { type: string, minLength: 1 }
+
+    FinanceAwardBenefit:
+      oneOf:
+        - type: object
+          required: [id, type, label, feeCategory, percentage, appliedCreditMinor]
+          properties:
+            id: { type: string, minLength: 1 }
+            type: { type: string, const: percentage-fee }
+            label: { type: string, minLength: 1 }
+            feeCategory: { $ref: "#/components/schemas/FeeCategory" }
+            percentage: { type: number, exclusiveMinimum: 0, maximum: 100 }
+            appliedCreditMinor: { type: integer, minimum: 0 }
+        - type: object
+          required: [id, type, label, feeCategory, amountMinor, currencyCode, appliedCreditMinor]
+          properties:
+            id: { type: string, minLength: 1 }
+            type: { type: string, const: fixed-fee }
+            label: { type: string, minLength: 1 }
+            feeCategory: { $ref: "#/components/schemas/FeeCategory" }
+            amountMinor: { type: integer, minimum: 1 }
+            currencyCode: { type: string, pattern: "^[A-Z]{3}$" }
+            appliedCreditMinor: { type: integer, minimum: 0 }
+        - type: object
+          required: [id, type, label, amountMinor, currencyCode, frequency, appliedCreditMinor]
+          properties:
+            id: { type: string, minLength: 1 }
+            type: { type: string, const: allowance-information }
+            label: { type: string, minLength: 1 }
+            amountMinor: { type: integer, minimum: 1 }
+            currencyCode: { type: string, pattern: "^[A-Z]{3}$" }
+            frequency: { type: string, enum: [one-off, monthly, semesterly, annually] }
+            appliedCreditMinor: { type: integer, const: 0 }
+
+    FinanceRenewalCondition:
+      type: object
+      required: [id, type, label, threshold, state, currentValue]
+      properties:
+        id: { type: string, minLength: 1 }
+        type: { type: string, enum: [minimum-cgpa, minimum-semester-gpa] }
+        label: { type: string, minLength: 1 }
+        threshold: { type: number, minimum: 0, maximum: 4 }
+        state: { type: string, enum: [met, not-met, pending] }
+        currentValue: { type: ["number", "null"], minimum: 0, maximum: 4 }
+
+    FinanceAward:
+      type: object
+      required:
+        - id
+        - name
+        - kind
+        - renewable
+        - status
+        - startPeriod
+        - endPeriod
+        - awardedAt
+        - benefits
+        - appliedCreditTotalMinor
+        - renewalState
+        - renewalConditions
+        - renewalEvidence
+      properties:
+        id: { type: string, minLength: 1 }
+        name: { type: string, minLength: 1 }
+        kind: { type: string, enum: [scholarship, incentive] }
+        renewable: { type: boolean }
+        status: { type: string, enum: [active, upcoming, completed, suspended, cancelled] }
+        startPeriod: { $ref: "#/components/schemas/FinanceAwardPeriod" }
+        endPeriod: { oneOf: [{ $ref: "#/components/schemas/FinanceAwardPeriod" }, { type: "null" }] }
+        awardedAt: { type: string, format: date-time }
+        benefits:
+          type: array
+          minItems: 1
+          items: { $ref: "#/components/schemas/FinanceAwardBenefit" }
+        appliedCreditTotalMinor: { type: integer, minimum: 0 }
+        renewalState: { type: string, enum: [met, not-met, pending, not-applicable] }
+        renewalConditions:
+          type: array
+          items: { $ref: "#/components/schemas/FinanceRenewalCondition" }
+        renewalEvidence:
+          type: ["object", "null"]
+          required: [studyPeriod, publishedAt, gpa, cgpa]
+          properties:
+            studyPeriod: { $ref: "#/components/schemas/FinanceAwardPeriod" }
+            publishedAt: { type: string, format: date-time }
+            gpa: { type: number, minimum: 0, maximum: 4 }
+            cgpa: { type: number, minimum: 0, maximum: 4 }
+
+    FinanceStatementResponse:
+      type: object
+      description: Demo wire contract for Finance statement and proof mutations.
+      required:
+        - student
+        - campus
+        - account
+        - invoices
+        - payments
+        - adjustments
+        - awards
+        - paymentInstructions
+        - paymentProofs
+      properties:
+        student:
+          type: object
+          required: [id, studentNumber, displayName]
+          properties:
+            id: { type: string, minLength: 1 }
+            studentNumber: { type: string, minLength: 1 }
+            displayName: { type: string, minLength: 1 }
+        campus:
+          type: object
+          required: [id, name, timeZone]
+          properties:
+            id: { type: string, minLength: 1 }
+            name: { type: string, minLength: 1 }
+            timeZone: { type: string, minLength: 1 }
+        account:
+          type: object
+          required: [id, currencyCode, status, balanceMinor, openInvoiceBalanceMinor, unappliedCreditMinor, balanceState]
+          properties:
+            id: { type: string, minLength: 1 }
+            currencyCode: { type: string, pattern: "^[A-Z]{3}$" }
+            status: { type: string, enum: [active, closed] }
+            balanceMinor: { type: integer }
+            openInvoiceBalanceMinor: { type: integer, minimum: 0 }
+            unappliedCreditMinor: { type: integer, minimum: 0 }
+            balanceState: { type: string, enum: [outstanding, settled, credit] }
+        invoices:
+          type: array
+          items: { $ref: "#/components/schemas/FinanceInvoice" }
+        payments:
+          type: array
+          items: { $ref: "#/components/schemas/FinancePayment" }
+        adjustments:
+          type: array
+          items: { $ref: "#/components/schemas/FinanceAdjustment" }
+        awards:
+          type: array
+          items: { $ref: "#/components/schemas/FinanceAward" }
+        paymentInstructions:
+          type: object
+          required:
+            - counterLocation
+            - counterHours
+            - bankBeneficiary
+            - bankName
+            - accountNumber
+            - swiftCode
+            - referenceInstructions
+            - currencyCode
+            - expectedProcessingDaysMin
+            - expectedProcessingDaysMax
+          properties:
+            counterLocation: { type: string, minLength: 1 }
+            counterHours: { type: string, minLength: 1 }
+            bankBeneficiary: { type: string, minLength: 1 }
+            bankName: { type: string, minLength: 1 }
+            accountNumber: { type: string, minLength: 1 }
+            swiftCode: { type: ["string", "null"] }
+            referenceInstructions: { type: string, minLength: 1 }
+            currencyCode: { type: string, pattern: "^[A-Z]{3}$" }
+            expectedProcessingDaysMin: { type: integer, minimum: 1 }
+            expectedProcessingDaysMax: { type: integer, minimum: 1 }
+        paymentProofs:
+          type: array
+          items: { $ref: "#/components/schemas/FinancePaymentProof" }
+
+    StaffProgressionDeferred:
+      type: object
+      description: |
+        Deferred Live staff PortalApi surface. Today these advances are Demo-only
+        via student-portal `/dev/admin-actions` (`runDevelopmentAction`, HTTP-blocked).
+        CAP-15 / CAP-46 / CAP-50 / CAP-51 staff Frontend remains Not started.
+        Reserved method names for CAP-53+ staff portal work — not callable yet.
+      required: [status, reservedMethods, note]
+      properties:
+        status:
+          type: string
+          enum: [deferred]
+        reservedMethods:
+          type: array
+          items:
+            type: string
+            enum:
+              - reviewOnlineForm
+              - advanceImmigrationCase
+              - verifyFinancePaymentProof
+              - postFinanceCounterPayment
+              - recordGraduationDepartmentDecision
+              - approveGraduationClearance
+              - advanceGraduationDocument
+              - advanceGraduationStudentPass
+        note:
+          type: string
+          example: Staff progression is Admin Actions only until Live staff PortalApi exists.
+
+
     PortalFile:
       type: object
       required: [__portalFile, name, type, size]
@@ -3134,12 +4368,79 @@ components:
       properties:
         result:
           description: |
-            PortalApi return value for the invoked method.
-            Shapes live in student-portal `src/contracts/*` (Zod schemas).
-            Per-method response OpenAPI components are deferred until CAP-53
-            freezes the live CMS contracts.
+            PortalApi return value for the invoked method (any JSON, including null).
+            Demo flow responses for Immigration, Graduation, Module Registration,
+            Online Forms, and Finance are frozen as named components below and on
+            those operations. Remaining methods still follow student-portal Zod
+            until CAP-53 freezes Live CMS contracts.
         cms:
           $ref: "#/components/schemas/CmsAck"
+
+    PortalCallResponseImmigration:
+      allOf:
+        - $ref: "#/components/schemas/PortalCallResponse"
+        - type: object
+          properties:
+            result:
+              $ref: "#/components/schemas/ImmigrationResponse"
+
+    PortalCallResponseGraduation:
+      allOf:
+        - $ref: "#/components/schemas/PortalCallResponse"
+        - type: object
+          properties:
+            result:
+              $ref: "#/components/schemas/AcademicGraduationResponse"
+
+    PortalCallResponseModuleRegistration:
+      allOf:
+        - $ref: "#/components/schemas/PortalCallResponse"
+        - type: object
+          properties:
+            result:
+              $ref: "#/components/schemas/AcademicModuleRegistrationResponse"
+
+    PortalCallResponseModuleRegistrationFeePreview:
+      allOf:
+        - $ref: "#/components/schemas/PortalCallResponse"
+        - type: object
+          properties:
+            result:
+              $ref: "#/components/schemas/ModuleRegistrationFeePreviewResponse"
+
+    PortalCallResponseOnlineForms:
+      allOf:
+        - $ref: "#/components/schemas/PortalCallResponse"
+        - type: object
+          properties:
+            result:
+              $ref: "#/components/schemas/OnlineFormsResponse"
+
+    PortalCallResponseOnlineFormSubmission:
+      allOf:
+        - $ref: "#/components/schemas/PortalCallResponse"
+        - type: object
+          properties:
+            result:
+              $ref: "#/components/schemas/OnlineFormSubmissionResponse"
+
+    PortalCallResponseOnlineFormContext:
+      allOf:
+        - $ref: "#/components/schemas/PortalCallResponse"
+        - type: object
+          properties:
+            result:
+              oneOf:
+                - $ref: "#/components/schemas/OnlineFormContext"
+                - type: "null"
+
+    PortalCallResponseFinance:
+      allOf:
+        - $ref: "#/components/schemas/PortalCallResponse"
+        - type: object
+          properties:
+            result:
+              $ref: "#/components/schemas/FinanceStatementResponse"
 
     ErrorBody:
       type: object

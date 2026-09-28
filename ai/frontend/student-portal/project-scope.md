@@ -2,18 +2,18 @@
 
 ## Purpose
 
-The CMS Student Portal is a desktop-first frontend that presents campus information through a modern student experience. The institution already has a Campus Management System (CMS); this project does not replace it. Future backend engineers will expose the required data through one logical Portal API, regardless of which internal system owns each record.
+The CMS Student Portal is a responsive frontend that presents campus information through a modern student experience from 375px phone layouts through 1440px desktop layouts. The institution already has a Campus Management System (CMS); this project does not replace it. Future backend engineers will expose the required data through one logical Portal API, regardless of which internal system owns each record.
 
 The product owner defines priorities, scope, and acceptance. Frontend implementation owns the user experience, data contracts, mock services, accessibility, and integration seams. Backend engineers will later own authentication, authorization, API implementation, data mapping, persistence, and operational security.
 
 ## Current objectives
 
-- Deliver a consistent desktop student portal UI.
+- Deliver a consistent student portal UI across phone, tablet, and desktop layouts.
 - Describe every frontend-required entity and field in a living Data Model Explorer.
 - Maintain coherent student scenarios against one shared programme model, including a registration-week first-semester journey and a reconciled mid-programme history across curriculum, registrations, repeat attempts, published results, attendance, and finance.
 - Keep every route on one explicit owned Programme Enrolment read context. The URL-backed selector defaults deterministically to active, then the newest deferred, completed, or withdrawn enrolment; inactive contexts remain readable and expose status-specific guidance without active-only actions.
 - Keep UI components independent from hard-coded fixtures through typed API contracts.
-- Provide realistic loading, empty, error, and mutation behaviour with an in-memory mock API.
+- Provide realistic loading, empty, error, and mutation behaviour with an in-memory mock API. Session-only mock record IDs prefer the browser's `randomUUID` but have a non-security fallback so the LAN HTTP preview remains usable on physical devices; they are never authentication, persistence, or production security tokens.
 - Maintain an explicit, reusable dark design system.
 - Make later CMS/API and authentication integration an adapter change rather than a UI rewrite.
 
@@ -26,7 +26,7 @@ The product owner defines priorities, scope, and acceptance. Frontend implementa
 - Learner support and IT helpdesk (CAP-33): students can open the explicit IT Helpdesk service in Community and exchange session-only messages and permitted attachments through the existing chat flow. CAP-51 provides the separate sample Online Forms and case-tracking journey; staff ticket operations remain outside this frontend.
 
 - Read-only campus Services pages, with six source-backed Cyberjaya categories and a campus-owned Accessibility Support placeholder (CAP-35), for seven catalogue entries in total. The catalogue drives sidebar children and tabs; local source images, structured content and the shared empty-content treatment use reusable layouts. Other campuses may supply different categories and information. See [Campus Services](campus-services.md).
-- Services body content also supports isolated phone/tablet widths (375, 390, 430 and 768px) and responds to Community resizing through container queries. The portal shell and all other features remain desktop-first; full-portal mobile support is outside this exception.
+- All student-facing routes support 375, 390, 430, 768, 1024, 1280 and 1440px browser widths. Phone layouts use a navigation drawer and full-screen Community overlay; tablet uses the 3rem icon rail with labelled flyouts and the same overlay; desktop retains full navigation and docked, resizable Community. `/dev/*` routes provide basic phone usability at 375px and 430px but remain outside the full student-facing responsive acceptance standard.
 
 - Existing dashboard, ordered as News and Announcements, Academic Performance, Timetable, Calendar, and Modules; it also includes student-applicable navigation and Community services, chat, account attention control, and placeholder portal sections. Community exposes IT Helpdesk to both current student scenarios. Immigration is available only to students classified as International relative to their enrolment campus; Local students have no Immigration navigation, service chat, or direct route access. Calendar remains read-only from registration opening through the active semester.
 - Academic Performance with programme-semester selection, GPA and CGPA charts, published module grades, inline assessment breakdowns, and read-only GPA/CGPA explanation popups backed by Portal API calculation inputs.
@@ -41,14 +41,14 @@ The product owner defines priorities, scope, and acceptance. Frontend implementa
 - Profile > Documents at `/profile/documents`, with a read-only student document library containing canonical passport/qualification evidence and student letters. Title-only document rows are no-op placeholders. The former top-level Documents page redirects into Profile; the Student Handbook now belongs to CAP-55 rather than Profile Documents. Details are in [Profile Documents](profile-documents.md).
 - Profile > Privacy & Security at `/profile/privacy-security` (CAP-39), with campus-owned information categories, a derived summary of available student actions, practical account guidance and a working IT Helpdesk opener. It makes no legal-compliance or production-security claim; CAP-51 owns formal privacy requests. See [Privacy & Security](privacy-security.md).
 - Stable URL routing for portal screens, with every URL change opening at the top of the main portal scroller.
-- Development-only Student Scenario, Data Model, Design System explorers and narrow Graduation/Finance Admin Actions. Scenario selection changes the student view and clears scoped query caches while retaining shared canonical workflow records in the current in-memory mock session. Admin Actions can review owned work from any scenario student. Nothing persists after refresh.
+- Development-only Student Scenario and Data Model explorers, plus narrow Graduation/Finance Admin Actions. Scenario selection changes the student view and clears scoped query caches while retaining shared canonical workflow records in the current in-memory mock session. Admin Actions can review owned work from any scenario student. Nothing persists after refresh. The static design system catalogue lives in the published control-plane documentation.
 - Student Finance with globally unique short `INV-######` invoice numbers, a signed tax-inclusive balance summary inside its tabbed panel, popup-based campus counter and fictional bank-transfer instructions, student-visible invoices, routed invoice details, confirmed/reversed payment history, credits and adjustments, assigned scholarships and incentives with published-result renewal evaluation, and session-only pending bank-transfer proof metadata. Campus-owned effective-dated Malaysian Service Tax profiles apply 6% at issuance to explicit taxable fee items for non-Malaysian citizens; Malaysian citizens and supported exemption evidence produce immutable exempt decisions. Fee benefits create auditable invoice credits before tax, while allowances are information only. Semester tuition is aggregated for students while module-level lines and frozen invoice due dates remain internal to the canonical ledger.
 - A multi-student canonical mock Portal record graph and student-scoped derived screen read models, including reconciled Finance accounts and campus Finance Profiles.
 - Zod-validated frontend contracts, mock fixtures, and a replaceable `PortalApi` interface.
 - Session-only normalized conversations, participant read markers, messages, attachments, Personal-profile edits, module-registration confirmation with invoice issuance, assignment submission metadata, and confirmed lecturer reviews. Community unread badges, lecturer/student roster roles, first-message personal-conversation creation, draft/scroll restoration, and self-message rejection are frontend contract demonstrations rather than persistent collaboration.
 - Client-side assignment validation: one PDF or ZIP file, 50 MiB maximum, with submit, replace, and delete available only from release time until the hard due-time cutoff.
 - Client-side attachment validation: five files, 25 MB per file, and 75 MB per message.
-- Unit, contract, and desktop browser tests.
+- Unit and contract tests, a Chromium responsive route matrix, retained 1280/1440 desktop regression coverage, and focused WebKit checks at 375/768/1440.
 - Documentation for frontend and future backend teams.
 
 ## Out of scope for this phase
@@ -67,7 +67,7 @@ The product owner defines priorities, scope, and acceptance. Frontend implementa
 - Real authentication. The UI remains auth-ready and will integrate later when the campus session or SSO contract is confirmed.
 - General Profile issue-resolution workflows, account actions, functional Profile Documents preview/download or document management, passport or qualification-document upload/download, and real logout. Module Registration confirmation resolves only its matching session issue; one Outstanding Fees issue is derived automatically while the signed Finance Account balance is positive and navigates to Finance without altering the ledger. Student Pass required, expiring, expired, and cancelled issues are derived from the exact enrolment-owned pass state and navigate to Immigration; renewal completion clears the expiry warning, cancellation creates its distinct destructive state, and an eligible replacement pass resolves the cancellation issue.
 - Functional module-resource or assignment-brief downloads, production file uploads, persistent assignment submissions, quiz/exam start flows, grading, and other learning-management mutations. The Materials assignment flow proves the frontend contract and interaction in one mock session only.
-- Mobile and responsive remediation. Mobile remains a future project phase.
+- Dedicated landscape compositions and physical iOS/Android device certification. Supported portrait-width browser layouts are covered by automated Chromium and focused WebKit checks.
 - Resume preview/templates, section settings, academic-qualification import, PDF generation/export, downloads, uploads, and persistent Resume storage.
 - Public portfolio pages or sharing links, portfolio visibility settings, categories, manual ordering, galleries, likes, comments, PDF export, cloud artwork storage, production uploads, and persistent Portfolio storage.
 - Official graduation-clearance decisions, live EMGS/STARS or Malaysian Immigration processing, and expired-pass resolution. Graduation and Immigration now provide session-only CAP-15/CAP-50 progress demonstrations. Production online Finance payment, live campus verification, real proof or passport upload/custody, invoice/receipt documents, refunds, payment plans, scholarship application/acceptance or staff assignment, allowance payout tracking, staff tax corrections or credit notes, SST filing/remittance, collections, and external notifications are deferred. Functional transcript download is also deferred. The dashboard Calendar remains separate from the completed Academic Timetable and Attendance routes. Accommodation information and workflows are removed from this release candidate rather than represented as a placeholder.
@@ -84,11 +84,11 @@ The product owner defines priorities, scope, and acceptance. Frontend implementa
 
 ## Acceptance criteria
 
-- Existing desktop portal behaviour remains recognizable.
+- Existing desktop portal behaviour remains recognizable, while every student-facing route remains usable without page-level horizontal overflow from 375px through 1440px.
 - Portal screens consume service/query results rather than importing fixtures directly.
 - Every mock response validates against its contract.
 - The Data Model Explorer opens on database-style logical tables and real mock rows, supports per-student record filtering, and retains field, relationship, timeline, endpoint-usage, and JSON inspection.
-- The Design System Explorer displays supported tokens and component states.
+- The [published design system catalogue](https://raisd-campus.github.io/portal-api-docs/design-system/) displays released tokens and component states in static mock-data captures.
 - Developer tools are not included in production application routes or navigation.
 - Lint, TypeScript, unit tests, production build, and desktop Playwright smoke tests pass.
 

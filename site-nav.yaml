@@ -1,0 +1,518 @@
+# Raisd Control Plane / portal-api-docs — primary site navigation
+#
+# Single source of truth for the published HTML header menu.
+# Regenerate after editing:
+#   python docs/sdd/_pages/build-dropdown-nav.py
+#
+# Design-system in-page subnav also reads `design_subnav` from this file
+# (via scripts/build-design-system-pages.py).
+
+brand:
+  title: Control Plane
+  home: diagrams/index.html
+  logo: diagrams/assets/raisd-logo.svg
+  favicon: diagrams/assets/favicon.svg
+
+# Logical page ids → paths relative to the published docs root
+# (control-plane/docs or portal-api-docs/).
+targets:
+  overview: diagrams/index.html
+  distributed: diagrams/distributed-cms-architecture.html
+  architecture: diagrams/architecture.html
+  migration: diagrams/migration.html
+  raisd: diagrams/raisd-cms/index.html
+  raisd-sp: diagrams/raisd-cms/student-portal.html
+  raisd-sp-shots: diagrams/raisd-cms/student-portal-screenshots.html
+  raisd-sp-guide: diagrams/raisd-cms/student-portal-guide.html
+  raisd-sp-manual: diagrams/raisd-cms/student-portal-manual.html
+  erd: diagrams/erd.html
+  dfd: diagrams/dfd.html
+  luct: diagrams/old-cms/index.html
+  luct-comparison: diagrams/old-cms/comparison.html
+  luct-fsd: diagrams/old-cms/fsd.html
+  luct-obsidian: diagrams/old-cms/obsidian.html
+  luct-erd: diagrams/old-cms/erd.html
+  luct-flows: diagrams/old-cms/flows.html
+  luct-database: diagrams/old-cms/database.html
+  luct-bw: diagrams/old-cms-botswana/index.html
+  luct-bw-database: diagrams/old-cms-botswana/database.html
+  luct-sl: diagrams/old-cms-sierra-leone/index.html
+  luct-sl-database: diagrams/old-cms-sierra-leone/database.html
+  ai: ai/index.html
+  design-system: design-system/index.html
+  design-foundations: design-system/foundations.html
+  design-controls: design-system/shared-controls.html
+  design-patterns: design-system/shared-patterns.html
+  design-student: design-system/student-components.html
+  sdd: sdd/index.html
+  sdd-15: sdd/15-nomenclature.html
+  sdd-11: sdd/11-capability-catalog.html
+  sdd-03: sdd/03-delivery-milestones.html
+  openapi: openapi.html
+  vercel-poc: poc/vercel-neon.html
+
+# External (absolute) link ids used in the menu
+external:
+  agents-md: https://github.com/raisd-campus/control-plane/blob/main/docs/ai/AGENTS.md
+  ai-architecture: https://github.com/raisd-campus/control-plane/blob/main/docs/ai/architecture/overview.md
+  ai-distributed: https://github.com/raisd-campus/control-plane/blob/main/docs/ai/architecture/distributed-cms-target.md
+  ai-portal-api: https://github.com/raisd-campus/control-plane/blob/main/docs/ai/backend/portal-api.md
+  ai-portal-api-plan: https://github.com/raisd-campus/control-plane/blob/main/docs/ai/backend/portal-api-development-plan.md
+  ai-portal-api-deploy: https://github.com/raisd-campus/control-plane/blob/main/docs/ai/backend/portal-api-deployment.md
+  ai-portal-api-poc: https://github.com/raisd-campus/control-plane/blob/main/docs/ai/backend/portal-api-poc-requirements.md
+  ai-cms-comparison: https://github.com/raisd-campus/control-plane/blob/main/docs/ai/backend/cms-feature-comparison.md
+  openapi-yaml: https://github.com/raisd-campus/control-plane/blob/main/openapi.yaml
+  ai-vercel-poc-md: https://github.com/raisd-campus/control-plane/blob/main/docs/ai/architecture/vercel-neon-poc.md
+
+# Path → active section id (first match wins; evaluated in order)
+path_rules:
+  - match: { exact: openapi.html }
+    section: openapi
+  - match: { exact: diagrams/distributed-cms-architecture.html }
+    section: distributed
+  - match: { prefix: diagrams/old-cms-botswana/, file: database.html }
+    section: luct-bw-database
+  - match: { prefix: diagrams/old-cms-botswana/ }
+    section: luct-bw
+  - match: { prefix: diagrams/old-cms-sierra-leone/, file: database.html }
+    section: luct-sl-database
+  - match: { prefix: diagrams/old-cms-sierra-leone/ }
+    section: luct-sl
+  - match: { prefix: diagrams/old-cms/, file: comparison.html }
+    section: luct-comparison
+  - match: { prefix: diagrams/old-cms/, file: fsd.html }
+    section: luct-fsd
+  - match: { prefix: diagrams/old-cms/, file: obsidian.html }
+    section: luct-obsidian
+  - match: { prefix: diagrams/old-cms/, file: erd.html }
+    section: luct-erd
+  - match: { prefix: diagrams/old-cms/, file: flows.html }
+    section: luct-flows
+  - match: { prefix: diagrams/old-cms/, file: database.html }
+    section: luct-database
+  - match: { prefix: diagrams/old-cms/ }
+    section: luct
+  - match: { path_contains: raisd-cms, name_contains: student-portal-manual }
+    section: raisd-sp-manual
+  - match: { path_contains: raisd-cms, name_contains: student-portal-guide }
+    section: raisd-sp-guide
+  - match: { path_contains: raisd-cms, name_contains: student-portal-screenshots }
+    section: raisd-sp-shots
+  - match: { path_contains: raisd-cms, name_contains: student-portal }
+    section: raisd-sp
+  - match: { path_contains: raisd-cms }
+    section: raisd
+  - match: { file: erd.html, path_not_contains: old-cms }
+    section: erd
+  - match: { file: dfd.html }
+    section: dfd
+  - match: { file: architecture.html }
+    section: architecture
+  - match: { file: migration.html }
+    section: migration
+  - match: { exact: diagrams/index.html }
+    section: overview
+  - match: { prefix: ai/ }
+    section: ai
+  - match: { prefix: design-system/ }
+    section: design-system
+  - match: { prefix: sdd/, name_contains: 15-nomenclature }
+    section: sdd-15
+  - match: { prefix: sdd/, name_contains: 11-capability }
+    section: sdd-11
+  - match: { prefix: sdd/, name_contains: 03-delivery }
+    section: sdd-03
+  - match: { prefix: sdd/ }
+    section: sdd
+  - match: { prefix: poc/ }
+    section: vercel-poc
+
+# Primary header menu (top-level chips + flyouts)
+# href / children.href: target id, external id, or "id#anchor"
+menu:
+  - label: Overview
+    href: overview
+    active: [overview]
+    children:
+      - { label: Diagrams hub, href: overview }
+      - { label: Distributed CMS, href: distributed }
+      - { label: Architecture, href: architecture }
+      - { label: Migration, href: migration }
+      - { label: "Vercel + Neon PoC", href: vercel-poc }
+
+  - label: Distributed CMS
+    href: distributed
+    active: [distributed]
+    children:
+      - { label: Target architecture, href: distributed }
+      - { label: "Current → ideal", href: "distributed#journey" }
+      - { label: Ideal state, href: "distributed#phase-ideal" }
+      - { label: "White-label & flags", href: "distributed#tenancy" }
+      - { label: "M1–M5 migration", href: migration }
+
+  - label: Architecture
+    href: architecture
+    active: [architecture, migration, vercel-poc]
+    children:
+      - { label: Architecture home, href: architecture }
+      - { label: Distributed CMS target, href: distributed }
+      - { label: "SDD & ADR catalogue", href: "architecture#sdd" }
+      - { label: "SoR / ACL", href: "architecture#acl" }
+      - { label: Academic model, href: "architecture#academic" }
+      - { label: "Vercel + Neon PoC", href: vercel-poc }
+      - label: Migration
+        href: migration
+        children:
+          - { label: Plan overview, href: migration }
+          - { label: Milestone sequence, href: "migration#sequence" }
+          - { label: "Current → ideal", href: "distributed#journey" }
+          - { label: "M1–M5 detail", href: "migration#m1" }
+          - { label: Hosting stages, href: "migration#hosting" }
+          - { label: Critical path, href: "migration#critical" }
+
+  - label: Raisd CMS
+    href: raisd
+    active: [raisd, erd, dfd, raisd-sp, raisd-sp-shots, raisd-sp-guide, raisd-sp-manual]
+    children:
+      - { label: Raisd CMS hub, href: raisd }
+      - { label: Student portal, href: raisd-sp }
+      - { label: Screenshots, href: raisd-sp-shots }
+      - { label: Use guides, href: raisd-sp-guide }
+      - { label: User manual, href: raisd-sp-manual }
+      - { label: ERD, href: erd }
+      - { label: DFD, href: dfd }
+
+  - label: LUCT CMS
+    href: luct
+    active:
+      - luct
+      - luct-comparison
+      - luct-fsd
+      - luct-obsidian
+      - luct-erd
+      - luct-flows
+      - luct-database
+      - luct-bw
+      - luct-bw-database
+      - luct-sl
+      - luct-sl-database
+    children:
+      - label: Cyberjaya
+        href: luct
+        children:
+          - { label: E2E hub, href: luct }
+          - { label: FSD, href: "luct#fsd" }
+          - { label: Obsidian 3D, href: "luct-obsidian?campus=cyberjaya" }
+          - { label: Flows, href: "luct#flows" }
+          - { label: ERD, href: "luct#erd" }
+          - { label: Database, href: "luct#database" }
+          - { label: Comparison, href: "luct#compare" }
+      - label: Botswana
+        href: luct-bw
+        children:
+          - { label: E2E hub, href: luct-bw }
+          - { label: FSD, href: "luct-bw#fsd" }
+          - { label: DTEF, href: "luct-bw#dtef" }
+          - { label: ERD, href: "luct-bw#erd" }
+          - { label: Database, href: luct-bw-database }
+          - { label: Obsidian 3D, href: "luct-obsidian?campus=botswana" }
+      - label: Sierra Leone
+        href: luct-sl
+        children:
+          - { label: E2E hub, href: luct-sl }
+          - { label: FSD, href: "luct-sl#fsd" }
+          - { label: ERD, href: "luct-sl#erd" }
+          - { label: Database, href: luct-sl-database }
+          - { label: Obsidian 3D, href: "luct-obsidian?campus=sierra-leone" }
+
+  - label: Design system
+    href: design-system
+    active: [design-system]
+    children:
+      - { label: Design system hub, href: design-system }
+      - { label: Foundations, href: design-foundations }
+      - { label: Shared controls, href: design-controls }
+      - { label: Shared patterns, href: design-patterns }
+      - { label: Student components, href: design-student }
+
+  - label: AI knowledge
+    href: ai
+    active: [ai]
+    children:
+      - { label: AI hub, href: ai }
+      - { label: AGENTS.md, href: agents-md }
+      - { label: Architecture overview, href: ai-architecture }
+      - { label: Distributed CMS target, href: ai-distributed }
+      - { label: Portal API, href: ai-portal-api }
+      - { label: Portal API plan, href: ai-portal-api-plan }
+      - { label: Portal API deployment, href: ai-portal-api-deploy }
+      - { label: PoC requirements, href: ai-portal-api-poc }
+      - { label: CMS comparison, href: ai-cms-comparison }
+      - { label: "Vercel + Neon PoC", href: vercel-poc }
+
+  - label: SDD
+    href: sdd
+    active: [sdd, sdd-15, sdd-11, sdd-03]
+    children:
+      - { label: SDD hub, href: sdd }
+      - { label: Nomenclature, href: sdd-15 }
+      - { label: Capability catalogue, href: sdd-11 }
+      - { label: Milestones, href: sdd-03 }
+
+  - label: OpenAPI
+    href: openapi
+    active: [openapi]
+    children:
+      - { label: Swagger UI, href: openapi }
+      - { label: openapi.yaml, href: openapi-yaml }
+
+# In-page strip on design-system/*.html (not the header chip menu)
+design_subnav:
+  - { label: Overview, href: design-system }
+  - { label: Foundations, href: design-foundations }
+  - { label: Shared controls, href: design-controls }
+  - { label: Shared patterns, href: design-patterns }
+  - { label: Student portal components, href: design-student }
+
+# Site search index (header magnifier → modal). href = target id or id#anchor.
+# Regenerate publishes diagrams/site-search-index.json for the browser.
+search:
+  - title: Overview
+    href: overview
+    section: Overview
+    summary: Diagrams hub for Control Plane — architecture maps, CMS inventories, and entry points to SDD and OpenAPI.
+    keywords: [home, hub, diagrams, start]
+
+  - title: Distributed CMS target
+    href: distributed
+    section: Distributed CMS
+    summary: Ideal multi-country Raisd CMS with distributed data planes, white-label packs, and feature flags.
+    keywords: [ideal, multi-country, white-label, flags, tenancy]
+
+  - title: Current → ideal journey
+    href: "distributed#journey"
+    section: Distributed CMS
+    summary: Migration journey from today’s portal-on-CMS phase toward the unified distributed CMS.
+    keywords: [journey, migration, roadmap]
+
+  - title: Architecture
+    href: architecture
+    section: Architecture
+    summary: System architecture, ADRs, SoR/ACL boundaries, and academic model overview.
+    keywords: [adr, system, integration, acl]
+
+  - title: Migration plan
+    href: migration
+    section: Architecture
+    summary: M1–M5 delivery sequence, hosting stages, and critical path for campus launch.
+    keywords: [milestones, m1, m2, m3, hosting, k3s]
+
+  - title: Raisd CMS hub
+    href: raisd
+    section: Raisd CMS
+    summary: Raisd student CMS capabilities, portal walkthroughs, screenshots, and guides.
+    keywords: [student, cms, capabilities]
+
+  - title: Student portal capabilities
+    href: raisd-sp
+    section: Raisd CMS
+    summary: Student portal capability inventory mapped to screens and CAP IDs.
+    keywords: [cap, student-portal, features]
+
+  - title: Student portal screenshots
+    href: raisd-sp-shots
+    section: Raisd CMS
+    summary: Visual captures of student portal journeys for design and acceptance reference.
+    keywords: [screenshots, captures, ui]
+
+  - title: Student portal use guides
+    href: raisd-sp-guide
+    section: Raisd CMS
+    summary: Step-by-step use guides for student-facing Raisd CMS flows.
+    keywords: [guide, how-to, walkthrough]
+
+  - title: Student portal user manual
+    href: raisd-sp-manual
+    section: Raisd CMS
+    summary: Complete student-facing manual for every portal screen, rules, limits and troubleshooting.
+    keywords: [manual, user manual, help, faq, troubleshooting, demo, student]
+
+  - title: Raisd ERD
+    href: erd
+    section: Raisd CMS
+    summary: Entity-relationship diagrams for the Raisd targeting data model.
+    keywords: [erd, schema, entities, database]
+
+  - title: Raisd DFD
+    href: dfd
+    section: Raisd CMS
+    summary: Data-flow diagrams for portal and CMS integrations.
+    keywords: [dfd, dataflow, integration]
+
+  - title: LUCT Cyberjaya E2E hub
+    href: luct
+    section: LUCT CMS
+    summary: Cyberjaya old CMS end-to-end hub — FSD, flows, ERD, database, and comparison.
+    keywords: [cyberjaya, cmscbj, legacy, php-maker]
+
+  - title: Obsidian 3D FSD — Cyberjaya
+    href: "luct-obsidian?campus=cyberjaya"
+    section: LUCT CMS
+    summary: Interactive 3D knowledge graph of the Cyberjaya functional specification.
+    keywords: [obsidian, fsd, graph, 3d, cyberjaya, cmscbj]
+
+  - title: Obsidian 3D FSD — Botswana
+    href: "luct-obsidian?campus=botswana"
+    section: LUCT CMS
+    summary: Interactive 3D knowledge graph of the Botswana desks, DTEF → TEF.gov.bw sync, and api_* hooks.
+    keywords: [obsidian, fsd, graph, 3d, botswana, cmsbotswana, dtef, tef]
+
+  - title: Obsidian 3D FSD — Sierra Leone
+    href: "luct-obsidian?campus=sierra-leone"
+    section: LUCT CMS
+    summary: Interactive 3D knowledge graph of the Sierra Leone ICA EMS desks and cmssupport email path.
+    keywords: [obsidian, fsd, graph, 3d, sierra-leone, ems, ica]
+
+  - title: LUCT Botswana E2E hub
+    href: luct-bw
+    section: LUCT CMS
+    summary: Botswana campus CMS inventory including DTEF scholarship sync context.
+    keywords: [botswana, luct, dtef, tef]
+
+  - title: Botswana DTEF
+    href: "luct-bw#dtef"
+    section: LUCT CMS
+    summary: DTEF / TEF.gov.bw scholarship sync notes on the Botswana hub.
+    keywords: [scholarship, sponsorship, government]
+
+  - title: LUCT Sierra Leone E2E hub
+    href: luct-sl
+    section: LUCT CMS
+    summary: Sierra Leone CMS inventory hub with FSD, ERD, and database anchors.
+    keywords: [sierra-leone, ems, ica]
+
+  - title: Design system
+    href: design-system
+    section: Design system
+    summary: Released @raisd-campus/design-system catalogue — foundations, controls, patterns, student compositions.
+    keywords: [tokens, components, package, catalogue]
+
+  - title: Foundations
+    href: design-foundations
+    section: Design system
+    summary: Design tokens, typography, colour roles, and scrolling foundations.
+    keywords: [tokens, type, colour, palette]
+
+  - title: Shared controls
+    href: design-controls
+    section: Design system
+    summary: Buttons, badges, fields, overlays, and other shared UI controls.
+    keywords: [button, input, dialog, form]
+
+  - title: Shared patterns
+    href: design-patterns
+    section: Design system
+    summary: Reusable page layouts, cards, tables, media, and feedback patterns.
+    keywords: [layout, card, table, pattern]
+
+  - title: Student components
+    href: design-student
+    section: Design system
+    summary: Student-owned portal compositions built on the shared design system.
+    keywords: [student, portal-shell, community]
+
+  - title: AI knowledge hub
+    href: ai
+    section: AI knowledge
+    summary: Entry to the campus AI knowledge base for agents and engineers.
+    keywords: [agents, knowledge, docs/ai]
+
+  - title: AGENTS.md
+    href: agents-md
+    section: AI knowledge
+    summary: Campus-wide agent instructions — architecture rules, status language, and read order.
+    keywords: [agents, instructions, cursor]
+
+  - title: Architecture overview (AI)
+    href: ai-architecture
+    section: AI knowledge
+    summary: Agent-facing architecture summary of portals, Portal API, and ADR-1.
+    keywords: [adr-1, portal-api, cms]
+
+  - title: Distributed CMS target (AI)
+    href: ai-distributed
+    section: AI knowledge
+    summary: Written target for distributed country data planes and white-label CMS.
+    keywords: [distributed, m5, ideal]
+
+  - title: Portal API (AI)
+    href: ai-portal-api
+    section: AI knowledge
+    summary: Stage-1 Portal API behaviour, repository layout (raisd-campus/portal-api), OpenAPI, and local run instructions.
+    keywords: [openapi, rpc, fastify, auth, repository]
+
+  - title: Portal API development plan
+    href: ai-portal-api-plan
+    section: AI knowledge
+    summary: Phases 0–8 from repo bootstrap to CMS adapter, identity, persistence and campus expansion, mapped to M1–M5.
+    keywords: [plan, roadmap, phases, cap-53, cap-01, backend]
+
+  - title: Portal API target deployment
+    href: ai-portal-api-deploy
+    section: AI knowledge
+    summary: k3s stage 1 shape for portal-api — environments, image, manifests, probes, env vars, CI/CD, rollback.
+    keywords: [deployment, k3s, docker, image, ci, sdd-12, api.raisd.co]
+
+  - title: PoC requirements (Vercel + Neon)
+    href: ai-portal-api-poc
+    section: AI knowledge
+    summary: Prerequisites, functional, non-functional and security requirements, acceptance walkthrough and exit criteria for the PoC.
+    keywords: [poc, vercel, neon, requirements, acceptance]
+
+  - title: CMS feature comparison
+    href: ai-cms-comparison
+    section: AI knowledge
+    summary: Old Cyberjaya CMS vs Raisd CAP mapping and gap analysis.
+    keywords: [cap, comparison, gap, legacy]
+
+  - title: SDD hub
+    href: sdd
+    section: SDD
+    summary: Software Design Documents index — product baseline for delivery.
+    keywords: [sdd, design, baseline]
+
+  - title: Nomenclature
+    href: sdd-15
+    section: SDD
+    summary: CAP-* and milestone M1–M5 naming conventions.
+    keywords: [cap, milestone, naming]
+
+  - title: Capability catalogue
+    href: sdd-11
+    section: SDD
+    summary: Full CAP catalogue across applicant, student, lecturer, and staff portals.
+    keywords: [capabilities, catalog, catalogue]
+
+  - title: Delivery milestones
+    href: sdd-03
+    section: SDD
+    summary: M1–M5 delivery milestones and launch sequencing.
+    keywords: [milestones, admissions, launch]
+
+  - title: OpenAPI Swagger UI
+    href: openapi
+    section: OpenAPI
+    summary: Interactive Portal API reference — auth, portal methods, and schemas.
+    keywords: [swagger, api, portal, rpc]
+
+  - title: openapi.yaml
+    href: openapi-yaml
+    section: OpenAPI
+    summary: Canonical OpenAPI 3.1 source for the Raisd Portal API.
+    keywords: [yaml, contract, schema]
+
+  - title: Vercel + Neon PoC
+    href: vercel-poc
+    section: Architecture
+    summary: PoC path to host a portal SPA and Portal API on Vercel with free Neon Postgres (not production UltaHost).
+    keywords: [vercel, neon, postgres, poc, deploy, marketplace]
