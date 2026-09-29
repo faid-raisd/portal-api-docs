@@ -1,5 +1,5 @@
 {
-  "packageVersion": "0.2.0",
+  "packageVersion": "0.4.0",
   "studentPortalCommit": "84c6bf541a4ecefc985a6429cac8a302b0098723",
   "capturedAt": "2026-09-26",
   "captureRoute": "/dev/design-system",
@@ -401,6 +401,32 @@
       "sourceSelector": "section[data-slot=\"design-system-detail-field\"]",
       "packageVersion": "0.1.0",
       "capturedAt": "2026-09-24"
+    },
+    {
+      "id": "detail-field-undivided-desktop",
+      "title": "Detail field · undivided",
+      "page": "shared-patterns",
+      "owner": "shared",
+      "viewport": "desktop",
+      "width": 1440,
+      "image": "assets/detail-field-undivided-desktop.png",
+      "sourceRoute": "design-system/examples/consumer/",
+      "sourceSelector": "[data-slot=\"fixture-detail-field-undivided\"]",
+      "packageVersion": "0.3.1",
+      "capturedAt": "2026-09-28"
+    },
+    {
+      "id": "detail-field-undivided-phone",
+      "title": "Detail field · undivided phone",
+      "page": "shared-patterns",
+      "owner": "shared",
+      "viewport": "phone",
+      "width": 390,
+      "image": "assets/detail-field-undivided-phone.png",
+      "sourceRoute": "design-system/examples/consumer/",
+      "sourceSelector": "[data-slot=\"fixture-detail-field-undivided\"]",
+      "packageVersion": "0.3.1",
+      "capturedAt": "2026-09-28"
     },
     {
       "id": "detail-section-card",
@@ -833,7 +859,7 @@
       "image": "assets/portal-shell-phone.png",
       "sourceSelector": "[data-slot=\"portal-shell\"]",
       "captureRoute": "/?shell",
-      "packageVersion": "0.2.0",
+      "packageVersion": "0.3.1",
       "capturedAt": "2026-09-26"
     },
     {
@@ -846,7 +872,7 @@
       "image": "assets/portal-shell-tablet.png",
       "sourceSelector": "[data-slot=\"portal-shell\"]",
       "captureRoute": "/?shell",
-      "packageVersion": "0.2.0",
+      "packageVersion": "0.3.1",
       "capturedAt": "2026-09-26"
     },
     {
@@ -859,8 +885,34 @@
       "image": "assets/portal-shell-desktop.png",
       "sourceSelector": "[data-slot=\"portal-shell\"]",
       "captureRoute": "/?shell",
-      "packageVersion": "0.2.0",
+      "packageVersion": "0.3.1",
       "capturedAt": "2026-09-26"
+    },
+    {
+      "id": "record-summary-card-desktop",
+      "title": "Record summary card",
+      "page": "shared-patterns",
+      "owner": "shared",
+      "viewport": "desktop",
+      "width": 1440,
+      "image": "assets/record-summary-card-desktop.png",
+      "sourceRoute": "design-system/examples/consumer/",
+      "sourceSelector": "[data-slot=\"fixture-record-summary-card\"]",
+      "packageVersion": "0.4.0",
+      "capturedAt": "2026-09-29"
+    },
+    {
+      "id": "record-summary-card-phone",
+      "title": "Record summary card · phone",
+      "page": "shared-patterns",
+      "owner": "shared",
+      "viewport": "phone",
+      "width": 390,
+      "image": "assets/record-summary-card-phone.png",
+      "sourceRoute": "design-system/examples/consumer/",
+      "sourceSelector": "[data-slot=\"fixture-record-summary-card\"]",
+      "packageVersion": "0.4.0",
+      "capturedAt": "2026-09-29"
     }
   ]
 }

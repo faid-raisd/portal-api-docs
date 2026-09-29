@@ -26,16 +26,20 @@ on port 4183 and run `node capture-shell.mjs <this-directory>/assets` from that
 fixture. It writes mock phone, tablet, and desktop PNGs. Review all three before
 updating their entries in `captures.json` and rebuilding the pages.
 
+For `system/detail-field`'s `editableUndivided` example, use the same fixture
+and run `node capture-detail-field.mjs <this-directory>/assets`. Review the
+desktop and phone captures and update their manifest entries.
+
 From the `control-plane` root, regenerate and validate:
 
 ```sh
-# Edit docs/site-nav.yaml for Primary header + design-system in-page strip
+# Edit docs/site-nav.yaml for Primary header, design-system strip, and site search index
 python scripts/build-design-system-pages.py
 python docs/sdd/_pages/build-dropdown-nav.py
 python scripts/validate-design-system.py docs
 ```
 
-Primary site navigation is **only** defined in [`docs/site-nav.yaml`](../site-nav.yaml). Do not hand-edit `<nav class="nav">` in HTML — re-run the generator so control-plane and `portal-api-docs` stay identical.
+Primary site navigation and search are **only** defined in [`docs/site-nav.yaml`](../site-nav.yaml). Do not hand-edit `<nav class="nav">` or search chrome in HTML — re-run the generator so control-plane and `portal-api-docs` stay identical. The magnifier opens a modal fed by `diagrams/site-search-index.json`.
 
 Mirror the five HTML files, `styles.css`, `assets/`, and `captures.json` into
 `portal-api-docs/design-system/`, then run
