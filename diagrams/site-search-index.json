@@ -3,13 +3,18 @@
   "pages": [
     {
       "title": "Overview",
-      "summary": "Diagrams hub for Control Plane \u2014 architecture maps, CMS inventories, and entry points to SDD and OpenAPI.",
+      "summary": "Diagrams hub for Control Plane \u2014 architecture maps, public endpoints, CMS inventories, and entry points to SDD and OpenAPI.",
       "section": "Overview",
       "keywords": [
         "home",
         "hub",
         "diagrams",
-        "start"
+        "start",
+        "endpoints",
+        "urls",
+        "routes",
+        "api",
+        "public"
       ],
       "path": "diagrams/index.html"
     },
@@ -475,7 +480,7 @@
     },
     {
       "title": "Vercel + Neon PoC",
-      "summary": "PoC path to host a portal SPA and Portal API on Vercel with free Neon Postgres (not production UltaHost).",
+      "summary": "Hosted Demo on Vercel + Neon \u2014 live targets, CI/CD pipelines, target deployment, Demo record tables and session schema, and request flows (not production UltaHost).",
       "section": "Architecture",
       "keywords": [
         "vercel",
@@ -483,7 +488,20 @@
         "postgres",
         "poc",
         "deploy",
-        "marketplace"
+        "marketplace",
+        "ci",
+        "cd",
+        "github actions",
+        "pipeline",
+        "schema",
+        "poc_sessions",
+        "portal_meta",
+        "student_portal_state",
+        "record tables",
+        "seed",
+        "db reset",
+        "flows",
+        "db admin"
       ],
       "path": "poc/vercel-neon.html"
     }

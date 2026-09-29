@@ -1,5 +1,5 @@
 {
-  "packageVersion": "0.3.1",
+  "packageVersion": "0.4.2",
   "studentPortalCommit": "84c6bf541a4ecefc985a6429cac8a302b0098723",
   "capturedAt": "2026-09-26",
   "captureRoute": "/dev/design-system",
@@ -412,8 +412,8 @@
       "image": "assets/detail-field-undivided-desktop.png",
       "sourceRoute": "design-system/examples/consumer/",
       "sourceSelector": "[data-slot=\"fixture-detail-field-undivided\"]",
-      "packageVersion": "0.3.1",
-      "capturedAt": "2026-09-28"
+      "packageVersion": "0.4.2",
+      "capturedAt": "2026-09-29"
     },
     {
       "id": "detail-field-undivided-phone",
@@ -425,8 +425,8 @@
       "image": "assets/detail-field-undivided-phone.png",
       "sourceRoute": "design-system/examples/consumer/",
       "sourceSelector": "[data-slot=\"fixture-detail-field-undivided\"]",
-      "packageVersion": "0.3.1",
-      "capturedAt": "2026-09-28"
+      "packageVersion": "0.4.2",
+      "capturedAt": "2026-09-29"
     },
     {
       "id": "detail-section-card",
@@ -887,6 +887,32 @@
       "captureRoute": "/?shell",
       "packageVersion": "0.3.1",
       "capturedAt": "2026-09-26"
+    },
+    {
+      "id": "record-summary-card-desktop",
+      "title": "Record summary card",
+      "page": "shared-patterns",
+      "owner": "shared",
+      "viewport": "desktop",
+      "width": 1440,
+      "image": "assets/record-summary-card-desktop.png",
+      "sourceRoute": "design-system/examples/consumer/",
+      "sourceSelector": "[data-slot=\"fixture-record-summary-card\"]",
+      "packageVersion": "0.4.1",
+      "capturedAt": "2026-09-29"
+    },
+    {
+      "id": "record-summary-card-phone",
+      "title": "Record summary card · phone",
+      "page": "shared-patterns",
+      "owner": "shared",
+      "viewport": "phone",
+      "width": 390,
+      "image": "assets/record-summary-card-phone.png",
+      "sourceRoute": "design-system/examples/consumer/",
+      "sourceSelector": "[data-slot=\"fixture-record-summary-card\"]",
+      "packageVersion": "0.4.1",
+      "capturedAt": "2026-09-29"
     }
   ]
 }
