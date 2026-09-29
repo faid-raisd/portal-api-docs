@@ -1,5 +1,5 @@
 {
-  "packageVersion": "0.4.2",
+  "packageVersion": "0.4.3",
   "studentPortalCommit": "84c6bf541a4ecefc985a6429cac8a302b0098723",
   "capturedAt": "2026-09-26",
   "captureRoute": "/dev/design-system",
@@ -898,8 +898,9 @@
       "image": "assets/record-summary-card-desktop.png",
       "sourceRoute": "design-system/examples/consumer/",
       "sourceSelector": "[data-slot=\"fixture-record-summary-card\"]",
-      "packageVersion": "0.4.1",
-      "capturedAt": "2026-09-29"
+      "sourceCommit": "f6b8b22002500c3e557b8d7fe2eaffa62c308984",
+      "packageVersion": "0.4.3",
+      "capturedAt": "2026-09-30"
     },
     {
       "id": "record-summary-card-phone",
@@ -911,8 +912,9 @@
       "image": "assets/record-summary-card-phone.png",
       "sourceRoute": "design-system/examples/consumer/",
       "sourceSelector": "[data-slot=\"fixture-record-summary-card\"]",
-      "packageVersion": "0.4.1",
-      "capturedAt": "2026-09-29"
+      "sourceCommit": "f6b8b22002500c3e557b8d7fe2eaffa62c308984",
+      "packageVersion": "0.4.3",
+      "capturedAt": "2026-09-30"
     }
   ]
 }
