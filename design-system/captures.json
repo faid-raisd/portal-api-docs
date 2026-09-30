@@ -1,5 +1,5 @@
 {
-  "packageVersion": "0.2.0",
+  "packageVersion": "0.5.0",
   "studentPortalCommit": "84c6bf541a4ecefc985a6429cac8a302b0098723",
   "capturedAt": "2026-09-26",
   "captureRoute": "/dev/design-system",
@@ -403,6 +403,32 @@
       "capturedAt": "2026-09-24"
     },
     {
+      "id": "detail-field-undivided-desktop",
+      "title": "Detail field \u00b7 undivided",
+      "page": "shared-patterns",
+      "owner": "shared",
+      "viewport": "desktop",
+      "width": 1440,
+      "image": "assets/detail-field-undivided-desktop.png",
+      "sourceRoute": "design-system/examples/consumer/",
+      "sourceSelector": "[data-slot=\"fixture-detail-field-undivided\"]",
+      "packageVersion": "0.4.2",
+      "capturedAt": "2026-09-29"
+    },
+    {
+      "id": "detail-field-undivided-phone",
+      "title": "Detail field \u00b7 undivided phone",
+      "page": "shared-patterns",
+      "owner": "shared",
+      "viewport": "phone",
+      "width": 390,
+      "image": "assets/detail-field-undivided-phone.png",
+      "sourceRoute": "design-system/examples/consumer/",
+      "sourceSelector": "[data-slot=\"fixture-detail-field-undivided\"]",
+      "packageVersion": "0.4.2",
+      "capturedAt": "2026-09-29"
+    },
+    {
       "id": "detail-section-card",
       "title": "Detail section card",
       "page": "shared-patterns",
@@ -555,7 +581,7 @@
     },
     {
       "id": "module-detail-patterns-phone",
-      "title": "Module detail patterns · phone",
+      "title": "Module detail patterns \u00b7 phone",
       "page": "student-components",
       "owner": "student",
       "viewport": "phone",
@@ -566,7 +592,7 @@
     },
     {
       "id": "summary-cards-phone",
-      "title": "Summary cards · phone",
+      "title": "Summary cards \u00b7 phone",
       "page": "shared-patterns",
       "owner": "shared",
       "viewport": "phone",
@@ -579,7 +605,7 @@
     },
     {
       "id": "content-sections-phone",
-      "title": "Content sections · phone",
+      "title": "Content sections \u00b7 phone",
       "page": "shared-patterns",
       "owner": "shared",
       "viewport": "phone",
@@ -591,7 +617,7 @@
     },
     {
       "id": "timetable-minute-precision-phone",
-      "title": "Timetable minute precision · phone",
+      "title": "Timetable minute precision \u00b7 phone",
       "page": "student-components",
       "owner": "student",
       "viewport": "phone",
@@ -602,7 +628,7 @@
     },
     {
       "id": "tab-panel-banner-phone",
-      "title": "Tab-panel banner · phone",
+      "title": "Tab-panel banner \u00b7 phone",
       "page": "shared-patterns",
       "owner": "shared",
       "viewport": "phone",
@@ -614,7 +640,7 @@
     },
     {
       "id": "linked-list-phone",
-      "title": "Linked list · phone",
+      "title": "Linked list \u00b7 phone",
       "page": "shared-patterns",
       "owner": "shared",
       "viewport": "phone",
@@ -626,7 +652,7 @@
     },
     {
       "id": "page-action-bar-phone",
-      "title": "Page action bar · phone",
+      "title": "Page action bar \u00b7 phone",
       "page": "shared-patterns",
       "owner": "shared",
       "viewport": "phone",
@@ -638,7 +664,7 @@
     },
     {
       "id": "data-table-phone",
-      "title": "Data table · phone",
+      "title": "Data table \u00b7 phone",
       "page": "shared-patterns",
       "owner": "shared",
       "viewport": "phone",
@@ -650,7 +676,7 @@
     },
     {
       "id": "responsive-form-grid-phone",
-      "title": "Responsive form grid · phone",
+      "title": "Responsive form grid \u00b7 phone",
       "page": "shared-controls",
       "owner": "shared",
       "viewport": "phone",
@@ -663,7 +689,7 @@
     },
     {
       "id": "detail-field-phone",
-      "title": "Detail field · phone",
+      "title": "Detail field \u00b7 phone",
       "page": "shared-patterns",
       "owner": "shared",
       "viewport": "phone",
@@ -675,7 +701,7 @@
     },
     {
       "id": "student-profile-control-phone",
-      "title": "Student profile control · phone",
+      "title": "Student profile control \u00b7 phone",
       "page": "student-components",
       "owner": "student",
       "viewport": "phone",
@@ -686,7 +712,7 @@
     },
     {
       "id": "calendar-month-and-agenda-phone",
-      "title": "Calendar month and agenda · phone",
+      "title": "Calendar month and agenda \u00b7 phone",
       "page": "student-components",
       "owner": "student",
       "viewport": "phone",
@@ -698,7 +724,7 @@
     },
     {
       "id": "module-detail-patterns-tablet",
-      "title": "Module detail patterns · tablet",
+      "title": "Module detail patterns \u00b7 tablet",
       "page": "student-components",
       "owner": "student",
       "viewport": "tablet",
@@ -709,7 +735,7 @@
     },
     {
       "id": "content-sections-tablet",
-      "title": "Content sections · tablet",
+      "title": "Content sections \u00b7 tablet",
       "page": "shared-patterns",
       "owner": "shared",
       "viewport": "tablet",
@@ -721,7 +747,7 @@
     },
     {
       "id": "timetable-minute-precision-tablet",
-      "title": "Timetable minute precision · tablet",
+      "title": "Timetable minute precision \u00b7 tablet",
       "page": "student-components",
       "owner": "student",
       "viewport": "tablet",
@@ -732,7 +758,7 @@
     },
     {
       "id": "data-table-tablet",
-      "title": "Data table · tablet",
+      "title": "Data table \u00b7 tablet",
       "page": "shared-patterns",
       "owner": "shared",
       "viewport": "tablet",
@@ -744,7 +770,7 @@
     },
     {
       "id": "student-profile-control-tablet",
-      "title": "Student profile control · tablet",
+      "title": "Student profile control \u00b7 tablet",
       "page": "student-components",
       "owner": "student",
       "viewport": "tablet",
@@ -755,7 +781,7 @@
     },
     {
       "id": "module-detail-materials",
-      "title": "Module detail patterns · Materials",
+      "title": "Module detail patterns \u00b7 Materials",
       "page": "student-components",
       "owner": "student",
       "viewport": "desktop",
@@ -766,7 +792,7 @@
     },
     {
       "id": "module-detail-attendance",
-      "title": "Module detail patterns · Attendance",
+      "title": "Module detail patterns \u00b7 Attendance",
       "page": "student-components",
       "owner": "student",
       "viewport": "desktop",
@@ -777,7 +803,7 @@
     },
     {
       "id": "tab-panel-banner-gradient",
-      "title": "Tab-panel banner · Gradient on",
+      "title": "Tab-panel banner \u00b7 Gradient on",
       "page": "shared-patterns",
       "owner": "shared",
       "viewport": "desktop",
@@ -789,7 +815,7 @@
     },
     {
       "id": "accordion-collapsed",
-      "title": "Accordion · Collapsed",
+      "title": "Accordion \u00b7 Collapsed",
       "page": "shared-controls",
       "owner": "shared",
       "viewport": "desktop",
@@ -801,7 +827,7 @@
     },
     {
       "id": "dialog-open",
-      "title": "Overlays and feedback · Dialog open",
+      "title": "Overlays and feedback \u00b7 Dialog open",
       "page": "shared-controls",
       "owner": "shared",
       "viewport": "desktop",
@@ -813,7 +839,7 @@
     },
     {
       "id": "popup-open",
-      "title": "Overlays and feedback · Popup open",
+      "title": "Overlays and feedback \u00b7 Popup open",
       "page": "shared-controls",
       "owner": "shared",
       "viewport": "desktop",
@@ -833,7 +859,7 @@
       "image": "assets/portal-shell-phone.png",
       "sourceSelector": "[data-slot=\"portal-shell\"]",
       "captureRoute": "/?shell",
-      "packageVersion": "0.2.0",
+      "packageVersion": "0.3.1",
       "capturedAt": "2026-09-26"
     },
     {
@@ -846,7 +872,7 @@
       "image": "assets/portal-shell-tablet.png",
       "sourceSelector": "[data-slot=\"portal-shell\"]",
       "captureRoute": "/?shell",
-      "packageVersion": "0.2.0",
+      "packageVersion": "0.3.1",
       "capturedAt": "2026-09-26"
     },
     {
@@ -859,8 +885,81 @@
       "image": "assets/portal-shell-desktop.png",
       "sourceSelector": "[data-slot=\"portal-shell\"]",
       "captureRoute": "/?shell",
-      "packageVersion": "0.2.0",
+      "packageVersion": "0.3.1",
       "capturedAt": "2026-09-26"
+    },
+    {
+      "id": "record-summary-card-desktop",
+      "title": "Record summary card",
+      "page": "shared-patterns",
+      "owner": "shared",
+      "viewport": "desktop",
+      "width": 1440,
+      "image": "assets/record-summary-card-desktop.png",
+      "sourceRoute": "design-system/examples/consumer/",
+      "sourceSelector": "[data-slot=\"fixture-record-summary-card\"]",
+      "sourceCommit": "f6b8b22002500c3e557b8d7fe2eaffa62c308984",
+      "packageVersion": "0.4.3",
+      "capturedAt": "2026-09-30"
+    },
+    {
+      "id": "record-summary-card-phone",
+      "title": "Record summary card \u00b7 phone",
+      "page": "shared-patterns",
+      "owner": "shared",
+      "viewport": "phone",
+      "width": 390,
+      "image": "assets/record-summary-card-phone.png",
+      "sourceRoute": "design-system/examples/consumer/",
+      "sourceSelector": "[data-slot=\"fixture-record-summary-card\"]",
+      "sourceCommit": "f6b8b22002500c3e557b8d7fe2eaffa62c308984",
+      "packageVersion": "0.4.3",
+      "capturedAt": "2026-09-30"
+    },
+    {
+      "id": "survey-layout-desktop",
+      "title": "Survey / wizard layout",
+      "page": "shared-patterns",
+      "owner": "shared",
+      "viewport": "desktop",
+      "width": 1440,
+      "image": "assets/survey-layout-desktop.png",
+      "sourceRoute": "design-system/examples/consumer/?survey",
+      "captureRoute": "/?survey",
+      "sourceSelector": "[data-slot=\"survey-layout\"]",
+      "sourceCommit": "83e1274f3a5347f6e9d22b85d2a4c610ae053730",
+      "packageVersion": "0.5.0",
+      "capturedAt": "2026-09-30"
+    },
+    {
+      "id": "survey-layout-tablet",
+      "title": "Survey / wizard layout",
+      "page": "shared-patterns",
+      "owner": "shared",
+      "viewport": "tablet",
+      "width": 820,
+      "image": "assets/survey-layout-tablet.png",
+      "sourceRoute": "design-system/examples/consumer/?survey",
+      "captureRoute": "/?survey",
+      "sourceSelector": "[data-slot=\"survey-layout\"]",
+      "sourceCommit": "83e1274f3a5347f6e9d22b85d2a4c610ae053730",
+      "packageVersion": "0.5.0",
+      "capturedAt": "2026-09-30"
+    },
+    {
+      "id": "survey-layout-phone",
+      "title": "Survey / wizard layout",
+      "page": "shared-patterns",
+      "owner": "shared",
+      "viewport": "phone",
+      "width": 390,
+      "image": "assets/survey-layout-phone.png",
+      "sourceRoute": "design-system/examples/consumer/?survey",
+      "captureRoute": "/?survey",
+      "sourceSelector": "[data-slot=\"survey-layout\"]",
+      "sourceCommit": "83e1274f3a5347f6e9d22b85d2a4c610ae053730",
+      "packageVersion": "0.5.0",
+      "capturedAt": "2026-09-30"
     }
   ]
 }
