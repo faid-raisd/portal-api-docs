@@ -326,8 +326,8 @@ search:
   - title: LMS research posture
     href: lms
     section: Architecture
-    summary: Student Moodle-like LMS feature map on Raisd CAP + F01–F37; Q37 Option 1 published.
-    keywords: [lms, learning, moodle, student, f01, f37, materials, assignments, quizzes, live class, gradebook, cap-44, base-44]
+    summary: Student Moodle-like LMS map plus SDD-11 capability detail (student/lecturer/staff); Q37 Option 1.
+    keywords: [lms, learning, moodle, student, lecturer, capabilities, cap, f01, f37, materials, assignments, quizzes, live class, gradebook, cap-44, base-44]
 
   - title: LMS architecture
     href: lms-architecture

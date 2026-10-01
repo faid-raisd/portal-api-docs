@@ -217,9 +217,8 @@
       <h1>Raisd LMS — research posture</h1>
       <p>
         Student learning features on Raisd, mapped in a Moodle-like shape to CAP + F01–F37 —
-        <strong>proposed / research-backed</strong>, not a Live LMS product.
-        Raisd sources are enough to document the student surface; PPA LMS product inventory
-        is not in this workspace.
+        with capability detail from <a href="../sdd/11-capability-catalog.html">SDD-11</a>.
+        <strong>Proposed / research-backed</strong>, not a Live LMS product.
       </p>
       <div class="meta-row">
         <span class="chip warn">Proposed / research-backed</span>
@@ -242,10 +241,10 @@
 
     <nav class="toc" aria-label="On this page">
       <a href="#student"><strong>Student LMS</strong><span>Moodle-like feature map</span></a>
+      <a href="#capabilities"><strong>Capabilities</strong><span>Student · lecturer · staff</span></a>
       <a href="#journey"><strong>Student journey</strong><span>Course → assess → feedback</span></a>
       <a href="#pages"><strong>Generated pages</strong><span>Architecture · features</span></a>
       <a href="#raisd"><strong>Raisd sources</strong><span>CAP + F01–F37</span></a>
-      <a href="#ppa"><strong>PPA LMS</strong><span>Infra only locally</span></a>
     </nav>
 
     <section class="section" id="student">
@@ -399,6 +398,133 @@
       </div>
     </section>
 
+
+    <section class="section" id="capabilities">
+      <h2>LMS capability details</h2>
+      <p class="lead">
+        Learning-related capabilities from
+        <a href="../sdd/11-capability-catalog.html">SDD-11</a>.
+        Frontend / Backend statuses are authoritative there; this page groups the LMS slice
+        by role surface. Demo ≠ Live.
+      </p>
+
+      <h3 id="cap-student">Student learning capabilities</h3>
+      <div class="table-wrap">
+        <table class="attr">
+          <thead>
+            <tr>
+              <th>CAP</th>
+              <th>Capability</th>
+              <th>Dept</th>
+              <th>Frontend</th>
+              <th>Backend</th>
+              <th>Milestone</th>
+              <th>Next action / blocker</th>
+            </tr>
+          </thead>
+          <tbody>
+<tr id="cap-11-student"><td><a href="../sdd/11-capability-catalog.html#cap-11">CAP-11</a></td><td>Class timetable</td><td>Faculty</td><td>Demo</td><td>Needs checking</td><td>M3</td><td>Map current timetable records and update rules from the old CMS.</td></tr>
+<tr id="cap-12-student"><td><a href="../sdd/11-capability-catalog.html#cap-12">CAP-12</a></td><td>Attendance records</td><td>Faculty</td><td>Demo</td><td>Needs checking</td><td>M3</td><td>Identify the authoritative attendance source and staff correction workflow.</td></tr>
+<tr id="cap-13-student"><td><a href="../sdd/11-capability-catalog.html#cap-13">CAP-13</a></td><td>Grades, results and student progress</td><td>Registry</td><td>Demo</td><td>Needs checking</td><td>M3</td><td>Confirm result approval/publication rules and legacy data fields.</td></tr>
+<tr id="cap-14-student"><td><a href="../sdd/11-capability-catalog.html#cap-14">CAP-14</a></td><td>Study plan and prerequisites</td><td>Faculty</td><td>Demo</td><td>Needs checking</td><td>M3</td><td>Validate programme versions, prerequisites and credit-transfer rules.</td></tr>
+<tr id="cap-16-student"><td><a href="../sdd/11-capability-catalog.html#cap-16">CAP-16</a></td><td>Important announcements</td><td>Registry</td><td>Partial</td><td>Needs checking</td><td>M3</td><td>Confirm audiences, publishing ownership, full announcement viewing and the real feed.</td></tr>
+<tr id="cap-17-student"><td><a href="../sdd/11-capability-catalog.html#cap-17">CAP-17</a></td><td>Study guides</td><td>Faculty</td><td>Not started</td><td>Needs checking</td><td>M3</td><td>Identify required guides and arrange lecturer publishing and student access.</td></tr>
+<tr id="cap-18-student"><td><a href="../sdd/11-capability-catalog.html#cap-18">CAP-18</a></td><td>Lecture notes and learning-media access</td><td>Faculty</td><td>Placeholder</td><td>Needs checking</td><td>M3</td><td>Enable authorised resource viewing/download and supported media delivery.</td></tr>
+<tr id="cap-19-student"><td><a href="../sdd/11-capability-catalog.html#cap-19">CAP-19</a></td><td>Assignment briefs</td><td>Faculty</td><td>Partial</td><td>Needs checking</td><td>M3</td><td>Provide real brief files and release/access rules.</td></tr>
+<tr id="cap-20-student"><td><a href="../sdd/11-capability-catalog.html#cap-20">CAP-20</a></td><td>Submit, replace and withdraw assignments</td><td>Faculty</td><td>Demo</td><td>Needs checking</td><td>M3</td><td>Agree durable secure submission storage and staff receipt/marking handoff.</td></tr>
+<tr id="cap-21-student"><td><a href="../sdd/11-capability-catalog.html#cap-21">CAP-21</a></td><td>Revision work and practice activities</td><td>Faculty</td><td>Not started</td><td>Needs checking</td><td>M3</td><td>Define revision materials and any required practice/feedback activities.</td></tr>
+<tr id="cap-22-student"><td><a href="../sdd/11-capability-catalog.html#cap-22">CAP-22</a></td><td>Past examination papers</td><td>Faculty</td><td>Not started</td><td>Needs checking</td><td>M3</td><td>Identify approved papers and access/release restrictions.</td></tr>
+<tr id="cap-23-student"><td><a href="../sdd/11-capability-catalog.html#cap-23">CAP-23</a></td><td>Course information and learning outcomes</td><td>Faculty</td><td>Partial</td><td>Needs checking</td><td>M3</td><td>Add approved outcomes and complete course information to the contract.</td></tr>
+<tr id="cap-24-student"><td><a href="../sdd/11-capability-catalog.html#cap-24">CAP-24</a></td><td>Online quizzes and examinations</td><td>Faculty</td><td>Placeholder</td><td>Needs checking</td><td>M5</td><td>Define assessment modes, allowed attempts and approval/integrity requirements.</td></tr>
+<tr id="cap-25-student"><td><a href="../sdd/11-capability-catalog.html#cap-25">CAP-25</a></td><td>Student–lecturer and student–student communication</td><td>Faculty</td><td>Demo</td><td>Needs checking</td><td>M5</td><td>Agree persistent communication, moderation and response responsibilities.</td></tr>
+<tr id="cap-26-student"><td><a href="../sdd/11-capability-catalog.html#cap-26">CAP-26</a></td><td>Live online classes</td><td>Faculty</td><td>Not started</td><td>Needs checking</td><td>M5</td><td>Confirm whether and how an approved meeting tool will be integrated.</td></tr>
+<tr id="cap-27-student"><td><a href="../sdd/11-capability-catalog.html#cap-27">CAP-27</a></td><td>Self-paced learning and release schedules</td><td>Faculty</td><td>Partial</td><td>Needs checking</td><td>M5</td><td>Define the self-paced learning journey and release/completion rules.</td></tr>
+<tr id="cap-28-student"><td><a href="../sdd/11-capability-catalog.html#cap-28">CAP-28</a></td><td>View marks and lecturer feedback</td><td>Faculty</td><td>Not started</td><td>Needs checking</td><td>M3</td><td>Confirm staff marking, feedback and publication workflows in the old CMS.</td></tr>
+<tr id="cap-29-student"><td><a href="../sdd/11-capability-catalog.html#cap-29">CAP-29</a></td><td>Assessment identity checks and integrity guidance</td><td>Faculty</td><td>Not started</td><td>Needs checking</td><td>M3</td><td>Confirm required identity and integrity controls for each delivery mode.</td></tr>
+<tr id="cap-30-student"><td><a href="../sdd/11-capability-catalog.html#cap-30">CAP-30</a></td><td>Student feedback and course evaluation</td><td>Quality Assurance</td><td>Placeholder</td><td>Needs checking</td><td>M5</td><td>Approve survey scope, confidentiality and reporting ownership.</td></tr>
+<tr id="cap-31-student"><td><a href="../sdd/11-capability-catalog.html#cap-31">CAP-31</a></td><td>Digital library and e-resources</td><td>TBC</td><td>Not started</td><td>Needs checking</td><td>M5</td><td>Identify licensed resources and library access integration.</td></tr>
+<tr id="cap-32-student"><td><a href="../sdd/11-capability-catalog.html#cap-32">CAP-32</a></td><td>Student orientation and digital-learning skills</td><td>TBC</td><td>Not started</td><td>Needs checking</td><td>M3</td><td>Prepare induction content and required completion evidence.</td></tr>
+<tr id="cap-33-student"><td><a href="../sdd/11-capability-catalog.html#cap-33">CAP-33</a></td><td>Learner support and IT helpdesk</td><td>TBC</td><td>Partial</td><td>Needs checking</td><td>M3</td><td>Confirm support channels, owners, operating hours and escalation process.</td></tr>
+<tr id="cap-34-student"><td><a href="../sdd/11-capability-catalog.html#cap-34">CAP-34</a></td><td>Study-centre and regional support</td><td>TBC</td><td>Not started</td><td>Needs checking</td><td>M5</td><td>Confirm centres, local support arrangements and evidence required.</td></tr>
+<tr id="cap-35-student"><td><a href="../sdd/11-capability-catalog.html#cap-35">CAP-35</a></td><td>Accessibility and special-needs support</td><td>TBC</td><td>Demo</td><td>Needs checking</td><td>M2</td><td>Audit journeys with assistive technology and confirm student support adjustments.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 id="cap-lecturer" style="margin-top:28px">Lecturer learning capabilities</h3>
+      <p class="lead">Write-side of student learning — publish, mark, deliver, workspace.</p>
+      <div class="table-wrap">
+        <table class="attr">
+          <thead>
+            <tr>
+              <th>CAP</th>
+              <th>Capability</th>
+              <th>Dept</th>
+              <th>Frontend</th>
+              <th>Backend</th>
+              <th>Milestone</th>
+              <th>Next action / blocker</th>
+            </tr>
+          </thead>
+          <tbody>
+<tr id="cap-11-lecturer"><td><a href="../sdd/11-capability-catalog.html#cap-11">CAP-11</a></td><td>View teaching timetable and class allocations</td><td>Faculty</td><td>Not started</td><td>Needs checking</td><td>M3</td><td>Confirm view teaching timetable and whether the old CMS already supports it.</td></tr>
+<tr id="cap-12-lecturer"><td><a href="../sdd/11-capability-catalog.html#cap-12">CAP-12</a></td><td>Record and correct class attendance</td><td>Faculty</td><td>Not started</td><td>Needs checking</td><td>M3</td><td>Confirm record and correct class attendance and whether the old CMS already supports it.</td></tr>
+<tr id="cap-17-lecturer"><td><a href="../sdd/11-capability-catalog.html#cap-17">CAP-17</a></td><td>Publish study guides</td><td>Faculty</td><td>Not started</td><td>Needs checking</td><td>M3</td><td>Confirm publish study guides and whether the old CMS already supports it.</td></tr>
+<tr id="cap-18-lecturer"><td><a href="../sdd/11-capability-catalog.html#cap-18">CAP-18</a></td><td>Publish lecture notes and learning media</td><td>Faculty</td><td>Not started</td><td>Needs checking</td><td>M3</td><td>Confirm publish lecture notes and learning media and whether the old CMS already supports it.</td></tr>
+<tr id="cap-19-lecturer"><td><a href="../sdd/11-capability-catalog.html#cap-19">CAP-19</a></td><td>Publish assignment briefs and deadlines</td><td>Faculty</td><td>Not started</td><td>Needs checking</td><td>M3</td><td>Confirm publish assignment briefs and deadlines and whether the old CMS already supports it.</td></tr>
+<tr id="cap-20-lecturer"><td><a href="../sdd/11-capability-catalog.html#cap-20">CAP-20</a></td><td>Receive and review submitted assignments</td><td>Faculty</td><td>Not started</td><td>Needs checking</td><td>M3</td><td>Confirm receive and review submitted assignments and whether the old CMS already supports it.</td></tr>
+<tr id="cap-21-lecturer"><td><a href="../sdd/11-capability-catalog.html#cap-21">CAP-21</a></td><td>Publish revision work and practice activities</td><td>Faculty</td><td>Not started</td><td>Needs checking</td><td>M3</td><td>Confirm publish revision work and practice activities and whether the old CMS already supports it.</td></tr>
+<tr id="cap-22-lecturer"><td><a href="../sdd/11-capability-catalog.html#cap-22">CAP-22</a></td><td>Prepare past papers for authorised publication</td><td>Faculty</td><td>Not started</td><td>Needs checking</td><td>M3</td><td>Confirm prepare past papers for authorised publication and whether the old CMS already supports it.</td></tr>
+<tr id="cap-23-lecturer"><td><a href="../sdd/11-capability-catalog.html#cap-23">CAP-23</a></td><td>Maintain course information and learning outcomes</td><td>Faculty</td><td>Not started</td><td>Needs checking</td><td>M3</td><td>Confirm maintain course information and learning outcomes and whether the old CMS already supports it.</td></tr>
+<tr id="cap-24-lecturer"><td><a href="../sdd/11-capability-catalog.html#cap-24">CAP-24</a></td><td>Prepare and conduct online quizzes and examinations</td><td>Faculty</td><td>Not started</td><td>Needs checking</td><td>M5</td><td>Confirm prepare and conduct online quizzes and examinations and whether the old CMS already supports it.</td></tr>
+<tr id="cap-25-lecturer"><td><a href="../sdd/11-capability-catalog.html#cap-25">CAP-25</a></td><td>Communicate with students and teaching groups</td><td>Faculty</td><td>Not started</td><td>Needs checking</td><td>M5</td><td>Confirm communicate with students and teaching groups and whether the old CMS already supports it.</td></tr>
+<tr id="cap-26-lecturer"><td><a href="../sdd/11-capability-catalog.html#cap-26">CAP-26</a></td><td>Deliver live online classes</td><td>Faculty</td><td>Not started</td><td>Needs checking</td><td>M5</td><td>Confirm deliver live online classes and whether the old CMS already supports it.</td></tr>
+<tr id="cap-27-lecturer"><td><a href="../sdd/11-capability-catalog.html#cap-27">CAP-27</a></td><td>Schedule self-paced learning and content release</td><td>Faculty</td><td>Not started</td><td>Needs checking</td><td>M5</td><td>Confirm schedule self-paced learning and content release and whether the old CMS already supports it.</td></tr>
+<tr id="cap-28-lecturer"><td><a href="../sdd/11-capability-catalog.html#cap-28">CAP-28</a></td><td>Mark assessments and publish lecturer feedback</td><td>Faculty</td><td>Not started</td><td>Needs checking</td><td>M3</td><td>Confirm mark assessments and publish lecturer feedback and whether the old CMS already supports it.</td></tr>
+<tr id="cap-29-lecturer"><td><a href="../sdd/11-capability-catalog.html#cap-29">CAP-29</a></td><td>Check assessment identity and academic integrity</td><td>Faculty</td><td>Not started</td><td>Needs checking</td><td>M3</td><td>Confirm check assessment identity and academic integrity and whether the old CMS already supports it.</td></tr>
+<tr id="cap-40-lecturer"><td><a href="../sdd/11-capability-catalog.html#cap-40">CAP-40</a></td><td>Review class learning analytics</td><td>Faculty</td><td>Not started</td><td>Needs checking</td><td>M5</td><td>Confirm review class learning analytics and whether the old CMS already supports it.</td></tr>
+<tr id="cap-43-lecturer"><td><a href="../sdd/11-capability-catalog.html#cap-43">CAP-43</a></td><td>Submit course materials for quality review</td><td>Faculty</td><td>Not started</td><td>Needs checking</td><td>M3</td><td>Confirm submit course materials for quality review and whether the old CMS already supports it.</td></tr>
+<tr id="cap-44-lecturer"><td><a href="../sdd/11-capability-catalog.html#cap-44">CAP-44</a></td><td>Lecturer workspace and course access</td><td>Faculty</td><td>Not started</td><td>Needs checking</td><td>M3</td><td>Confirm lecturer workspace and course access and whether the old CMS already supports it.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 id="cap-staff" style="margin-top:28px">Staff LMS assurance capabilities</h3>
+      <p class="lead">Approvals, QA, copyright, orientation, and workspace — not a full staff CMS rebuild.</p>
+      <div class="table-wrap">
+        <table class="attr">
+          <thead>
+            <tr>
+              <th>CAP</th>
+              <th>Capability</th>
+              <th>Dept</th>
+              <th>Frontend</th>
+              <th>Backend</th>
+              <th>Milestone</th>
+              <th>Next action / blocker</th>
+            </tr>
+          </thead>
+          <tbody>
+<tr id="cap-23-staff"><td><a href="../sdd/11-capability-catalog.html#cap-23">CAP-23</a></td><td>Approve course information and learning outcomes</td><td>Faculty</td><td>Not started</td><td>Needs checking</td><td>M3</td><td>Confirm approve course information and learning outcomes and the responsible old-CMS workflow.</td></tr>
+<tr id="cap-30-staff"><td><a href="../sdd/11-capability-catalog.html#cap-30">CAP-30</a></td><td>Review institutional learning analytics and quality reports</td><td>Quality Assurance</td><td>Not started</td><td>Needs checking</td><td>M5</td><td>Define useful learning/engagement measures and evidence reports.</td></tr>
+<tr id="cap-32-staff"><td><a href="../sdd/11-capability-catalog.html#cap-32">CAP-32</a></td><td>Publish orientation and digital-learning guidance</td><td>TBC</td><td>Not started</td><td>Needs checking</td><td>M3</td><td>Confirm publish orientation and digital-learning guidance and the responsible old-CMS workflow.</td></tr>
+<tr id="cap-40-staff"><td><a href="../sdd/11-capability-catalog.html#cap-40">CAP-40</a></td><td>Review institutional learning analytics and quality reports</td><td>Quality Assurance</td><td>Not started</td><td>Needs checking</td><td>M5</td><td>Define useful learning/engagement measures and evidence reports.</td></tr>
+<tr id="cap-42-staff"><td><a href="../sdd/11-capability-catalog.html#cap-42">CAP-42</a></td><td>Record copyright permissions and provider approvals</td><td>TBC</td><td>Not started</td><td>Needs checking</td><td>M3</td><td>Confirm copyright / provider permissions for learning resources.</td></tr>
+<tr id="cap-43-staff"><td><a href="../sdd/11-capability-catalog.html#cap-43">CAP-43</a></td><td>Approve course materials for quality</td><td>Quality Assurance</td><td>Not started</td><td>Needs checking</td><td>M3</td><td>Confirm material approval workflow for LMS readiness evidence.</td></tr>
+<tr id="cap-44-staff"><td><a href="../sdd/11-capability-catalog.html#cap-44">CAP-44</a></td><td>Staff and administrator workspace and role access</td><td>TBC</td><td>Not started</td><td>Needs checking</td><td>M2</td><td>Confirm existing-CMS staff access; build new staff screens only for verified gaps.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout" style="margin-top:14px">
+        Full catalogue (all portals):
+        <a href="../sdd/11-capability-catalog.html">SDD-11 capability catalogue</a>.
+        Student IA by milestone:
+        <a href="../sdd/05-student-portal.html">SDD-05</a>.
+        Lecturer write-side:
+        <a href="../sdd/06-lecturer-portal.html">SDD-06</a>.
+      </div>
+    </section>
+
     <section class="section" id="journey">
       <h2>Student learning journey (proposed)</h2>
       <p class="lead">
@@ -458,7 +584,7 @@ flowchart LR
       </div>
       <div class="callout ok" style="margin-top:14px">
         <strong>Q37 closed — Option 1.</strong>
-        No wait for PPA LMS export; no PPA comparison page in this generate set.
+        Raisd LMS pages from CAP + F01–F37.
         Tracked in <a href="../sdd/10-open-questions.html#q37">SDD-10 Q37</a>.
       </div>
     </section>
@@ -542,38 +668,6 @@ flowchart TB
       </div>
     </section>
 
-    <section class="section" id="ppa">
-      <h2>What we found on PPA LMS</h2>
-      <p class="lead">
-        Locally we only have <strong>infra intent</strong>, not an app feature or
-        architecture dump. Option 1 pages do not depend on PPA product inventory.
-      </p>
-      <div class="table-wrap">
-        <table class="attr">
-          <thead>
-            <tr><th>Source</th><th>What it has</th></tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Officeless OpenTofu control plane<br/><code>ppa-lms</code> client</td>
-              <td>Gen2 ST <strong>planned</strong>, <strong>not provisioned</strong> (on-prem/VPS via <code>generic</code>)</td>
-            </tr>
-            <tr>
-              <td>Teknopus Insights</td>
-              <td>Client IDs <code>ppa-lms-dev</code> / <code>ppa-lms-prod</code> (app exists somewhere)</td>
-            </tr>
-            <tr>
-              <td>Raisd <code>control-plane</code></td>
-              <td><strong>No</strong> PPA LMS docs, screens, or feature catalogue</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="callout warn">
-        Infra client IDs are not a product inventory. Do not invent PPA LMS modules
-        from planned Gen2 or Insights IDs alone.
-      </div>
-    </section>
   </main>
 
   <footer class="footer">
