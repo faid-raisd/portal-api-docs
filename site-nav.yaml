@@ -27,6 +27,7 @@ targets:
   raisd-sp-manual: diagrams/raisd-cms/student-portal-manual.html
   erd: diagrams/erd.html
   schema-confirmations: diagrams/canonical-schema-confirmations.html
+  lms: diagrams/lms.html
   dfd: diagrams/dfd.html
   luct: diagrams/old-cms/index.html
   luct-comparison: diagrams/old-cms/comparison.html
@@ -57,6 +58,7 @@ external:
   agents-md: https://github.com/raisd-campus/control-plane/blob/main/docs/ai/AGENTS.md
   ai-architecture: https://github.com/raisd-campus/control-plane/blob/main/docs/ai/architecture/overview.md
   ai-distributed: https://github.com/raisd-campus/control-plane/blob/main/docs/ai/architecture/distributed-cms-target.md
+  ai-lms: https://github.com/raisd-campus/control-plane/blob/main/docs/ai/architecture/lms.md
   ai-portal-api: https://github.com/raisd-campus/control-plane/blob/main/docs/ai/backend/portal-api.md
   ai-portal-api-plan: https://github.com/raisd-campus/control-plane/blob/main/docs/ai/backend/portal-api-development-plan.md
   ai-portal-api-deploy: https://github.com/raisd-campus/control-plane/blob/main/docs/ai/backend/portal-api-deployment.md
@@ -111,6 +113,8 @@ path_rules:
     section: dfd
   - match: { file: architecture.html }
     section: architecture
+  - match: { file: lms.html }
+    section: lms
   - match: { file: migration.html }
     section: migration
   - match: { exact: diagrams/index.html }
@@ -141,6 +145,7 @@ menu:
       - { label: Public endpoints, href: "overview#endpoints" }
       - { label: Distributed CMS, href: distributed }
       - { label: Architecture, href: architecture }
+      - { label: LMS research, href: lms }
       - { label: Migration, href: migration }
       - { label: "Vercel + Neon PoC", href: vercel-poc }
 
@@ -156,10 +161,11 @@ menu:
 
   - label: Architecture
     href: architecture
-    active: [architecture, migration, vercel-poc]
+    active: [architecture, migration, vercel-poc, lms]
     children:
       - { label: Architecture home, href: architecture }
       - { label: Distributed CMS target, href: distributed }
+      - { label: LMS research posture, href: lms }
       - { label: "SDD & ADR catalogue", href: "architecture#sdd" }
       - { label: "SoR / ACL", href: "architecture#acl" }
       - { label: Academic model, href: "architecture#academic" }
@@ -248,6 +254,7 @@ menu:
       - { label: AGENTS.md, href: agents-md }
       - { label: Architecture overview, href: ai-architecture }
       - { label: Distributed CMS target, href: ai-distributed }
+      - { label: LMS research posture, href: ai-lms }
       - { label: Portal API, href: ai-portal-api }
       - { label: Portal API plan, href: ai-portal-api-plan }
       - { label: Portal API deployment, href: ai-portal-api-deploy }
@@ -305,6 +312,12 @@ search:
     section: Architecture
     summary: System architecture, ADRs, SoR/ACL boundaries, and academic model overview.
     keywords: [adr, system, integration, acl]
+
+  - title: LMS research posture
+    href: lms
+    section: Architecture
+    summary: Verdict on generating Raisd LMS architecture/features pages from CAP + F01–F37; PPA LMS inventory not in workspace.
+    keywords: [lms, learning, f01, f37, ppa, materials, cap-44, base-44, quizzes, live class]
 
   - title: Migration plan
     href: migration

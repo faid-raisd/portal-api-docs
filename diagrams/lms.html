@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Raisd LMS — research posture</title>
+  <link rel="stylesheet" href="./styles.css" />
+  <style>
+    .callout {
+      margin: 12px 0 0;
+      padding: 12px 14px;
+      border-radius: 10px;
+      border-left: 4px solid var(--accent);
+      background: var(--accent-soft);
+      color: var(--ink);
+      font-size: 0.92rem;
+    }
+    .callout.warn {
+      border-left-color: var(--warn);
+      background: var(--warn-bg);
+    }
+    .callout.ok {
+      border-left-color: var(--ok);
+      background: var(--ok-bg);
+    }
+    .option-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 12px;
+      margin-top: 12px;
+    }
+    .option-card {
+      padding: 14px 16px;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+      background: var(--surface);
+    }
+    .option-card strong {
+      display: block;
+      margin: 0 0 6px;
+      font-size: 0.95rem;
+    }
+    .option-card span {
+      display: block;
+      color: var(--muted);
+      font-size: 0.88rem;
+      line-height: 1.4;
+    }
+    .option-card .n {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+  </style>
+  <script src="site-auth.js"></script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="site-header-inner">
+      <a class="brand" href="index.html">
+        <img class="brand-logo" src="assets/raisd-logo.svg" width="80" height="22" alt="Raisd" />
+        <strong>Control Plane</strong>
+      </a>
+      <button type="button" class="site-search-trigger" aria-label="Search documentation"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="M20 20l-3.5-3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+      <nav class="nav" aria-label="Primary">
+        <div class="nav-dd">
+          <a class="nav-dd-main" href="index.html">Overview</a>
+          <div class="nav-dd-menu" role="menu">
+            <a href="index.html">Diagrams hub</a>
+            <a href="index.html#endpoints">Public endpoints</a>
+            <a href="distributed-cms-architecture.html">Distributed CMS</a>
+            <a href="architecture.html">Architecture</a>
+            <a href="lms.html">LMS research</a>
+            <a href="migration.html">Migration</a>
+            <a href="../poc/vercel-neon.html">Vercel + Neon PoC</a>
+          </div>
+        </div>
+        <div class="nav-dd">
+          <a class="nav-dd-main" href="distributed-cms-architecture.html">Distributed CMS</a>
+          <div class="nav-dd-menu" role="menu">
+            <a href="distributed-cms-architecture.html">Target architecture</a>
+            <a href="distributed-cms-architecture.html#journey">Current → ideal</a>
+            <a href="distributed-cms-architecture.html#phase-ideal">Ideal state</a>
+            <a href="distributed-cms-architecture.html#tenancy">White-label &amp; flags</a>
+            <a href="migration.html">M1–M5 migration</a>
+          </div>
+        </div>
+        <div class="nav-dd">
+          <a class="nav-dd-main active" href="architecture.html">Architecture</a>
+          <div class="nav-dd-menu" role="menu">
+            <a href="architecture.html">Architecture home</a>
+            <a href="distributed-cms-architecture.html">Distributed CMS target</a>
+            <a href="lms.html">LMS research posture</a>
+            <a href="architecture.html#sdd">SDD &amp; ADR catalogue</a>
+            <a href="architecture.html#acl">SoR / ACL</a>
+            <a href="architecture.html#academic">Academic model</a>
+            <a href="../poc/vercel-neon.html">Vercel + Neon PoC</a>
+            <div class="nav-sub">
+              <a class="nav-sub-trigger" href="migration.html" aria-haspopup="true" aria-expanded="false">Migration</a>
+              <div class="nav-sub-menu" role="menu">
+              <a href="migration.html">Plan overview</a>
+              <a href="migration.html#sequence">Milestone sequence</a>
+              <a href="distributed-cms-architecture.html#journey">Current → ideal</a>
+              <a href="migration.html#m1">M1–M5 detail</a>
+              <a href="migration.html#hosting">Hosting stages</a>
+              <a href="migration.html#critical">Critical path</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="nav-dd">
+          <a class="nav-dd-main" href="raisd-cms/index.html">Raisd CMS</a>
+          <div class="nav-dd-menu" role="menu">
+            <a href="raisd-cms/index.html">Raisd CMS hub</a>
+            <a href="raisd-cms/student-portal.html">Student portal</a>
+            <a href="raisd-cms/student-portal-screenshots.html">Screenshots</a>
+            <a href="raisd-cms/student-portal-guide.html">Use guides</a>
+            <a href="raisd-cms/student-portal-manual.html">User manual</a>
+            <a href="erd.html">ERD</a>
+            <a href="canonical-schema-confirmations.html">Schema confirmations</a>
+            <a href="dfd.html">DFD</a>
+          </div>
+        </div>
+        <div class="nav-dd">
+          <a class="nav-dd-main" href="old-cms/index.html">LUCT CMS</a>
+          <div class="nav-dd-menu" role="menu">
+            <div class="nav-sub">
+              <a class="nav-sub-trigger" href="old-cms/index.html" aria-haspopup="true" aria-expanded="false">Cyberjaya</a>
+              <div class="nav-sub-menu" role="menu">
+              <a href="old-cms/index.html">E2E hub</a>
+              <a href="old-cms/index.html#fsd">FSD</a>
+              <a href="old-cms/obsidian.html?campus=cyberjaya">Obsidian 3D</a>
+              <a href="old-cms/index.html#flows">Flows</a>
+              <a href="old-cms/index.html#erd">ERD</a>
+              <a href="old-cms/index.html#database">Database</a>
+              <a href="old-cms/index.html#compare">Comparison</a>
+              </div>
+            </div>
+            <div class="nav-sub">
+              <a class="nav-sub-trigger" href="old-cms-botswana/index.html" aria-haspopup="true" aria-expanded="false">Botswana</a>
+              <div class="nav-sub-menu" role="menu">
+              <a href="old-cms-botswana/index.html">E2E hub</a>
+              <a href="old-cms-botswana/index.html#fsd">FSD</a>
+              <a href="old-cms-botswana/index.html#dtef">DTEF</a>
+              <a href="old-cms-botswana/index.html#erd">ERD</a>
+              <a href="old-cms-botswana/database.html">Database</a>
+              <a href="old-cms/obsidian.html?campus=botswana">Obsidian 3D</a>
+              </div>
+            </div>
+            <div class="nav-sub">
+              <a class="nav-sub-trigger" href="old-cms-sierra-leone/index.html" aria-haspopup="true" aria-expanded="false">Sierra Leone</a>
+              <div class="nav-sub-menu" role="menu">
+              <a href="old-cms-sierra-leone/index.html">E2E hub</a>
+              <a href="old-cms-sierra-leone/index.html#fsd">FSD</a>
+              <a href="old-cms-sierra-leone/index.html#erd">ERD</a>
+              <a href="old-cms-sierra-leone/database.html">Database</a>
+              <a href="old-cms/obsidian.html?campus=sierra-leone">Obsidian 3D</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="nav-dd">
+          <a class="nav-dd-main" href="../design-system/index.html">Design system</a>
+          <div class="nav-dd-menu" role="menu">
+            <a href="../design-system/index.html">Design system hub</a>
+            <a href="../design-system/foundations.html">Foundations</a>
+            <a href="../design-system/shared-controls.html">Shared controls</a>
+            <a href="../design-system/shared-patterns.html">Shared patterns</a>
+            <a href="../design-system/student-components.html">Student components</a>
+          </div>
+        </div>
+        <div class="nav-dd">
+          <a class="nav-dd-main" href="../ai/index.html">AI knowledge</a>
+          <div class="nav-dd-menu" role="menu">
+            <a href="../ai/index.html">AI hub</a>
+            <a href="https://github.com/raisd-campus/control-plane/blob/main/docs/ai/AGENTS.md">AGENTS.md</a>
+            <a href="https://github.com/raisd-campus/control-plane/blob/main/docs/ai/architecture/overview.md">Architecture overview</a>
+            <a href="https://github.com/raisd-campus/control-plane/blob/main/docs/ai/architecture/distributed-cms-target.md">Distributed CMS target</a>
+            <a href="https://github.com/raisd-campus/control-plane/blob/main/docs/ai/architecture/lms.md">LMS research posture</a>
+            <a href="https://github.com/raisd-campus/control-plane/blob/main/docs/ai/backend/portal-api.md">Portal API</a>
+            <a href="https://github.com/raisd-campus/control-plane/blob/main/docs/ai/backend/portal-api-development-plan.md">Portal API plan</a>
+            <a href="https://github.com/raisd-campus/control-plane/blob/main/docs/ai/backend/portal-api-deployment.md">Portal API deployment</a>
+            <a href="https://github.com/raisd-campus/control-plane/blob/main/docs/ai/backend/portal-api-poc-requirements.md">PoC requirements</a>
+            <a href="https://github.com/raisd-campus/control-plane/blob/main/docs/ai/backend/cms-feature-comparison.md">CMS comparison</a>
+            <a href="../poc/vercel-neon.html">Vercel + Neon PoC</a>
+          </div>
+        </div>
+        <div class="nav-dd">
+          <a class="nav-dd-main" href="../sdd/index.html">SDD</a>
+          <div class="nav-dd-menu" role="menu">
+            <a href="../sdd/index.html">SDD hub</a>
+            <a href="../sdd/15-nomenclature.html">Nomenclature</a>
+            <a href="../sdd/11-capability-catalog.html">Capability catalogue</a>
+            <a href="../sdd/03-delivery-milestones.html">Milestones</a>
+          </div>
+        </div>
+        <div class="nav-dd">
+          <a class="nav-dd-main" href="../openapi.html">OpenAPI</a>
+          <div class="nav-dd-menu" role="menu">
+            <a href="../openapi.html">Swagger UI</a>
+            <a href="https://github.com/raisd-campus/control-plane/blob/main/openapi.yaml">openapi.yaml</a>
+          </div>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <h1>Raisd LMS — research posture</h1>
+      <p>
+        We can generate LMS architecture and features pages for Raisd from existing
+        CAP + F01–F37 sources — but <strong>not</strong> from a complete PPA LMS product
+        inventory. That material is not in this workspace.
+      </p>
+      <div class="meta-row">
+        <span class="chip warn">Proposed / research-backed</span>
+        <span class="chip">Not Live product</span>
+        <span class="chip ok">Raisd sources sufficient</span>
+        <span class="chip warn">No PPA LMS dump here</span>
+      </div>
+    </section>
+
+    <div class="note" style="margin: 0 0 28px">
+      <strong>Verdict (1 October 2026).</strong>
+      Raisd already has enough LMS requirement sources to build the pages.
+      A true “from PPA LMS” comparison needs a live URL, Studio/app export, or
+      feature/FSD pack — without that we would be inventing PPA product features.
+      Agent source:
+      <a href="https://github.com/raisd-campus/control-plane/blob/main/docs/ai/architecture/lms.md">architecture/lms.md</a>.
+    </div>
+
+    <nav class="toc" aria-label="On this page">
+      <a href="#ppa"><strong>PPA LMS</strong><span>What we found</span></a>
+      <a href="#raisd"><strong>Raisd sources</strong><span>Enough to generate</span></a>
+      <a href="#generate"><strong>Proposed pages</strong><span>Architecture + features</span></a>
+      <a href="#blocker"><strong>Blocker</strong><span>PPA product inventory</span></a>
+      <a href="#options"><strong>Next step</strong><span>Which to generate</span></a>
+    </nav>
+
+    <section class="section" id="ppa">
+      <h2>What we found on PPA LMS</h2>
+      <p class="lead">
+        Locally we only have <strong>infra intent</strong>, not an app feature or
+        architecture dump we can copy into Raisd pages.
+      </p>
+      <div class="table-wrap">
+        <table class="attr">
+          <thead>
+            <tr><th>Source</th><th>What it has</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Officeless OpenTofu control plane<br/><code>ppa-lms</code> client</td>
+              <td>Gen2 ST <strong>planned</strong>, <strong>not provisioned</strong> (on-prem/VPS via <code>generic</code>)</td>
+            </tr>
+            <tr>
+              <td>Teknopus Insights</td>
+              <td>Client IDs <code>ppa-lms-dev</code> / <code>ppa-lms-prod</code> (app exists somewhere)</td>
+            </tr>
+            <tr>
+              <td>Raisd <code>control-plane</code></td>
+              <td><strong>No</strong> PPA LMS docs, screens, or feature catalogue</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout warn">
+        Infra client IDs are not a product inventory. Do not invent PPA LMS modules
+        from planned Gen2 or Insights IDs alone.
+      </div>
+    </section>
+
+    <section class="section" id="raisd">
+      <h2>What Raisd already has for LMS</h2>
+      <p class="lead">
+        Enough to generate architecture and features pages in the same style as
+        Distributed CMS / Raisd CMS — marked research-backed, not Live.
+      </p>
+      <ul>
+        <li>
+          <strong>37 research domains</strong> <code>INPUT-F01</code>–<code>F37</code>
+          mapped to CAPs
+          (<code>LMS_Feature_Requirements_8_Countried.xlsx</code>
+          (also mirrored in student-portal planning JSON). Supplied research, not
+          universal mandates —
+          <a href="../sdd/09-requirements-traceability.html">SDD-09</a>.
+        </li>
+        <li>
+          Learning CAPs mostly <strong>Not started / Placeholder / Partial</strong>
+          (guides, materials, assignments, quizzes, live class, lecturer workspace, …) —
+          <a href="../sdd/11-capability-catalog.html">SDD-11</a>.
+        </li>
+        <li>
+          Explicit gap: student Materials alone is <strong>not</strong> an LMS
+          (<a href="../sdd/09-requirements-traceability.html">BASE-44</a>).
+        </li>
+        <li>
+          Diagrams hub already has the pattern (<code>docs/diagrams/*.html</code>) —
+          this page is the LMS entry; dedicated architecture / features pages are proposed below.
+        </li>
+      </ul>
+      <div class="card" style="margin-top:14px">
+        <div class="card-head">
+          <div>
+            <h3>Architecture sketch (proposed)</h3>
+            <p>LMS as role surfaces on Portal API — not a fifth portal product.</p>
+          </div>
+        </div>
+        <div class="card-body">
+          <pre class="mermaid">
+flowchart TB
+  subgraph Portals["Role surfaces"]
+    S[Student portal]
+    L[Lecturer portal]
+    T[Staff portal]
+  end
+
+  API[Portal API]
+  ACL["CMS bridge CAP-53"]
+  CMS[(Existing CMS · SoR)]
+  FS[(File store · Live evidence / live class)]
+
+  S --> API
+  L --> API
+  T --> API
+  API --> ACL
+  ACL --> CMS
+  API --> FS
+          </pre>
+        </div>
+      </div>
+      <div class="legend">
+        <div class="legend-item">
+          <strong>Student</strong>
+          <span>Consume materials, assignments, quizzes, live join when agreed.</span>
+        </div>
+        <div class="legend-item">
+          <strong>Lecturer</strong>
+          <span>Publish, mark, deliver live class, workspace (<a href="../sdd/11-capability-catalog.html#cap-44">CAP-44</a>).</span>
+        </div>
+        <div class="legend-item">
+          <strong>Staff</strong>
+          <span>Approvals / QA / orientation where CAP-owned.</span>
+        </div>
+        <div class="legend-item">
+          <strong>Live file store</strong>
+          <span>Required for durable assignments and Live artefacts — see SDD-10 Q5.</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="generate">
+      <h2>Recommended generate set</h2>
+      <p class="lead">
+        Same style as Distributed CMS / Raisd CMS. Status on every page:
+        <strong>proposed / research-backed</strong>, not Live product.
+      </p>
+      <div class="table-wrap">
+        <table class="attr">
+          <thead>
+            <tr><th>Artefact</th><th>Purpose</th><th>Status</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>docs/diagrams/lms-architecture.html</code></td>
+              <td>LMS as role surfaces on Portal API (student / lecturer / staff); CMS as SoR; file store for Live</td>
+              <td>Proposed — not generated yet</td>
+            </tr>
+            <tr>
+              <td><code>docs/diagrams/lms-features.html</code></td>
+              <td>F01–F37 × CAP matrix with Demo / Live status</td>
+              <td>Proposed — not generated yet</td>
+            </tr>
+            <tr>
+              <td>
+                <a href="https://github.com/raisd-campus/control-plane/blob/main/docs/ai/architecture/lms.md"><code>docs/ai/architecture/lms.md</code></a>
+                + this page
+              </td>
+              <td>Agent-facing + human source of truth for research posture</td>
+              <td><span class="chip ok">Published</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="section" id="blocker">
+      <h2>Blocker for a true “from PPA LMS” page</h2>
+      <div class="callout warn">
+        Need one of: <strong>live URL</strong>, <strong>Studio/app export</strong>, or
+        <strong>feature/FSD pack</strong>. Without that, a PPA comparison page would invent
+        product features from infra intent.
+      </div>
+    </section>
+
+    <section class="section" id="options">
+      <h2>Which should we generate?</h2>
+      <p class="lead">
+        Open choice for the working group — also tracked as
+        <a href="../sdd/10-open-questions.html#q37">SDD-10 Q37</a>.
+      </p>
+      <div class="option-grid">
+        <div class="option-card">
+          <span class="n">Option 1</span>
+          <strong>Raisd LMS pages from CAP + F01–F37</strong>
+          <span>Can start now. Architecture + features pages from Raisd sources only.</span>
+        </div>
+        <div class="option-card">
+          <span class="n">Option 2</span>
+          <strong>Wait for PPA LMS URL/export</strong>
+          <span>Then add a reference comparison — no Raisd pages until access lands.</span>
+        </div>
+        <div class="option-card">
+          <span class="n">Option 3</span>
+          <strong>Both</strong>
+          <span>Generate Raisd pages now; add PPA comparison once access is shared.</span>
+        </div>
+      </div>
+      <div class="callout ok" style="margin-top:16px">
+        Recommendation if unblocked for Raisd-only work: <strong>Option 1 or 3</strong> —
+        publish research-backed Raisd LMS pages now; keep PPA comparison gated on real access.
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    Generated for raisd-campus/control-plane · Mermaid diagrams · GitHub Pages
+  </footer>
+
+  <script type="module">
+    import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: "base",
+      securityLevel: "loose",
+      themeVariables: {
+        primaryColor: "#e8f0f8",
+        primaryTextColor: "#152033",
+        primaryBorderColor: "#1a4f8b",
+        lineColor: "#5a6a7e",
+        secondaryColor: "#e8f6ee",
+        tertiaryColor: "#fff6e8",
+        fontFamily: "Segoe UI, system-ui, sans-serif",
+      },
+      flowchart: { curve: "basis", htmlLabels: true },
+    });
+  </script>
+  <script src="abbr-tooltips.js" defer></script>
+  <script src="nav-dropdown.js" defer></script>
+  <script src="site-search.js" defer></script>
+</body>
+</html>

@@ -81,6 +81,7 @@
             <a href="../diagrams/index.html#endpoints">Public endpoints</a>
             <a href="../diagrams/distributed-cms-architecture.html">Distributed CMS</a>
             <a href="../diagrams/architecture.html">Architecture</a>
+            <a href="../diagrams/lms.html">LMS research</a>
             <a href="../diagrams/migration.html">Migration</a>
             <a href="../poc/vercel-neon.html">Vercel + Neon PoC</a>
           </div>
@@ -100,6 +101,7 @@
           <div class="nav-dd-menu" role="menu">
             <a href="../diagrams/architecture.html">Architecture home</a>
             <a href="../diagrams/distributed-cms-architecture.html">Distributed CMS target</a>
+            <a href="../diagrams/lms.html">LMS research posture</a>
             <a href="../diagrams/architecture.html#sdd">SDD &amp; ADR catalogue</a>
             <a href="../diagrams/architecture.html#acl">SoR / ACL</a>
             <a href="../diagrams/architecture.html#academic">Academic model</a>
@@ -185,6 +187,7 @@
             <a href="https://github.com/raisd-campus/control-plane/blob/main/docs/ai/AGENTS.md">AGENTS.md</a>
             <a href="https://github.com/raisd-campus/control-plane/blob/main/docs/ai/architecture/overview.md">Architecture overview</a>
             <a href="https://github.com/raisd-campus/control-plane/blob/main/docs/ai/architecture/distributed-cms-target.md">Distributed CMS target</a>
+            <a href="https://github.com/raisd-campus/control-plane/blob/main/docs/ai/architecture/lms.md">LMS research posture</a>
             <a href="https://github.com/raisd-campus/control-plane/blob/main/docs/ai/backend/portal-api.md">Portal API</a>
             <a href="https://github.com/raisd-campus/control-plane/blob/main/docs/ai/backend/portal-api-development-plan.md">Portal API plan</a>
             <a href="https://github.com/raisd-campus/control-plane/blob/main/docs/ai/backend/portal-api-deployment.md">Portal API deployment</a>
@@ -459,11 +462,98 @@ application?</td>
 </table>
 <h2 id="b.-canonical-schema-v2-luct-readiness-1-october-2026">4b.
 Canonical schema v2 (LUCT readiness) — 1 October 2026</h2>
-<p>Demo implements draft answers; Live policy remains <strong>Needs
-checking</strong>. Full agenda table (CS-01–CS-13): <a
+<p><strong>Decision (1 October 2026):</strong> Schema v2 may proceed
+without every campus agreeing identical operational rules. Canonical
+model + invariants are shared; university default then campus override
+(effective-dated) control behaviour. Incomplete campus policy
+confirmation blocks that campus’s Live feature only — not Schema v2.
+Full table: <a
 href="../diagrams/canonical-schema-confirmations.html">canonical-schema-confirmations.html</a>.
 Knowledge source: <a
-href="../ai/backend/canonical-schema-luct-readiness.html">canonical-schema-luct-readiness.md</a>.</p>
+href="../ai/backend/canonical-schema-luct-readiness.html">canonical-schema-luct-readiness.md</a>
+§0 / §6.</p>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th>ID</th>
+<th>Topic</th>
+<th>Treatment</th>
+<th>Live readiness owner</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Q29 / CS-01</td>
+<td>Legacy → canonical academic / enrolment status mapping</td>
+<td>Non-blocking; <code>campus_status_mapping</code> + fixed
+latest-valid-period invariant</td>
+<td>Registry (per campus onboarding)</td>
+</tr>
+<tr>
+<td>Q30 / CS-02</td>
+<td><code>current_active_students</code> definition</td>
+<td>One mechanism; policy-driven status set; academic only (not Portal
+authz)</td>
+<td>Registry + International Office</td>
+</tr>
+<tr>
+<td>Q31 / CS-03</td>
+<td>Outstanding / Inactive / Deferred</td>
+<td>Three distinct concepts; operational class via campus policy</td>
+<td>Registry</td>
+</tr>
+<tr>
+<td>Q32 / CS-04</td>
+<td>Enrolment lifecycle extras</td>
+<td>Keep four statuses; extend only when a real process needs it</td>
+<td>Registry / product</td>
+</tr>
+<tr>
+<td>Q33 / CS-05–07</td>
+<td>Credit classification, CGPA repeat, outcomes</td>
+<td>Policy tables; keep <code>pass\|fail</code> initially; CT/exemption
+first-class</td>
+<td>Registry (+ Portal API for enum)</td>
+</tr>
+<tr>
+<td>Q34 / CS-08–10</td>
+<td>Refunds, document numbers, adjustments</td>
+<td>Schema keeps correction model; campus enables workflows /
+numbering</td>
+<td>Bursary</td>
+</tr>
+<tr>
+<td>Q35 / CS-11</td>
+<td>RBAC / LoginActive mapping</td>
+<td>Accounts ≠ identity; LoginActive ≠
+<code>user_account.status</code></td>
+<td>Product + IT / Registry</td>
+</tr>
+<tr>
+<td>Q36 / CS-12–13</td>
+<td>Physical FKs; Live reports on views</td>
+<td>No Demo FKs (mandatory on relational Live); incremental shadow
+cutover</td>
+<td>Engineering</td>
+</tr>
+</tbody>
+</table>
+<h2 id="c.-lms-documentation-posture-1-october-2026">4c. LMS
+documentation posture — 1 October 2026</h2>
+<p><strong>Verdict:</strong> Raisd can generate LMS architecture +
+features pages from CAP + <code>INPUT-F01</code>–<code>F37</code>
+research. This workspace has <strong>no</strong> PPA LMS product
+inventory (only infra intent / client IDs). Student Materials alone is
+not an LMS (<a href="09-requirements-traceability.html">BASE-44</a>).
+Published page: <a href="../diagrams/lms.html">lms.html</a>. Agent
+knowledge: <code>docs/ai/architecture/lms.md</code> in
+control-plane.</p>
 <table>
 <colgroup>
 <col style="width: 25%" />
@@ -475,64 +565,18 @@ href="../ai/backend/canonical-schema-luct-readiness.html">canonical-schema-luct-
 <tr>
 <th>ID</th>
 <th>Question</th>
-<th>Why it blocks</th>
+<th>Why it matters</th>
 <th>Owner</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Q29 / CS-01</td>
-<td>Map legacy <code>SemesterStatus</code> / <code>ProgramStatus</code>
-to <code>academicStatus</code> and enrolment status per campus</td>
-<td>EMGS, CAP-53, Live reports</td>
-<td>Registry</td>
-</tr>
-<tr>
-<td>Q30 / CS-02</td>
-<td>May EMGS, portal access and dashboards share
-<code>current_active_students</code>?</td>
-<td>Cohort counts and eligibility</td>
-<td>Registry + International Office</td>
-</tr>
-<tr>
-<td>Q31 / CS-03</td>
-<td>Is <code>Outstanding</code> active for EMGS and portal alike? Is
-<code>Inactive</code> ≠ <code>Deferred</code>?</td>
-<td>CS-01 / CS-02</td>
-<td>Registry</td>
-</tr>
-<tr>
-<td>Q32 / CS-04</td>
-<td>Add <code>suspended</code> / <code>terminated</code> /
-<code>transferred-out</code> to enrolment lifecycle?</td>
-<td>Enrolment history</td>
-<td>Registry / product</td>
-</tr>
-<tr>
-<td>Q33 / CS-05–07</td>
-<td>Confirm credit-classification campus-rule cells and extend outcomes
-beyond <code>pass</code>/<code>fail</code></td>
-<td>Transcript / CGPA</td>
-<td>Registry</td>
-</tr>
-<tr>
-<td>Q34 / CS-08–10</td>
-<td>CMS refund/credit-note issuance paths and document numbers;
-adjustment categories</td>
-<td>Finance Live</td>
-<td>Bursary</td>
-</tr>
-<tr>
-<td>Q35 / CS-11</td>
-<td>Real RBAC matrix (roles, permissions, LoginActive mapping)</td>
-<td>Access control Live</td>
-<td>Product + IT / Registry</td>
-</tr>
-<tr>
-<td>Q36 / CS-12–13</td>
-<td>Physical FKs and Live reports on reporting views</td>
-<td>Demo vs Live projection</td>
-<td>Engineering (after CS-02)</td>
+<td><a id="q37"></a>Q37</td>
+<td>Generate Raisd LMS pages now (CAP + F01–F37), wait for PPA LMS
+URL/export, or both once access is shared?</td>
+<td>Unlocks <code>lms-architecture.html</code> /
+<code>lms-features.html</code>; avoids inventing PPA features</td>
+<td>Product / architecture</td>
 </tr>
 </tbody>
 </table>
@@ -627,6 +671,24 @@ Portal API; do not duplicate operational functions. Longer term:
 progressive unified one-stop CMS on verified gaps + migration
 strategy</td>
 <td>Aslam (WG chat); recorded by Iman Suherman</td>
+</tr>
+<tr>
+<td>1 Oct 2026</td>
+<td>Canonical Schema v2 may proceed: CS-01–CS-11 become effective-dated
+campus/university policy (Live readiness), not Schema blockers; CS-12 no
+Demo FKs / mandatory on relational Live; CS-13 incremental campus-scoped
+report cutover. Hierarchy: canonical → university default → campus
+override</td>
+<td>Architecture recommendation to Iman Suherman; recorded in knowledge
+base</td>
+</tr>
+<tr>
+<td>1 Oct 2026</td>
+<td>LMS research posture: Raisd pages can be generated from CAP +
+F01–F37; no PPA LMS product inventory in workspace. Generation choice
+open as Q37</td>
+<td>Iman Suherman (research); published
+<code>docs/diagrams/lms.html</code></td>
 </tr>
 </tbody>
 </table>

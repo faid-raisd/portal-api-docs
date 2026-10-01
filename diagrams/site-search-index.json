@@ -55,6 +55,24 @@
       "path": "diagrams/architecture.html"
     },
     {
+      "title": "LMS research posture",
+      "summary": "Verdict on generating Raisd LMS architecture/features pages from CAP + F01\u2013F37; PPA LMS inventory not in workspace.",
+      "section": "Architecture",
+      "keywords": [
+        "lms",
+        "learning",
+        "f01",
+        "f37",
+        "ppa",
+        "materials",
+        "cap-44",
+        "base-44",
+        "quizzes",
+        "live class"
+      ],
+      "path": "diagrams/lms.html"
+    },
+    {
       "title": "Migration plan",
       "summary": "M1\u2013M5 delivery sequence, hosting stages, and critical path for campus launch.",
       "section": "Architecture",
