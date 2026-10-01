@@ -25,6 +25,11 @@ notes:
   - 2026-10-01: Canonical record schema reviewed against LUCT reporting issues; proposed changes at backend/canonical-schema-luct-readiness.md. ERD generated columns now come from the Zod contract, not seed rows.
   - 2026-10-01: Schema v2 implemented (lifecycle, identifiers, access, finance corrections, audit_events, reporting views). Status updated in canonical-schema-luct-readiness.md §7; published ERD and PoC Neon notes refreshed.
   - 2026-10-01: Published pending confirmation agenda (CS-01–CS-13) at diagrams/canonical-schema-confirmations.html; linked from ERD, architecture status, SDD-10 Q29–Q36.
+  - 2026-10-01: CS-01–CS-13 reframed — Schema v2 may proceed; campus-dependent answers become effective-dated policy (Live readiness). CS-12 Demo FKs deferred; CS-13 incremental report cutover. See canonical-schema-luct-readiness.md §0 / §6.
+  - 2026-10-01: Schema v3 campus policy layer implemented (status mapping, academic-status / credit / CGPA / document / adjustment policies; university-default seeds; projections + SQL views). See canonical-schema-luct-readiness.md §0.1 / §7.
+  - 2026-10-01: Campus policy surfaced in published ERD, Data Model Explorer, OpenAPI `/v1/meta.schemaVersion`, and db-admin IRREGULAR map.
+  - 2026-10-01: Architecture review confirmed Schema v3 good to proceed; CS-01–CS-11 = campus go-Live policy validation (Demo defaults not authoritative LUCT policy). Neon Demo reseeded to schema_version 3 (95 collections); physical verification checklist passed. Production Vercel API redeploy still needed for `/v1/meta.schemaVersion`.
+  - 2026-10-01: LMS research posture published — Raisd can generate architecture/features from CAP + F01–F37; no PPA LMS product inventory in workspace. architecture/lms.md + diagrams/lms.html (SDD-10 Q37).
 
 entrypoints:
   agents: AGENTS.md
@@ -50,6 +55,11 @@ architecture:
   - path: architecture/distributed-cms-target.md
     topics: [distributed-db, multi-country, white-label, feature-flags, identity, m5, ideal-state]
     pages: ../diagrams/distributed-cms-architecture.html
+  - path: architecture/lms.md
+    topics: [lms, learning, f01-f37, cap-44, base-44, materials, ppa-lms, research]
+    pages: ../diagrams/lms.html
+    status: proposed
+    note: Research posture only — not Live LMS; no PPA product inventory in workspace.
   - path: architecture/repositories.md
     topics: [repo-map, local-paths, ownership]
   - path: architecture/deployment.md
@@ -76,7 +86,7 @@ backend:
     contract: ../../../student-portal/src/contracts/portal-records.ts
     pages: ../diagrams/erd.html
     confirmations: ../diagrams/canonical-schema-confirmations.html
-    note: Schema v2 in code; deferred items in §7; open agenda CS-01–CS-13 on the confirmations page.
+    note: Schema v3 campus policy layer done (Demo); CS-01–CS-11 = per-campus Live confirmation; CS-12 Demo FKs deferred; CS-13 incremental report migration. See §0 / §6 / §7.
   - path: backend/old-cms-cyberjaya.md
     topics: [existing-cms, cyberjaya, cmscbj, inventory, php-maker, e2e, erd, dfd, integrations, adr-1]
     pages: ../diagrams/old-cms/
@@ -99,6 +109,8 @@ diagrams:
     topics: [overview, mermaid, executive-summary, migration]
   - path: ../diagrams/distributed-cms-architecture.html
     topics: [distributed-cms, multi-country, white-label, feature-flags, migration-journey, ideal-state]
+  - path: ../diagrams/lms.html
+    topics: [lms, learning, f01-f37, ppa-lms, research-posture, base-44]
   - path: ../diagrams/migration.html
     topics: [milestones, m1-m5, hosting-stages]
   - path: ../diagrams/architecture.html

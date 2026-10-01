@@ -316,8 +316,8 @@ search:
   - title: LMS research posture
     href: lms
     section: Architecture
-    summary: Verdict on generating Raisd LMS architecture/features pages from CAP + F01–F37; PPA LMS inventory not in workspace.
-    keywords: [lms, learning, f01, f37, ppa, materials, cap-44, base-44, quizzes, live class]
+    summary: Student Moodle-like LMS feature map on Raisd CAP + F01–F37; proposed research posture, not Live product.
+    keywords: [lms, learning, moodle, student, f01, f37, materials, assignments, quizzes, live class, gradebook, cap-44, base-44]
 
   - title: Migration plan
     href: migration
@@ -364,8 +364,8 @@ search:
   - title: Canonical schema confirmations
     href: schema-confirmations
     section: Raisd CMS
-    summary: Pending Registry, Bursary and product confirmations for schema v2 (status meanings, active student, credits, finance, RBAC).
-    keywords: [confirmation, registry, academicStatus, active student, emgs, credits, cgpa, refund, credit note, rbac, luct, schema v2, needs checking]
+    summary: CS-01–CS-13 treatment — Schema v3 campus policy Demo done; per-campus Live confirmation still open (status meanings, active student, credits, finance, RBAC).
+    keywords: [confirmation, registry, academicStatus, active student, emgs, credits, cgpa, refund, credit note, rbac, luct, schema v3, campus policy, needs checking]
 
   - title: Raisd DFD
     href: dfd

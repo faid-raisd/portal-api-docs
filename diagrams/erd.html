@@ -221,7 +221,7 @@
 
     <div class="toc">
       <a href="#overview"><strong>0. Domain map</strong><span>How aggregates connect</span></a>
-      <a href="#institution"><strong>1. Institution</strong><span>Campus, staff, access</span></a>
+      <a href="#institution"><strong>1. Institution</strong><span>Campus, staff, policy</span></a>
       <a href="#curriculum"><strong>2. Curriculum</strong><span>Programme, campus offering, modules</span></a>
       <a href="#delivery"><strong>3. Delivery</strong><span>Terms, offerings, materials</span></a>
       <a href="#student"><strong>4. Student record</strong><span>Person, identifiers, enrolment</span></a>
@@ -1463,11 +1463,13 @@ erDiagram
         </div>
         <div class="note" style="margin:0 18px 18px">
           <code>portal_meta.schema_version</code> tracks the record contract
-          (<code>PORTAL_RECORD_SCHEMA_VERSION</code>). A mismatch reseeds record tables and keeps
+          (<code>PORTAL_RECORD_SCHEMA_VERSION</code>, currently <strong>3</strong> with campus policy collections).
+          A mismatch reseeds record tables and keeps
           <code>student_portal_state</code> / <code>audit_events</code>.
           Every graph save appends insert/update/delete rows to <code>audit_events</code>.
           Demo tables still carry no physical FK constraints — db-admin infers edges from
-          <code>*_id</code> column names.
+          <code>*_id</code> column names (including policy <code>campus_id</code> → <code>campuses</code>).
+          Reporting views resolve academic-status membership via <code>campus_academic_status_policies</code>.
         </div>
       </div>
     </section>

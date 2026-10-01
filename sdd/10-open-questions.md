@@ -54,20 +54,28 @@ Decisions required before capabilities can move from Needs checking / Demo to Li
 | Q27 | Does Raisd applicant-portal replace or sit beside agent online application? | 02, 07 |
 | Q28 | Where do assignment submissions land in the old CMS today? | 20 |
 
-## 4b. Canonical schema v2 (LUCT readiness) — 1 October 2026
+## 4b. Canonical schema & campus policy (LUCT readiness) — 1 October 2026
 
-Demo implements draft answers; Live policy remains **Needs checking**. Full agenda table (CS-01–CS-13): [canonical-schema-confirmations.html](../diagrams/canonical-schema-confirmations.html). Knowledge source: [canonical-schema-luct-readiness.md](../ai/backend/canonical-schema-luct-readiness.md).
+**Decision (1 October 2026):** Shared vocabulary and invariants stay canonical. University default then campus override (effective-dated) control behaviour. Incomplete campus policy confirmation blocks that campus’s Live feature only — not the Schema. **Implemented in Demo as Schema v3** (`PORTAL_RECORD_SCHEMA_VERSION = 3`): policy collections, university-default seeds, projections, SQL reporting views, Data Model Explorer, published ERD, `/v1/meta.schemaVersion`. Per-campus Live confirmation of CS-01–CS-11 remains open. Full table: [canonical-schema-confirmations.html](../diagrams/canonical-schema-confirmations.html). Knowledge source: [canonical-schema-luct-readiness.md](../ai/backend/canonical-schema-luct-readiness.md) §0 / §6 / §7.
 
-| ID | Question | Why it blocks | Owner |
+| ID | Topic | Treatment | Live readiness owner |
 |---|---|---|---|
-| Q29 / CS-01 | Map legacy `SemesterStatus` / `ProgramStatus` to `academicStatus` and enrolment status per campus | EMGS, CAP-53, Live reports | Registry |
-| Q30 / CS-02 | May EMGS, portal access and dashboards share `current_active_students`? | Cohort counts and eligibility | Registry + International Office |
-| Q31 / CS-03 | Is `Outstanding` active for EMGS and portal alike? Is `Inactive` ≠ `Deferred`? | CS-01 / CS-02 | Registry |
-| Q32 / CS-04 | Add `suspended` / `terminated` / `transferred-out` to enrolment lifecycle? | Enrolment history | Registry / product |
-| Q33 / CS-05–07 | Confirm credit-classification campus-rule cells and extend outcomes beyond `pass`/`fail` | Transcript / CGPA | Registry |
-| Q34 / CS-08–10 | CMS refund/credit-note issuance paths and document numbers; adjustment categories | Finance Live | Bursary |
-| Q35 / CS-11 | Real RBAC matrix (roles, permissions, LoginActive mapping) | Access control Live | Product + IT / Registry |
-| Q36 / CS-12–13 | Physical FKs and Live reports on reporting views | Demo vs Live projection | Engineering (after CS-02) |
+| Q29 / CS-01 | Legacy → canonical academic / enrolment status mapping | Demo policy table seeded; confirm per campus before Live | Registry (per campus onboarding) |
+| Q30 / CS-02 | `current_active_students` definition | One mechanism; policy-driven status set; academic only (not Portal authz) | Registry + International Office |
+| Q31 / CS-03 | Outstanding / Inactive / Deferred | Three distinct concepts; operational class via campus policy | Registry |
+| Q32 / CS-04 | Enrolment lifecycle extras | Keep four statuses; extend only when a real process needs it | Registry / product |
+| Q33 / CS-05–07 | Credit classification, CGPA repeat, outcomes | Policy tables seeded; keep `pass\|fail` initially; CT/exemption first-class | Registry (+ Portal API for enum) |
+| Q34 / CS-08–10 | Refunds, document numbers, adjustments | Schema keeps correction model; campus enables workflows / numbering | Bursary |
+| Q35 / CS-11 | RBAC / LoginActive mapping | Accounts ≠ identity; LoginActive ≠ `user_account.status` | Product + IT / Registry |
+| Q36 / CS-12–13 | Physical FKs; Live reports on views | No Demo FKs (mandatory on relational Live); incremental shadow cutover | Engineering |
+
+## 4c. LMS documentation posture — 1 October 2026
+
+**Verdict:** Raisd can generate LMS architecture + features pages from CAP + `INPUT-F01`–`F37` research. This workspace has **no** PPA LMS product inventory (only infra intent / client IDs). Student Materials alone is not an LMS ([BASE-44](09-requirements-traceability.md)). Published page: [lms.html](../diagrams/lms.html). Agent knowledge: `docs/ai/architecture/lms.md` in control-plane.
+
+| ID | Question | Why it matters | Owner |
+|---|---|---|---|
+| <a id="q37"></a>Q37 | Generate Raisd LMS pages now (CAP + F01–F37), wait for PPA LMS URL/export, or both once access is shared? | Unlocks `lms-architecture.html` / `lms-features.html`; avoids inventing PPA features | Product / architecture |
 
 ## 5. Role split after tonight
 
@@ -91,3 +99,8 @@ Proposed until the group names people:
 | 23 Sep 2026 | Student-portal agent docs extracted into `docs/ai/frontend/student-portal/`; sibling repos point to `docs/ai` as SSOT | Iman Suherman |
 | 23 Sep 2026 | Cyberjaya old CMS source+structure dump inventoried; CAP comparison published as SDD-14 (reuse staff desks; Portal API for Live) | Iman Suherman |
 | 23 Sep 2026 | This phase: existing Cyberjaya CMS remains SoR; modern portals via Portal API; do not duplicate operational functions. Longer term: progressive unified one-stop CMS on verified gaps + migration strategy | Aslam (WG chat); recorded by Iman Suherman |
+| 1 Oct 2026 | Canonical Schema proceeds with policy hierarchy: CS-01–CS-11 become effective-dated campus/university policy (Live readiness), not Schema blockers; CS-12 no Demo FKs / mandatory on relational Live; CS-13 incremental campus-scoped report cutover. Hierarchy: canonical → university default → campus override | Architecture recommendation to Iman Suherman; recorded in knowledge base |
+| 1 Oct 2026 | Schema v3 Demo: campus policy collections, university-default seeds, projections + SQL views, Data Model Explorer, published ERD, `/v1/meta.schemaVersion`, db-admin IRREGULAR map. Per-campus Live confirmation of CS-01–CS-11 remains open | Engineering; recorded in knowledge base §7 |
+| 1 Oct 2026 | Schema v3 confirmed good to proceed. Remaining CS-01–CS-11 treated as policy-validation / campus go-Live requirements (not schema-design blockers). Demo university-default values are structural defaults/examples only — not authoritative LUCT policy until campus/department sign-off. CS-13 remains incremental legacy+canonical side-by-side cutover | Architecture review reply to Iman Suherman; recorded in knowledge base |
+| 1 Oct 2026 | Neon Demo reseeded to Schema v3 (95 collections; six campus-policy tables). Verification checklist recorded in readiness §7 | Engineering |
+| 1 Oct 2026 | LMS research posture: Raisd pages can be generated from CAP + F01–F37; no PPA LMS product inventory in workspace. Generation choice open as Q37 | Iman Suherman (research); published `docs/diagrams/lms.html` |

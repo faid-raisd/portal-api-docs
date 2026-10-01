@@ -287,7 +287,7 @@ flowchart TB
   end
 
   subgraph neon ["Neon · aws-ap-southeast-1"]
-    db[("neondb · Postgres 18<br/>73 record tables · student_portal_state<br/>portal_meta · poc_sessions")]
+    db[("neondb · Postgres 18<br/>89 record tables · 4 views · audit_events<br/>student_portal_state · portal_meta · poc_sessions")]
   end
 
   subgraph prod ["Production — not part of this PoC"]
@@ -464,7 +464,7 @@ npm run deploy                 # vercel deploy --prod --scope &lt;team&gt;</code
           <tr><td>Database</td><td><code>neondb</code></td></tr>
           <tr><td>Connections</td><td>Pooled endpoint for runtime (<code>DATABASE_URL</code>); direct endpoint for DDL / admin (<code>DATABASE_URL_UNPOOLED</code>); TLS with channel binding</td></tr>
           <tr><td>Roles</td><td><code>neondb_owner</code> — used by the Portal API. <code>raisd_db_admin_reader</code> — DB admin only: <code>pg_read_all_data</code>, <code>default_transaction_read_only = on</code>, no write grants</td></tr>
-          <tr><td>Migrations</td><td>None yet: on first use per instance the API runs idempotent DDL and, under an advisory lock, seeds the record tables from the student-portal fixtures if <code>portal_meta</code> is missing (new collections get their table added). <code>npm run db:reset</code> in portal-api drops and reseeds the records (sessions kept)</td></tr>
+          <tr><td>Migrations</td><td>None: on first use the API seeds when <code>portal_meta</code> is missing or <code>schema_version</code> ≠ contract version 3 (keeps student state + audit). Creates four reporting views (academic-status membership joins campus policy). <code>npm run db:reset</code> drops and reseeds records (sessions kept)</td></tr>
           <tr><td>Data</td><td>Demo records for the four sample students (2,895 rows across 73 tables), their per-student portal state, and session rows — fictional data only, no CMS records</td></tr>
         </tbody>
       </table>

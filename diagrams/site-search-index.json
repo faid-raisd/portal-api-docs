@@ -56,19 +56,22 @@
     },
     {
       "title": "LMS research posture",
-      "summary": "Verdict on generating Raisd LMS architecture/features pages from CAP + F01\u2013F37; PPA LMS inventory not in workspace.",
+      "summary": "Student Moodle-like LMS feature map on Raisd CAP + F01\u2013F37; proposed research posture, not Live product.",
       "section": "Architecture",
       "keywords": [
         "lms",
         "learning",
+        "moodle",
+        "student",
         "f01",
         "f37",
-        "ppa",
         "materials",
-        "cap-44",
-        "base-44",
+        "assignments",
         "quizzes",
-        "live class"
+        "live class",
+        "gradebook",
+        "cap-44",
+        "base-44"
       ],
       "path": "diagrams/lms.html"
     },
@@ -159,7 +162,7 @@
     },
     {
       "title": "Canonical schema confirmations",
-      "summary": "Pending Registry, Bursary and product confirmations for schema v2 (status meanings, active student, credits, finance, RBAC).",
+      "summary": "CS-01\u2013CS-13 treatment \u2014 Schema v3 campus policy Demo done; per-campus Live confirmation still open (status meanings, active student, credits, finance, RBAC).",
       "section": "Raisd CMS",
       "keywords": [
         "confirmation",
@@ -173,7 +176,8 @@
         "credit note",
         "rbac",
         "luct",
-        "schema v2",
+        "schema v3",
+        "campus policy",
         "needs checking"
       ],
       "path": "diagrams/canonical-schema-confirmations.html"

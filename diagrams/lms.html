@@ -212,34 +212,224 @@
     <section class="hero">
       <h1>Raisd LMS — research posture</h1>
       <p>
-        We can generate LMS architecture and features pages for Raisd from existing
-        CAP + F01–F37 sources — but <strong>not</strong> from a complete PPA LMS product
-        inventory. That material is not in this workspace.
+        Student learning features on Raisd, mapped in a Moodle-like shape to CAP + F01–F37 —
+        <strong>proposed / research-backed</strong>, not a Live LMS product.
+        Raisd sources are enough to document the student surface; PPA LMS product inventory
+        is not in this workspace.
       </p>
       <div class="meta-row">
         <span class="chip warn">Proposed / research-backed</span>
         <span class="chip">Not Live product</span>
-        <span class="chip ok">Raisd sources sufficient</span>
-        <span class="chip warn">No PPA LMS dump here</span>
+        <span class="chip ok">Student Moodle-like map</span>
+        <span class="chip">CAP + F01–F37</span>
       </div>
     </section>
 
     <div class="note" style="margin: 0 0 28px">
       <strong>Verdict (1 October 2026).</strong>
-      Raisd already has enough LMS requirement sources to build the pages.
-      A true “from PPA LMS” comparison needs a live URL, Studio/app export, or
-      feature/FSD pack — without that we would be inventing PPA product features.
+      Raisd already has enough LMS requirement sources (CAP + F01–F37) to document
+      student learning features in a Moodle-like shape on the Portal API.
+      This is <strong>proposed / research-backed</strong>, not a Live LMS product.
       Agent source:
       <a href="https://github.com/raisd-campus/control-plane/blob/main/docs/ai/architecture/lms.md">architecture/lms.md</a>.
     </div>
 
     <nav class="toc" aria-label="On this page">
-      <a href="#ppa"><strong>PPA LMS</strong><span>What we found</span></a>
-      <a href="#raisd"><strong>Raisd sources</strong><span>Enough to generate</span></a>
-      <a href="#generate"><strong>Proposed pages</strong><span>Architecture + features</span></a>
-      <a href="#blocker"><strong>Blocker</strong><span>PPA product inventory</span></a>
-      <a href="#options"><strong>Next step</strong><span>Which to generate</span></a>
+      <a href="#student"><strong>Student LMS</strong><span>Moodle-like feature map</span></a>
+      <a href="#journey"><strong>Student journey</strong><span>Course → assess → feedback</span></a>
+      <a href="#ppa"><strong>PPA LMS</strong><span>Infra only locally</span></a>
+      <a href="#raisd"><strong>Raisd sources</strong><span>CAP + F01–F37</span></a>
+      <a href="#generate"><strong>Proposed pages</strong><span>Architecture + matrix</span></a>
+      <a href="#options"><strong>Next step</strong><span>Generation choice</span></a>
     </nav>
+
+    <section class="section" id="student">
+      <h2>Student LMS features (Moodle-like)</h2>
+      <p class="lead">
+        Raisd does not ship a separate Moodle product. Student LMS capability is the
+        <strong>enrolled-student learning surface</strong> on the student portal via Portal API —
+        course content, activities, assessment, communication, and progress —
+        with lecturer/staff write-paths elsewhere.
+        Analogy below is for shape only; CAP IDs and Demo/Live status remain authoritative
+        (<a href="../sdd/11-capability-catalog.html">SDD-11</a>,
+        <a href="../sdd/05-student-portal.html">SDD-05</a>).
+        Materials alone is still not an LMS
+        (<a href="../sdd/09-requirements-traceability.html">BASE-44</a>).
+      </p>
+
+      <div class="table-wrap">
+        <table class="attr">
+          <thead>
+            <tr>
+              <th>Moodle-like area</th>
+              <th>Student experience (proposed)</th>
+              <th>Raisd CAP</th>
+              <th>Demo today</th>
+              <th>Live target</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Course home / topics</td>
+              <td>Module hub with weeks/topics, outcomes, and release-aware lists</td>
+              <td><a href="../sdd/11-capability-catalog.html#cap-23">23</a>, <a href="../sdd/11-capability-catalog.html#cap-27">27</a></td>
+              <td>Partial Materials weeks</td>
+              <td>M3 / M5</td>
+            </tr>
+            <tr>
+              <td>Resources (files, pages, media, links)</td>
+              <td>Study guides, lecture notes, videos, authorised downloads</td>
+              <td><a href="../sdd/11-capability-catalog.html#cap-17">17</a>, <a href="../sdd/11-capability-catalog.html#cap-18">18</a></td>
+              <td>Placeholder / Partial</td>
+              <td>M3</td>
+            </tr>
+            <tr>
+              <td>Assignments</td>
+              <td>Briefs, deadlines; submit / replace / withdraw files</td>
+              <td><a href="../sdd/11-capability-catalog.html#cap-19">19</a>, <a href="../sdd/11-capability-catalog.html#cap-20">20</a></td>
+              <td>Partial / Demo (metadata)</td>
+              <td>M3 + file store</td>
+            </tr>
+            <tr>
+              <td>Quizzes / online exams</td>
+              <td>Take quizzes/exams with attempt rules and integrity guidance</td>
+              <td><a href="../sdd/11-capability-catalog.html#cap-24">24</a>, <a href="../sdd/11-capability-catalog.html#cap-29">29</a></td>
+              <td>Placeholder / Not started</td>
+              <td>M5</td>
+            </tr>
+            <tr>
+              <td>Practice / revision</td>
+              <td>Revision activities and past papers (authorised)</td>
+              <td><a href="../sdd/11-capability-catalog.html#cap-21">21</a>, <a href="../sdd/11-capability-catalog.html#cap-22">22</a></td>
+              <td>Not started</td>
+              <td>M3</td>
+            </tr>
+            <tr>
+              <td>Gradebook / feedback</td>
+              <td>Published results, marks, and lecturer feedback</td>
+              <td><a href="../sdd/11-capability-catalog.html#cap-13">13</a>, <a href="../sdd/11-capability-catalog.html#cap-28">28</a></td>
+              <td>Demo / Not started</td>
+              <td>M3</td>
+            </tr>
+            <tr>
+              <td>Calendar / attendance</td>
+              <td>Class timetable and attendance records</td>
+              <td><a href="../sdd/11-capability-catalog.html#cap-11">11</a>, <a href="../sdd/11-capability-catalog.html#cap-12">12</a></td>
+              <td>Demo</td>
+              <td>M3</td>
+            </tr>
+            <tr>
+              <td>Forums / messaging</td>
+              <td>Student–lecturer and peer communication (moderated)</td>
+              <td><a href="../sdd/11-capability-catalog.html#cap-25">25</a></td>
+              <td>Demo (session)</td>
+              <td>M5</td>
+            </tr>
+            <tr>
+              <td>Live class (BBB-like)</td>
+              <td>Join approved live online classes</td>
+              <td><a href="../sdd/11-capability-catalog.html#cap-26">26</a></td>
+              <td>Not started</td>
+              <td>M5 (tool TBC)</td>
+            </tr>
+            <tr>
+              <td>Completion / release</td>
+              <td>Self-paced path, dated release, completion evidence</td>
+              <td><a href="../sdd/11-capability-catalog.html#cap-27">27</a></td>
+              <td>Partial (date lock)</td>
+              <td>M5</td>
+            </tr>
+            <tr>
+              <td>Announcements</td>
+              <td>Important campus / module announcements</td>
+              <td><a href="../sdd/11-capability-catalog.html#cap-16">16</a></td>
+              <td>Partial</td>
+              <td>M3</td>
+            </tr>
+            <tr>
+              <td>Study plan</td>
+              <td>Programme study plan and prerequisites</td>
+              <td><a href="../sdd/11-capability-catalog.html#cap-14">14</a></td>
+              <td>Demo</td>
+              <td>M3</td>
+            </tr>
+            <tr>
+              <td>Library / e-resources</td>
+              <td>Digital library and licensed e-resources</td>
+              <td><a href="../sdd/11-capability-catalog.html#cap-31">31</a></td>
+              <td>Not started</td>
+              <td>M5</td>
+            </tr>
+            <tr>
+              <td>Induction / site orientation</td>
+              <td>Student orientation and digital-learning skills</td>
+              <td><a href="../sdd/11-capability-catalog.html#cap-32">32</a></td>
+              <td>Not started</td>
+              <td>M3</td>
+            </tr>
+            <tr>
+              <td>Feedback / surveys</td>
+              <td>Course evaluation and learner feedback</td>
+              <td><a href="../sdd/11-capability-catalog.html#cap-30">30</a></td>
+              <td>Placeholder</td>
+              <td>M5</td>
+            </tr>
+            <tr>
+              <td>Help &amp; accessibility</td>
+              <td>IT helpdesk, learner support, accessibility adjustments</td>
+              <td><a href="../sdd/11-capability-catalog.html#cap-33">33</a>, <a href="../sdd/11-capability-catalog.html#cap-35">35</a></td>
+              <td>Partial / Demo</td>
+              <td>M3 / M2</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout" style="margin-top:14px">
+        <strong>Moodle ≠ Raisd product.</strong>
+        We use Moodle only as a familiar feature vocabulary.
+        Raisd keeps four portals + Portal API + existing CMS SoR (ADR-1);
+        learning content and durable submissions need a Live file store
+        (<a href="../sdd/10-open-questions.html">SDD-10 Q5</a>).
+      </div>
+    </section>
+
+    <section class="section" id="journey">
+      <h2>Student learning journey (proposed)</h2>
+      <p class="lead">
+        Typical Moodle-like path on Raisd student portal — Demo screens may exist;
+        Live requires CMS acknowledgement and durable files where applicable.
+      </p>
+      <div class="card">
+        <div class="card-body">
+          <pre class="mermaid">
+flowchart LR
+  A[Module hub<br/>CAP-23 / 27] --> B[Resources<br/>CAP-17 / 18]
+  B --> C[Assignments<br/>CAP-19 / 20]
+  B --> D[Quizzes<br/>CAP-24]
+  B --> E[Live class<br/>CAP-26]
+  C --> F[Marks &amp; feedback<br/>CAP-13 / 28]
+  D --> F
+  A --> G[Comms<br/>CAP-25]
+  A --> H[Timetable &amp; attendance<br/>CAP-11 / 12]
+          </pre>
+        </div>
+      </div>
+      <div class="legend">
+        <div class="legend-item">
+          <strong>M3 core</strong>
+          <span>Guides, notes, briefs, assignment submit, timetable, attendance, results path.</span>
+        </div>
+        <div class="legend-item">
+          <strong>M5 depth</strong>
+          <span>Quizzes/exams, live class, full self-paced completion, persistent comms, library.</span>
+        </div>
+        <div class="legend-item">
+          <strong>Research domains</strong>
+          <span>F04–F16, F19–F24 map onto these student surfaces — not universal mandates.</span>
+        </div>
+      </div>
+    </section>
 
     <section class="section" id="ppa">
       <h2>What we found on PPA LMS</h2>
@@ -373,27 +563,18 @@ flowchart TB
             <tr>
               <td><code>docs/diagrams/lms-features.html</code></td>
               <td>F01–F37 × CAP matrix with Demo / Live status</td>
-              <td>Proposed — not generated yet</td>
+              <td>Proposed — not generated yet (student Moodle map lives on this page for now)</td>
             </tr>
             <tr>
               <td>
                 <a href="https://github.com/raisd-campus/control-plane/blob/main/docs/ai/architecture/lms.md"><code>docs/ai/architecture/lms.md</code></a>
                 + this page
               </td>
-              <td>Agent-facing + human source of truth for research posture</td>
+              <td>Agent-facing + human source of truth for research posture and student feature map</td>
               <td><span class="chip ok">Published</span></td>
             </tr>
           </tbody>
         </table>
-      </div>
-    </section>
-
-    <section class="section" id="blocker">
-      <h2>Blocker for a true “from PPA LMS” page</h2>
-      <div class="callout warn">
-        Need one of: <strong>live URL</strong>, <strong>Studio/app export</strong>, or
-        <strong>feature/FSD pack</strong>. Without that, a PPA comparison page would invent
-        product features from infra intent.
       </div>
     </section>
 

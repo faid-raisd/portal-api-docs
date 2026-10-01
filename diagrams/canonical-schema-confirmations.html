@@ -163,13 +163,13 @@
     <section class="hero">
       <h1>Canonical schema — CS-01–CS-13 decisions</h1>
       <p>
-        Canonical Schema v2 may proceed without every LUCT campus agreeing identical
-        operational rules first. Shared vocabulary and invariants stay canonical;
-        campus-dependent behaviour is effective-dated configuration approved before
-        that campus or feature goes Live.
+        Shared vocabulary and invariants stay canonical. Campus-dependent behaviour is
+        effective-dated configuration (university default, then campus override) approved
+        before that campus or feature goes Live. <strong>Schema v3</strong> implements the
+        Demo policy layer; per-campus Live confirmation of CS-01–CS-11 remains open.
       </p>
       <div class="meta-row">
-        <span class="chip ok">Schema v2 may proceed</span>
+        <span class="chip ok">Schema v3 policy Demo</span>
         <span class="chip">Campus Live readiness</span>
         <span class="chip ok">See also <a href="erd.html">ERD</a></span>
         <span class="chip">SDD-10 Q29–Q36</span>
@@ -180,9 +180,9 @@
       <strong>Decision (1 October 2026).</strong>
       Architecture recommendation recorded to Iman Suherman; captured in
       <a href="https://github.com/raisd-campus/control-plane/blob/main/docs/ai/backend/canonical-schema-luct-readiness.md">canonical-schema-luct-readiness.md</a>
-      §0 and §6. Demo defaults are not Live campus policy until that campus confirms
-      its overrides. A campus without policy confirmation cannot activate the affected
-      Live feature — it does not hold back Schema v2 or another campus.
+      §0, §6 and §7. Demo university-default policy rows are not Live campus policy until
+      that campus confirms its overrides. A campus without policy confirmation cannot
+      activate the affected Live feature — it does not hold back Schema work or another campus.
     </div>
 
     <div class="toc">
@@ -212,14 +212,15 @@ University / default policy
         ↓
 Campus policy override (effective-dated)</pre>
           <p style="margin:14px 0 0; color:var(--muted)">
-            Config shapes (proposed):
-            <code>campus_status_mapping</code>,
-            <code>campus_academic_status_policy</code>,
-            <code>campus_credit_policy</code>,
-            <code>campus_cgpa_policy</code>,
-            <code>campus_document_number_policy</code>,
-            <code>campus_adjustment_policy</code>.
-            Detail in readiness §0.1.
+            Config shapes (<strong>implemented in Schema v3 Demo</strong>):
+            <code>campus_status_mappings</code>,
+            <code>campus_academic_status_policies</code>,
+            <code>campus_credit_policies</code>,
+            <code>campus_cgpa_policies</code>,
+            <code>campus_document_number_policies</code>,
+            <code>campus_adjustment_policies</code>
+            (<code>campusId</code> null = university default).
+            Detail in readiness §0.1 / §7.
           </p>
         </div>
       </div>
@@ -267,8 +268,9 @@ Campus policy override (effective-dated)</pre>
     <section class="section" id="registry">
       <h2>2. Registry (CS-01–CS-04)</h2>
       <p class="lead">
-        Non-blocking for Schema v2. Confirm mappings and policies per campus before
-        Live EMGS / reports / portal narratives for that campus.
+        Non-blocking for Schema. Policy tables and university defaults are in the Demo.
+        Confirm mappings and policies per campus before Live EMGS / reports / portal
+        narratives for that campus.
       </p>
       <div class="card">
         <div class="card-body" style="padding:16px 18px">
@@ -290,11 +292,11 @@ Campus policy override (effective-dated)</pre>
                   and enrolment lifecycle
                   <code>active | completed | withdrawn | deferred</code>.
                   Legacy → canonical mapping is effective-dated via
-                  <code>campus_status_mapping</code>.
+                  <code>campus_status_mappings</code>.
                   <strong>Fixed invariant:</strong> latest academic period from valid
                   ordered study periods — never latest row, ID, or TermID.
                 </td>
-                <td>Demo statuses + status events already in Schema v2.</td>
+                <td>Demo statuses + status events + university-default policy seeds (Schema v3).</td>
                 <td>Registry — verify mapping at migration / onboarding per campus</td>
               </tr>
               <tr id="CS-02">
@@ -305,7 +307,7 @@ Campus policy override (effective-dated)</pre>
                   reference date + academic status satisfies campus active-student policy.
                   Default seed:
                   <code>{active, repeat, outstanding, enrolled, credit-transfer}</code>
-                  via <code>campus_academic_status_policy</code>.
+                  via <code>campus_academic_status_policies</code> (Schema v3 Demo).
                   Defines <strong>academic status only</strong> — not Portal authorization
                   (finance / VIP / PTPTN stay in access-policy).
                 </td>
@@ -350,13 +352,13 @@ Campus policy override (effective-dated)</pre>
       <h2>3. Credits, outcomes &amp; CGPA (CS-05–CS-07)</h2>
       <p class="lead">
         Schema already separates attempted / earned / GPA credits. Campus variation is policy,
-        not a Schema v2 fork.
+        not a Schema fork.
       </p>
       <div class="card">
         <div class="card-head">
           <div>
             <h3>Universal credit defaults</h3>
-            <p>Campus-dependent rows use <code>campus_credit_policy</code>.</p>
+            <p>Campus-dependent rows use <code>campus_credit_policies</code>.</p>
           </div>
         </div>
         <div class="card-body" style="padding:16px 18px">
@@ -420,7 +422,7 @@ Campus policy override (effective-dated)</pre>
                 <td><code>CS-05</code></td>
                 <td>
                   Non-blocking. Campus credit cells in
-                  <code>campus_credit_policy</code> (effective-dated).
+                  <code>campus_credit_policies</code> (effective-dated; Schema v3 Demo).
                 </td>
                 <td>Registry — before transcripts / credit calc Live</td>
               </tr>
@@ -428,7 +430,7 @@ Campus policy override (effective-dated)</pre>
                 <td><code>CS-06</code></td>
                 <td>
                   Every attempt retained permanently.
-                  <code>campus_cgpa_policy.repeatRule</code> may be
+                  <code>campus_cgpa_policies.repeatRule</code> may be
                   <code>all-attempts | latest-attempt | latest-passing-attempt | highest-attempt | explicit-included-in-cgpa</code>.
                   Preserve migrated <code>includedInCgpa</code>; do not rewrite history under a new rule.
                 </td>
@@ -628,12 +630,35 @@ Campus policy override (effective-dated)</pre>
                 <td>1 Oct 2026</td>
                 <td>CS-01–CS-13</td>
                 <td>
-                  Schema v2 may proceed. CS-01–CS-11 → effective-dated campus/university
-                  policy (Live readiness). CS-12 → no Demo FKs; mandatory on relational Live.
-                  CS-13 → incremental shadow / record-level / per-campus report cutover.
-                  Policy hierarchy: canonical → university default → campus override.
+                  Policy hierarchy agreed: canonical → university default → campus override.
+                  CS-01–CS-11 → Live readiness (not Schema blockers). CS-12 → no Demo FKs;
+                  mandatory on relational Live. CS-13 → incremental report cutover.
                 </td>
                 <td>Architecture recommendation to Iman Suherman (recorded in knowledge base)</td>
+              </tr>
+              <tr>
+                <td>1 Oct 2026</td>
+                <td>Schema v3</td>
+                <td>
+                  Demo implements campus policy collections, university-default seeds,
+                  projections + SQL views, Data Model Explorer, published ERD,
+                  <code>/v1/meta.schemaVersion</code>, db-admin IRREGULAR map.
+                  Per-campus Live confirmation of CS-01–CS-11 remains open.
+                </td>
+                <td>Engineering (recorded in knowledge base §7)</td>
+              </tr>
+              <tr>
+                <td>1 Oct 2026</td>
+                <td>Schema v3 go-ahead</td>
+                <td>
+                  Schema v3 confirmed good to proceed. Remaining CS-01–CS-11 are
+                  policy-validation / campus go-Live requirements, not schema-design
+                  blockers. Demo university-default values are structural defaults/examples
+                  only — not authoritative LUCT policy until campus/department sign-off.
+                  CS-13 stays incremental legacy + canonical side-by-side cutover.
+                  Neon Demo reseeded (95 collections; six policy tables verified).
+                </td>
+                <td>Architecture review reply to Iman Suherman (recorded in knowledge base)</td>
               </tr>
             </tbody>
           </table>
@@ -648,7 +673,7 @@ Campus policy override (effective-dated)</pre>
   </main>
 
   <footer class="footer">
-    Canonical schema CS-01–CS-13 · raisd-campus/control-plane · Schema v2 may proceed · campus Live readiness separate
+    Canonical schema CS-01–CS-13 · raisd-campus/control-plane · Schema v3 policy Demo · campus Live readiness separate
   </footer>
 
   <script src="abbr-tooltips.js" defer></script>
