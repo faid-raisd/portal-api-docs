@@ -206,15 +206,15 @@
 
     <div class="toc">
       <a href="#overview"><strong>0. Domain map</strong><span>How aggregates connect</span></a>
-      <a href="#institution"><strong>1. Institution</strong><span>Campus, faculty, staff, config</span></a>
+      <a href="#institution"><strong>1. Institution</strong><span>Campus, staff, access</span></a>
       <a href="#curriculum"><strong>2. Curriculum</strong><span>Programme, campus offering, modules</span></a>
       <a href="#delivery"><strong>3. Delivery</strong><span>Terms, offerings, materials</span></a>
-      <a href="#student"><strong>4. Student record</strong><span>Profile, enrolment, journey</span></a>
-      <a href="#results"><strong>5. Results &amp; progress</strong><span>Attempts, marks, publications</span></a>
-      <a href="#finance"><strong>6. Finance</strong><span>Invoices, payments, funding</span></a>
+      <a href="#student"><strong>4. Student record</strong><span>Person, identifiers, enrolment</span></a>
+      <a href="#results"><strong>5. Results &amp; progress</strong><span>Attempts, transfers, publications</span></a>
+      <a href="#finance"><strong>6. Finance</strong><span>Invoices, corrections, funding</span></a>
       <a href="#admissions"><strong>7. Admissions</strong><span>SDD-04 target CMS entities</span></a>
       <a href="#immigration"><strong>8. Immigration &amp; forms</strong><span>Cases, online forms, graduation</span></a>
-      <a href="#integration"><strong>9. Integration &amp; audit</strong><span>Legacy map, DQ, idempotency</span></a>
+      <a href="#integration"><strong>9. Integration &amp; audit</strong><span>Status history, views, audit</span></a>
     </div>
 
     <!-- 0 -->
@@ -316,6 +316,12 @@ erDiagram
 erDiagram
   CAMPUS ||--o{ FACULTY : has
   FACULTY ||--o{ STAFF_MEMBER : employs
+  PERSON ||--o| STAFF_MEMBER : owns
+  PERSON ||--|| USER_ACCOUNT : may_login
+  USER_ACCOUNT ||--o{ USER_ROLE_GRANT : grants
+  ROLE ||--o{ USER_ROLE_GRANT : to_account
+  ROLE ||--o{ ROLE_PERMISSION : grants
+  PERMISSION ||--o{ ROLE_PERMISSION : used_by
   CAMPUS ||--|| CAMPUS_FINANCE_PROFILE : configures
   CAMPUS ||--o{ CAMPUS_SERVICE_TAX_PROFILE : taxes
   CAMPUS ||--o{ CAMPUS_IMMIGRATION_CONFIG : immigration
@@ -325,8 +331,6 @@ erDiagram
   CAMPUS ||--o{ UNIVERSITY_POLICY : policies
   CAMPUS ||--o{ CAMPUS_SERVICE_PAGE : services
   CAMPUS ||--o{ REVIEW_QUESTIONNAIRE : reviews
-  PERSON_SUMMARY }o--|| STUDENT_PROFILE : may_be
-  PERSON_SUMMARY }o--|| STAFF_MEMBER : may_be
 
   CAMPUS {
     string id PK
@@ -343,19 +347,42 @@ erDiagram
   }
   STAFF_MEMBER {
     string id PK
+    string personId FK
     string facultyId FK
     string staffNumber
     string displayName
     string academicTitle
     string emailAddress
-    string avatarUrl
   }
-  PERSON_SUMMARY {
+  PERSON {
     string id PK
     string displayName
     string personType
     string studentProfileId FK
     string staffMemberId FK
+  }
+  USER_ACCOUNT {
+    string id PK
+    string personId FK
+    string loginName
+    string status
+    datetime disabledAt
+  }
+  ROLE {
+    string id PK
+    string code
+    string name
+  }
+  PERMISSION {
+    string id PK
+    string code
+    string name
+  }
+  USER_ROLE_GRANT {
+    string id PK
+    string userAccountId FK
+    string roleId FK
+    datetime grantedAt
   }
   CAMPUS_FINANCE_PROFILE {
     string id PK
@@ -402,8 +429,11 @@ erDiagram
         </div>
         <div class="note" style="margin:0 18px 18px">
           Faculty still links programmes for organisational ownership
-          (<code>(Programme.facultyId)</code>. Multi-campus academic delivery uses
+          (<code>Programme.facultyId</code>). Multi-campus academic delivery uses
           <a href="#curriculum"><code>ProgrammeCampusOffering</code></a>.
+          <strong>Person</strong> owns at most one StudentProfile and/or StaffMember;
+          login lives on <strong>UserAccount</strong> (disable/lock does not delete history).
+          Role and permission codes are demonstration seeds until the real RBAC matrix is confirmed.
         </div>
       </div>
     </section>
@@ -652,24 +682,29 @@ erDiagram
     <section class="section" id="student">
       <h2>4. Student record &amp; enrolment</h2>
       <p class="lead">
-        Identity, documents, visa pass, programme enrolment, and study periods.
+        Person ownership, external identifiers, visa pass, programme enrolment, and study periods.
         Academic placement is always through a <strong>programme version</strong>
-        on <code>ProgrammeEnrolment</code>.
+        on <code>ProgrammeEnrolment</code>. Study-period <code>status</code> is the timeline
+        position; <code>academicStatus</code> is the Registry status used for active-student
+        and credit reporting.
       </p>
       <div class="card">
         <div class="card-head">
           <div>
-            <h3>StudentProfile hub</h3>
+            <h3>Person · identifiers · enrolment · study period</h3>
             <p>
               <code>ProgrammeEnrolment</code> links
-              student ↔ <strong>programme version</strong> ↔ campus
-              (<code>(studentProfileId, programmeVersionId, campusId)</code>.
+              student ↔ <strong>programme version</strong> ↔ campus.
+              Effective-dated status events keep enrolment, period and registration history.
             </p>
           </div>
         </div>
         <div class="card-body">
           <pre class="mermaid">
 erDiagram
+  PERSON ||--o| STUDENT_PROFILE : owns
+  STUDENT_PROFILE ||--o{ STUDENT_IDENTIFIER : identifiers
+  STUDENT_IDENTIFIER ||--o| STUDENT_IDENTIFIER : superseded_by
   STUDENT_PROFILE ||--o{ EMERGENCY_CONTACT : contacts
   STUDENT_PROFILE ||--o{ ACADEMIC_QUALIFICATION : quals
   STUDENT_PROFILE ||--o{ ENGLISH_PROFICIENCY : english
@@ -682,54 +717,40 @@ erDiagram
   STUDENT_PROFILE ||--o{ PORTFOLIO_PROJECT : portfolio
   STUDENT_PROFILE ||--o{ PROGRAMME_ENROLMENT : enrolments
   STUDENT_PROFILE ||--o{ STUDENT_VISA_PASS : passes
+  STUDENT_IDENTIFIER ||--o{ STUDENT_VISA_PASS : passport_used
   PROGRAMME_ENROLMENT ||--o{ STUDENT_VISA_PASS : for_enrolment
   PROGRAMME_VERSION ||--o{ PROGRAMME_ENROLMENT : of_version
   CAMPUS ||--o{ PROGRAMME_ENROLMENT : at
   PROGRAMME_ENROLMENT ||--o{ STUDY_PERIOD : periods
+  PROGRAMME_ENROLMENT ||--o{ PROGRAMME_ENROLMENT_STATUS_EVENT : history
   ACADEMIC_TERM ||--o{ STUDY_PERIOD : term
+  STUDY_PERIOD ||--o{ STUDY_PERIOD_STATUS_EVENT : history
   STUDY_PERIOD ||--o| CREDIT_LOAD_OVERRIDE : override
   STAFF_MEMBER ||--o{ CREDIT_LOAD_OVERRIDE : approves
   STUDENT_PROFILE ||--o{ STUDENT_ACCOUNT_ISSUE : issues
 
+  PERSON {
+    string id PK
+    string displayName
+    string personType
+  }
   STUDENT_PROFILE {
     string id PK
+    string personId FK
     string studentNumber
     string displayName
     string nationality
-    string citizenshipCountryCode
-    date dateOfBirth
-    string gender
-    string maritalStatus
     string emailAddress
-    string identificationNumber
-    string passportPhotoFileName
     date passportExpiresOn
   }
-  EMERGENCY_CONTACT {
+  STUDENT_IDENTIFIER {
     string id PK
     string studentProfileId FK
-    string fullName
-    string relationship
+    string type
+    string countryCode
+    string value
     boolean isPrimary
-  }
-  ACADEMIC_QUALIFICATION {
-    string id PK
-    string studentProfileId FK
-    string qualificationName
-    string institutionName
-    date completedOn
-    string transcriptFileName
-  }
-  ENGLISH_PROFICIENCY {
-    string id PK
-    string studentProfileId FK
-    string score
-    string certificateFileName
-  }
-  STUDENT_RESUME {
-    string id PK
-    string studentProfileId FK
-    string professionalSummary
+    string supersededByIdentifierId FK
   }
   PROGRAMME_ENROLMENT {
     string id PK
@@ -740,19 +761,39 @@ erDiagram
     date expectedCompletionOn
     string status
   }
+  PROGRAMME_ENROLMENT_STATUS_EVENT {
+    string id PK
+    string programmeEnrolmentId FK
+    string status
+    datetime effectiveFrom
+    datetime effectiveTo
+    string source
+  }
   STUDY_PERIOD {
     string id PK
     string programmeEnrolmentId FK
     string academicTermId FK
     int programmeSemesterNumber
     string status
+    string academicStatus
+    datetime statusChangedAt
+    string statusReason
     datetime registrationOpensAt
     datetime registrationClosesAt
+  }
+  STUDY_PERIOD_STATUS_EVENT {
+    string id PK
+    string studyPeriodId FK
+    string status
+    datetime effectiveFrom
+    datetime effectiveTo
+    string source
   }
   STUDENT_VISA_PASS {
     string id PK
     string studentProfileId FK
     string programmeEnrolmentId FK
+    string passportIdentifierId FK
     string passType
     string passportNumber
     string passNumber
@@ -781,11 +822,12 @@ erDiagram
           <code>StudentProfile</code> → <code>ProgrammeEnrolment</code>
           → <code>programmeVersionId</code> → <code>ProgrammeVersion</code> → <code>Programme</code>.
           Study periods, module registrations, finance account, visa pass, and most
-          journey records hang off that enrolment. A student may hold more than one
-          enrolment (different programmes or versions over time).
-          Historical enrolments and study periods must be preserved — defer / return /
-          transfer / withdraw create or transition records
-          (<code>EnrolmentStatusHistory</code>), not rewrite academic history.
+          journey records hang off that enrolment.
+          <code>academicStatus ∈ {active, repeat, outstanding, enrolled, credit-transfer}</code>
+          counts as a valid semester for EMGS / active-student reporting
+          (<code>current_active_students</code> view).
+          Identifier history (passport, NRIC, student number, EMGS reference) lives on
+          <code>StudentIdentifier</code>; the visa pass links the passport it was issued against.
           Statuses are layered (identity / enrolment / study period / registration /
           immigration / finance) — see
           <a href="./architecture.html#status">active student definitions</a>.
@@ -808,6 +850,7 @@ erDiagram
             <p>
               <code>ModuleResult</code> 1:1 registration; <code>TermResult</code> 1:1 study period.
               Credits earned ≠ CGPA inclusion (<code>includedInCgpa</code>).
+              Credit transfers and substitutions satisfy curriculum modules without a pass result.
             </p>
           </div>
         </div>
@@ -816,6 +859,7 @@ erDiagram
 erDiagram
   STUDY_PERIOD ||--o{ MODULE_REGISTRATION : registers
   MODULE_OFFERING ||--o{ MODULE_REGISTRATION : into
+  MODULE_REGISTRATION ||--o{ MODULE_REGISTRATION_STATUS_EVENT : history
   MODULE_REGISTRATION ||--o{ ATTENDANCE : attendance
   CLASS_SESSION ||--o{ ATTENDANCE : session
   MODULE_REGISTRATION ||--o{ LEARNING_PROGRESS : progress
@@ -827,6 +871,14 @@ erDiagram
   MODULE_REGISTRATION ||--|| MODULE_RESULT : final
   GRADE_BAND ||--o{ MODULE_RESULT : band
   STUDY_PERIOD ||--|| TERM_RESULT : term_gpa
+  PROGRAMME_ENROLMENT ||--o{ STUDENT_CREDIT_TRANSFER : transfers
+  STUDY_PERIOD ||--o{ STUDENT_CREDIT_TRANSFER : recorded_in
+  CURRICULUM_MODULE ||--o{ STUDENT_CREDIT_TRANSFER : target
+  PROGRAMME_ENROLMENT ||--o{ CURRICULUM_SUBSTITUTION : substitutions
+  CURRICULUM_MODULE ||--o{ CURRICULUM_SUBSTITUTION : replaced
+  MODULE ||--o{ CURRICULUM_SUBSTITUTION : substitute
+  PROGRAMME_VERSION ||--o{ MODULE_EQUIVALENCY : equivalencies
+  MODULE ||--o{ MODULE_EQUIVALENCY : maps
   STUDY_PERIOD ||--o{ RESULT_PUBLICATION : publications
   RESULT_PUBLICATION ||--o| RESULT_PUBLICATION : supersedes
   MODULE_REGISTRATION ||--o{ LECTURER_REVIEW : reviewed
@@ -842,36 +894,12 @@ erDiagram
     string status
     datetime registeredAt
   }
-  ATTENDANCE {
+  MODULE_REGISTRATION_STATUS_EVENT {
     string id PK
     string moduleRegistrationId FK
-    string classSessionId FK
     string status
-    datetime recordedAt
-  }
-  LEARNING_PROGRESS {
-    string id PK
-    string moduleRegistrationId FK
-    string moduleLearningItemId FK
-    string status
-    datetime completedAt
-  }
-  ASSIGNMENT_SUBMISSION {
-    string id PK
-    string moduleRegistrationId FK
-    string moduleLearningItemId FK
-    string fileName
-    int sizeBytes
-    datetime submittedAt
-    datetime deletedAt
-  }
-  ASSESSMENT_RESULT {
-    string id PK
-    string moduleRegistrationId FK
-    string moduleAssessmentId FK
-    float scorePercent
-    float weightedScore
-    datetime publishedAt
+    datetime effectiveFrom
+    datetime effectiveTo
   }
   MODULE_RESULT {
     string id PK
@@ -879,8 +907,9 @@ erDiagram
     string gradeBandId FK
     string grade
     string outcome
-    float points
+    float creditsAttempted
     float creditsEarned
+    float finalPoints
     boolean includedInCgpa
     datetime publishedAt
   }
@@ -890,20 +919,35 @@ erDiagram
     float gpa
     float cgpa
     float termCreditsAttempted
+    float termCreditsEarned
+    float termGpaCredits
+    float termPoints
+    float transcriptCreditsAttempted
     float cumulativeCreditsEarned
-    string calculationVersion
-    datetime calculatedAt
+    float cumulativeGpaCredits
+    float cumulativePoints
     datetime publishedAt
   }
-  RESULT_PUBLICATION {
+  STUDENT_CREDIT_TRANSFER {
     string id PK
+    string programmeEnrolmentId FK
     string studyPeriodId FK
-    int version
-    string calculationVersion
-    datetime publishedAt
-    string publishedBy
-    string supersedesPublicationId FK
-    string reason
+    string targetCurriculumModuleId FK
+    float creditsGranted
+    string sourceInstitution
+    datetime approvedAt
+  }
+  CURRICULUM_SUBSTITUTION {
+    string id PK
+    string programmeEnrolmentId FK
+    string replacedCurriculumModuleId FK
+    string substituteModuleId FK
+  }
+  MODULE_EQUIVALENCY {
+    string id PK
+    string programmeVersionId FK
+    string moduleId FK
+    string equivalentModuleId FK
   }
   LECTURER_REVIEW {
     string id PK
@@ -917,17 +961,17 @@ erDiagram
           <strong>Attempts never overwrite.</strong>
           First fail + repeat keep both <code>ModuleRegistration</code> rows
           (<code>attemptNumber</code>, <code>registrationType</code>).
-          Policy decides CGPA/credit effect.
+          Latest attempt per module counts toward CGPA; failed attempts still count in term GPA.
         </div>
         <div class="note" style="margin:0 18px 12px">
           <strong>Credits earned ≠ CGPA.</strong>
           Pass · creditsEarned 3 · points 0 · <code>includedInCgpa = false</code> is valid.
-          AcademicProgressService recalculates from registrations + results + curriculum +
-          ProgrammeVersion — <code>TermResult</code> is a snapshot.
+          Term totals must equal the values derived from results + credit transfers
+          (<code>student_credit_summary</code> view mirrors the TypeScript derivation).
         </div>
         <div class="note" style="margin:0 18px 18px">
-          <strong>ResultPublication</strong> versions official release (V1 → V2 with reason).
-          Students see published results only.
+          A curriculum module is satisfied by at most one of: a published pass, a credit transfer,
+          or an approved substitution whose substitute module has a pass.
         </div>
       </div>
     </section>
@@ -935,12 +979,12 @@ erDiagram
     <!-- 6 -->
     <section class="section" id="finance">
       <h2>6. Finance</h2>
-      <p class="lead">One finance account per enrolment; payments allocate to invoices (N:M). Result visibility uses rule-based <code>ResultAccessPolicy</code> (balance, funding, holds) — not hardcoded portal thresholds.</p>
+      <p class="lead">One finance account per enrolment; payments allocate to invoices (N:M). Reversals, refunds, credit notes and voids are first-class corrections — not in-place rewrites. Result visibility uses rule-based <code>ResultAccessPolicy</code> (balance, funding, holds).</p>
       <div class="card">
         <div class="card-head">
           <div>
-            <h3>Account · Invoice · Payment · Funding</h3>
-            <p>Payment proof (uploaded file) is distinct from ledger Payment / Allocation.</p>
+            <h3>Account · Invoice · Payment · Corrections · Funding</h3>
+            <p>Payment proof (uploaded file) is distinct from ledger Payment / Allocation. Adjustments carry an explicit category.</p>
           </div>
         </div>
         <div class="card-body">
@@ -953,14 +997,18 @@ erDiagram
   FEE_ITEM ||--o{ INVOICE_LINE : from
   INVOICE ||--o| INVOICE_SERVICE_TAX : tax
   CAMPUS_SERVICE_TAX_PROFILE ||--o{ INVOICE_SERVICE_TAX : profile
+  INVOICE ||--o| INVOICE_VOID : voided_by
+  INVOICE ||--o{ CREDIT_NOTE : credited
   FINANCE_ACCOUNT ||--o{ PAYMENT : payments
   PAYMENT ||--o{ PAYMENT_ALLOCATION : allocates
   INVOICE ||--o{ PAYMENT_ALLOCATION : receives
+  PAYMENT ||--o| PAYMENT_REVERSAL : reversed
+  FINANCE_ACCOUNT ||--o{ REFUND : refunds
+  PAYMENT ||--o{ REFUND : source
   PROGRAMME_ENROLMENT ||--o{ EDUCATION_SERVICE_TAX_EXEMPTION : exemptions
   FUNDING_SCHEME ||--o{ STUDENT_FUNDING_AWARD : grants
   PROGRAMME_ENROLMENT ||--o{ STUDENT_FUNDING_AWARD : receives
   STUDENT_FUNDING_AWARD ||--o{ STUDENT_FUNDING_BENEFIT : benefits
-  STUDENT_FUNDING_AWARD ||--o{ STUDENT_FUNDING_RENEWAL_CONDITION : conditions
   FINANCE_ACCOUNT ||--o{ FINANCIAL_ADJUSTMENT : adjustments
   INVOICE ||--o{ FINANCIAL_ADJUSTMENT : may_adjust
   STUDENT_FUNDING_BENEFIT ||--o{ FINANCIAL_ADJUSTMENT : from_benefit
@@ -976,24 +1024,23 @@ erDiagram
     string financeAccountId FK
     string studyPeriodId FK
     string invoiceNumber
-    int subtotalMinor
-    int taxMinor
     int totalMinor
     string status
   }
-  INVOICE_LINE {
+  CREDIT_NOTE {
     string id PK
     string invoiceId FK
-    string feeItemId FK
-    int quantity
+    string creditNoteNumber
     int amountMinor
+    int serviceTaxAmountMinor
+    datetime issuedAt
   }
-  INVOICE_SERVICE_TAX {
+  INVOICE_VOID {
     string id PK
     string invoiceId FK
-    string profileId FK
-    string outcome
-    int amountMinor
+    string replacementInvoiceId FK
+    datetime voidedAt
+    string reason
   }
   PAYMENT {
     string id PK
@@ -1004,42 +1051,45 @@ erDiagram
     string method
     string status
   }
+  PAYMENT_REVERSAL {
+    string id PK
+    string paymentId FK
+    datetime reversedAt
+    string reason
+  }
+  REFUND {
+    string id PK
+    string financeAccountId FK
+    string sourcePaymentId FK
+    int amountMinor
+    datetime paidAt
+    string method
+  }
   PAYMENT_ALLOCATION {
     string id PK
     string paymentId FK
     string invoiceId FK
     int amountMinor
   }
-  EDUCATION_SERVICE_TAX_EXEMPTION {
-    string id PK
-    string programmeEnrolmentId FK
-    string type
-  }
-  STUDENT_FUNDING_AWARD {
-    string id PK
-    string fundingSchemeId FK
-    string programmeEnrolmentId FK
-    string status
-  }
-  STUDENT_FUNDING_BENEFIT {
-    string id PK
-    string awardId FK
-    int amountMinor
-  }
   FINANCIAL_ADJUSTMENT {
     string id PK
     string financeAccountId FK
     string invoiceId FK
-    string fundingBenefitId FK
-    string direction
+    string studentFundingBenefitId FK
+    string kind
+    string category
     int amountMinor
   }
           </pre>
         </div>
         <div class="note warn" style="margin:0 18px 18px">
-          Invoice numbers use <code>INV-######</code> (<code>INV-000000</code> reserved).
-          Student-uploaded payment proof is an API mutation payload (file + bank reference),
-          not the same entity as bursary-recorded <code>Payment</code>.
+          Invoice numbers use <code>INV-######</code> (<code>INV-000000</code> reserved);
+          credit notes use <code>CN-######</code>.
+          A reversed payment has exactly one reversal and no allocations; a void invoice has
+          exactly one void record. Account balance =
+          billed − credit notes + adjustments − paid + refunds
+          (<code>student_outstanding_balances</code> view).
+          Historical SST stays on <code>InvoiceServiceTax</code> — never recalculated from today's rate.
         </div>
       </div>
     </section>
@@ -1215,84 +1265,116 @@ erDiagram
     <section class="section" id="integration">
       <h2>9. Integration, audit &amp; data quality</h2>
       <p class="lead">
-        Canonical IDs are not legacy CMS IDs. Mapping, DQ, idempotency, and audit live
-        with the portal/integration layer — see
+        Canonical IDs are not legacy CMS IDs. Mapping, DQ, idempotency, reporting views and
+        append-only audit live with the portal/integration layer — see
         <a href="./architecture.html">architecture</a>.
       </p>
       <div class="card">
         <div class="card-head">
           <div>
-            <h3>LegacyEntityMap · DataQualityIssue · IntegrationOperation · AuditEvent</h3>
-            <p>Support tracing “Student 207020002” without contaminating canonical PKs.</p>
+            <h3>Status history · reporting views · AuditEvent · LegacyEntityMap</h3>
+            <p>
+              Effective-dated status events are first-class collections.
+              Postgres reporting views mirror the TypeScript projection helpers.
+            </p>
           </div>
         </div>
         <div class="card-body">
           <pre class="mermaid">
 erDiagram
-  PROGRAMME_ENROLMENT ||--o{ ENROLMENT_STATUS_HISTORY : history
+  PROGRAMME_ENROLMENT ||--o{ PROGRAMME_ENROLMENT_STATUS_EVENT : history
+  STUDY_PERIOD ||--o{ STUDY_PERIOD_STATUS_EVENT : history
+  MODULE_REGISTRATION ||--o{ MODULE_REGISTRATION_STATUS_EVENT : history
+  PROGRAMME_ENROLMENT ||--o| LATEST_VALID_STUDY_PERIOD : reports
+  PROGRAMME_ENROLMENT ||--o| STUDENT_CREDIT_SUMMARY : reports
+  FINANCE_ACCOUNT ||--o| STUDENT_OUTSTANDING_BALANCE : reports
+  STUDENT_PROFILE ||--o| CURRENT_ACTIVE_STUDENT : may_appear
   LEGACY_ENTITY_MAP }o--|| STUDENT_PROFILE : may_map
   DATA_QUALITY_ISSUE }o--o| STUDENT_PROFILE : may_flag
 
+  PROGRAMME_ENROLMENT_STATUS_EVENT {
+    string id PK
+    string programmeEnrolmentId FK
+    string status
+    datetime effectiveFrom
+    datetime effectiveTo
+    string changedByUserAccountId FK
+    string reason
+    string source
+  }
+  LATEST_VALID_STUDY_PERIOD {
+    string programmeEnrolmentId FK
+    string studyPeriodId FK
+    string academicStatus
+    int programmeSemesterNumber
+  }
+  CURRENT_ACTIVE_STUDENT {
+    string studentProfileId FK
+    string studentNumber
+    string programmeEnrolmentId FK
+    string studyPeriodId FK
+    string academicStatus
+  }
+  STUDENT_CREDIT_SUMMARY {
+    string programmeEnrolmentId FK
+    float creditsRequired
+    float creditsEarned
+    float transferredCredits
+    float cgpa
+    float remainingCredits
+  }
+  STUDENT_OUTSTANDING_BALANCE {
+    string financeAccountId FK
+    string programmeEnrolmentId FK
+    int balanceMinor
+    int openInvoiceBalanceMinor
+    string balanceState
+  }
   LEGACY_ENTITY_MAP {
     string id PK
     string canonicalEntityType
     string canonicalEntityId
     string sourceSystem
-    string sourceCampus
     string legacyTable
     string legacyId
-    datetime mappedAt
   }
-  ENROLMENT_STATUS_HISTORY {
-    string id PK
-    string programmeEnrolmentId FK
-    string fromStatus
-    string toStatus
-    datetime effectiveAt
-    string reason
-    string changedBy
+  AUDIT_EVENT {
+    bigint id PK
+    datetime occurredAt
+    bigint revision
+    int schemaVersion
+    string actorStudentProfileId
+    string actorUserAccountId
+    string collection
+    string recordId
+    string action
+    string before
+    string after
   }
   DATA_QUALITY_ISSUE {
     string id PK
     string entityType
     string entityId
-    string sourceSystem
     string issueType
     string severity
-    string details
     datetime detectedAt
-    datetime resolvedAt
-    string resolution
   }
   INTEGRATION_OPERATION {
     string id PK
     string idempotencyKey
     string operationType
-    string entityId
     string status
     datetime startedAt
-    datetime completedAt
-    string error
-  }
-  AUDIT_EVENT {
-    string id PK
-    string actorId
-    string entityType
-    string entityId
-    string action
-    string before
-    string after
-    string reason
-    datetime timestamp
-    string correlationId
   }
           </pre>
         </div>
         <div class="note" style="margin:0 18px 18px">
-          Integrity (document intentionally): unique StudyPeriod(enrolment, term);
-          ModuleResult 1:1 registration; TermResult 1:1 study period; controlled
-          registration uniqueness by attempt; offer accept must not create two first
-          enrolments; payment allocation constraints.
+          <code>portal_meta.schema_version</code> tracks the record contract
+          (<code>PORTAL_RECORD_SCHEMA_VERSION</code>). A mismatch reseeds record tables and keeps
+          <code>student_portal_state</code> / <code>audit_events</code>.
+          Every graph save appends insert/update/delete rows to <code>audit_events</code>.
+          Demo tables still carry no physical FK constraints — db-admin infers edges from
+          <code>*_id</code> column names.
         </div>
       </div>
     </section>
