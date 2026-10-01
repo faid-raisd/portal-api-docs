@@ -126,6 +126,7 @@
             <a href="../diagrams/raisd-cms/student-portal-guide.html">Use guides</a>
             <a href="../diagrams/raisd-cms/student-portal-manual.html">User manual</a>
             <a href="../diagrams/erd.html">ERD</a>
+            <a href="../diagrams/canonical-schema-confirmations.html">Schema confirmations</a>
             <a href="../diagrams/dfd.html">DFD</a>
           </div>
         </div>
@@ -238,6 +239,15 @@ Admissions launch and Cyberjaya pilot; see <a
 href="03-delivery-milestones.html">SDD-03</a> <a
 href="03-delivery-milestones.html#m5">M5</a>+ and <a
 href="14-cms-feature-comparison.html">SDD-14</a>.</p>
+<p><strong>Ideal end state (proposed):</strong> one Raisd CMS product
+with <strong>distributed databases by country / region</strong>
+(e.g. Malaysia, Singapore, Sierra Leone, Botswana), plus
+white-labelling, feature toggles, and country-specific identity — not
+one global student ledger. Diagram: <a
+href="../diagrams/distributed-cms-architecture.html"><code>docs/diagrams/distributed-cms-architecture.html</code></a>.
+Agent summary: <a
+href="../ai/architecture/distributed-cms-target.html"><code>docs/ai/architecture/distributed-cms-target.md</code></a>.
+Confirm as ADR before implementation.</p>
 <pre class="mermaid"><code>flowchart LR
   A[Applicant portal] --&gt; P[Portal API]
   S[Student portal] --&gt; P

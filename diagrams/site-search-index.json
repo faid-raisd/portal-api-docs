@@ -140,6 +140,27 @@
       "path": "diagrams/erd.html"
     },
     {
+      "title": "Canonical schema confirmations",
+      "summary": "Pending Registry, Bursary and product confirmations for schema v2 (status meanings, active student, credits, finance, RBAC).",
+      "section": "Raisd CMS",
+      "keywords": [
+        "confirmation",
+        "registry",
+        "academicStatus",
+        "active student",
+        "emgs",
+        "credits",
+        "cgpa",
+        "refund",
+        "credit note",
+        "rbac",
+        "luct",
+        "schema v2",
+        "needs checking"
+      ],
+      "path": "diagrams/canonical-schema-confirmations.html"
+    },
+    {
       "title": "Raisd DFD",
       "summary": "Data-flow diagrams for portal and CMS integrations.",
       "section": "Raisd CMS",

@@ -126,6 +126,7 @@
             <a href="../diagrams/raisd-cms/student-portal-guide.html">Use guides</a>
             <a href="../diagrams/raisd-cms/student-portal-manual.html">User manual</a>
             <a href="../diagrams/erd.html">ERD</a>
+            <a href="../diagrams/canonical-schema-confirmations.html">Schema confirmations</a>
             <a href="../diagrams/dfd.html">DFD</a>
           </div>
         </div>
@@ -440,12 +441,12 @@ Do not deploy the student, lecturer, or staff images until the stage
 that names them.</p>
 <h2 id="repository-to-service">3. Repository to service</h2>
 <p>Six deployable GitHub repositories in <code>raisd-campus</code>. The
-existing CMS and mail have no repository here. The Portal API service was
-split from the control plane into its own repository on 27 September 2026;
-the contract (<code>openapi.yaml</code>) and platform objects (Postgres,
-evidence volume) stay with the control plane. Build, image, probes and
-release flow for the API: <a
-href="https://github.com/raisd-campus/control-plane/blob/main/docs/ai/backend/portal-api-deployment.md"><code>docs/ai/backend/portal-api-deployment.md</code></a>.</p>
+existing CMS and mail have no repository here. The Portal API service
+was split from the control plane into its own repository on 27 September
+2026; the contract (<code>openapi.yaml</code>) and platform objects
+(Postgres, evidence volume) stay with the control plane. Build, image,
+probes and release flow for the API: <a
+href="../ai/backend/portal-api-deployment.html"><code>docs/ai/backend/portal-api-deployment.md</code></a>.</p>
 <table>
 <colgroup>
 <col style="width: 25%" />

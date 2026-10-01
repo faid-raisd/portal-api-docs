@@ -26,6 +26,7 @@ targets:
   raisd-sp-guide: diagrams/raisd-cms/student-portal-guide.html
   raisd-sp-manual: diagrams/raisd-cms/student-portal-manual.html
   erd: diagrams/erd.html
+  schema-confirmations: diagrams/canonical-schema-confirmations.html
   dfd: diagrams/dfd.html
   luct: diagrams/old-cms/index.html
   luct-comparison: diagrams/old-cms/comparison.html
@@ -102,6 +103,8 @@ path_rules:
     section: raisd-sp
   - match: { path_contains: raisd-cms }
     section: raisd
+  - match: { file: canonical-schema-confirmations.html }
+    section: schema-confirmations
   - match: { file: erd.html, path_not_contains: old-cms }
     section: erd
   - match: { file: dfd.html }
@@ -173,7 +176,7 @@ menu:
 
   - label: Raisd CMS
     href: raisd
-    active: [raisd, erd, dfd, raisd-sp, raisd-sp-shots, raisd-sp-guide, raisd-sp-manual]
+    active: [raisd, erd, schema-confirmations, dfd, raisd-sp, raisd-sp-shots, raisd-sp-guide, raisd-sp-manual]
     children:
       - { label: Raisd CMS hub, href: raisd }
       - { label: Student portal, href: raisd-sp }
@@ -181,6 +184,7 @@ menu:
       - { label: Use guides, href: raisd-sp-guide }
       - { label: User manual, href: raisd-sp-manual }
       - { label: ERD, href: erd }
+      - { label: Schema confirmations, href: schema-confirmations }
       - { label: DFD, href: dfd }
 
   - label: LUCT CMS
@@ -343,6 +347,12 @@ search:
     section: Raisd CMS
     summary: Entity-relationship diagrams for the Raisd targeting data model.
     keywords: [erd, schema, entities, database]
+
+  - title: Canonical schema confirmations
+    href: schema-confirmations
+    section: Raisd CMS
+    summary: Pending Registry, Bursary and product confirmations for schema v2 (status meanings, active student, credits, finance, RBAC).
+    keywords: [confirmation, registry, academicStatus, active student, emgs, credits, cgpa, refund, credit note, rbac, luct, schema v2, needs checking]
 
   - title: Raisd DFD
     href: dfd

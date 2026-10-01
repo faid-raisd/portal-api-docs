@@ -54,6 +54,21 @@ Decisions required before capabilities can move from Needs checking / Demo to Li
 | Q27 | Does Raisd applicant-portal replace or sit beside agent online application? | 02, 07 |
 | Q28 | Where do assignment submissions land in the old CMS today? | 20 |
 
+## 4b. Canonical schema v2 (LUCT readiness) — 1 October 2026
+
+Demo implements draft answers; Live policy remains **Needs checking**. Full agenda table (CS-01–CS-13): [canonical-schema-confirmations.html](../diagrams/canonical-schema-confirmations.html). Knowledge source: [canonical-schema-luct-readiness.md](../ai/backend/canonical-schema-luct-readiness.md).
+
+| ID | Question | Why it blocks | Owner |
+|---|---|---|---|
+| Q29 / CS-01 | Map legacy `SemesterStatus` / `ProgramStatus` to `academicStatus` and enrolment status per campus | EMGS, CAP-53, Live reports | Registry |
+| Q30 / CS-02 | May EMGS, portal access and dashboards share `current_active_students`? | Cohort counts and eligibility | Registry + International Office |
+| Q31 / CS-03 | Is `Outstanding` active for EMGS and portal alike? Is `Inactive` ≠ `Deferred`? | CS-01 / CS-02 | Registry |
+| Q32 / CS-04 | Add `suspended` / `terminated` / `transferred-out` to enrolment lifecycle? | Enrolment history | Registry / product |
+| Q33 / CS-05–07 | Confirm credit-classification campus-rule cells and extend outcomes beyond `pass`/`fail` | Transcript / CGPA | Registry |
+| Q34 / CS-08–10 | CMS refund/credit-note issuance paths and document numbers; adjustment categories | Finance Live | Bursary |
+| Q35 / CS-11 | Real RBAC matrix (roles, permissions, LoginActive mapping) | Access control Live | Product + IT / Registry |
+| Q36 / CS-12–13 | Physical FKs and Live reports on reporting views | Demo vs Live projection | Engineering (after CS-02) |
+
 ## 5. Role split after tonight
 
 Proposed until the group names people:
