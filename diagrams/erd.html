@@ -210,9 +210,12 @@
 
     <div class="note" style="margin: 0 0 28px">
       <strong>CS-01–CS-13 (1 October 2026).</strong>
-      Schema v2 may proceed. Campus-dependent status mappings, credit/CGPA rules,
-      finance numbering, and RBAC are effective-dated Live readiness —
-      not Schema blockers.
+      Schema v3 campus policy layer is in the Demo contract
+      (<code>PORTAL_RECORD_SCHEMA_VERSION = 3</code>).
+      University-default rows (<code>campusId</code> null) plus campus overrides
+      drive active-student / valid-semester membership, credit classification, CGPA
+      repeat rules, document numbering and adjustment enablement.
+      Per-campus Live confirmation remains readiness work — not a Schema blocker.
       <a href="./canonical-schema-confirmations.html">CS decision page</a>.
     </div>
 
@@ -316,11 +319,12 @@ erDiagram
       <div class="card">
         <div class="card-head">
           <div>
-            <h3>Campus · Faculty · Staff · Config</h3>
+            <h3>Campus · Faculty · Staff · Config · Policy</h3>
             <p>
-              Prefer <code>CampusConfig</code> / campus policy for differences — not
-              scattered <code>if (campus === …)</code> in domain code.
-              1:1 finance profile; N immigration / graduation / tax configs.
+              Prefer effective-dated campus policy tables for operational differences —
+              not scattered <code>if (campus === …)</code> in domain code.
+              1:1 finance profile; N immigration / graduation / tax configs;
+              university-default policy rows use <code>campusId</code> null.
             </p>
           </div>
         </div>
