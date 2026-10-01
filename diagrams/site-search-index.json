@@ -56,7 +56,7 @@
     },
     {
       "title": "LMS research posture",
-      "summary": "Student Moodle-like LMS feature map on Raisd CAP + F01\u2013F37; proposed research posture, not Live product.",
+      "summary": "Student Moodle-like LMS feature map on Raisd CAP + F01\u2013F37; Q37 Option 1 published.",
       "section": "Architecture",
       "keywords": [
         "lms",
@@ -74,6 +74,36 @@
         "base-44"
       ],
       "path": "diagrams/lms.html"
+    },
+    {
+      "title": "LMS architecture",
+      "summary": "Raisd LMS as role surfaces on Portal API with CMS SoR and Live file store.",
+      "section": "Architecture",
+      "keywords": [
+        "lms",
+        "architecture",
+        "portal-api",
+        "cap-53",
+        "file store",
+        "lecturer",
+        "student"
+      ],
+      "path": "diagrams/lms-architecture.html"
+    },
+    {
+      "title": "LMS features F01\u2013F37",
+      "summary": "Research domain matrix INPUT-F01\u2013F37 mapped to CAP Demo status and milestones.",
+      "section": "Architecture",
+      "keywords": [
+        "lms",
+        "f01",
+        "f37",
+        "features",
+        "matrix",
+        "research",
+        "cap"
+      ],
+      "path": "diagrams/lms-features.html"
     },
     {
       "title": "Migration plan",

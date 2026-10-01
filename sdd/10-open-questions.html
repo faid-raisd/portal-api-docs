@@ -82,6 +82,8 @@
             <a href="../diagrams/distributed-cms-architecture.html">Distributed CMS</a>
             <a href="../diagrams/architecture.html">Architecture</a>
             <a href="../diagrams/lms.html">LMS research</a>
+            <a href="../diagrams/lms-architecture.html">LMS architecture</a>
+            <a href="../diagrams/lms-features.html">LMS features</a>
             <a href="../diagrams/migration.html">Migration</a>
             <a href="../poc/vercel-neon.html">Vercel + Neon PoC</a>
           </div>
@@ -102,6 +104,8 @@
             <a href="../diagrams/architecture.html">Architecture home</a>
             <a href="../diagrams/distributed-cms-architecture.html">Distributed CMS target</a>
             <a href="../diagrams/lms.html">LMS research posture</a>
+            <a href="../diagrams/lms-architecture.html">LMS architecture</a>
+            <a href="../diagrams/lms-features.html">LMS features F01–F37</a>
             <a href="../diagrams/architecture.html#sdd">SDD &amp; ADR catalogue</a>
             <a href="../diagrams/architecture.html#acl">SoR / ACL</a>
             <a href="../diagrams/architecture.html#academic">Academic model</a>
@@ -550,14 +554,15 @@ cutover</td>
 </table>
 <h2 id="c.-lms-documentation-posture-1-october-2026">4c. LMS
 documentation posture — 1 October 2026</h2>
-<p><strong>Verdict:</strong> Raisd can generate LMS architecture +
-features pages from CAP + <code>INPUT-F01</code>–<code>F37</code>
-research. This workspace has <strong>no</strong> PPA LMS product
-inventory (only infra intent / client IDs). Student Materials alone is
-not an LMS (<a href="09-requirements-traceability.html">BASE-44</a>).
-Published page: <a href="../diagrams/lms.html">lms.html</a>. Agent
-knowledge: <code>docs/ai/architecture/lms.md</code> in
-control-plane.</p>
+<p><strong>Decision (1 October 2026):</strong> <strong>Q37 Option
+1</strong> — generate Raisd LMS pages from CAP +
+<code>INPUT-F01</code>–<code>F37</code> only. Published: <a
+href="../diagrams/lms.html">lms.html</a>, <a
+href="../diagrams/lms-architecture.html">lms-architecture.html</a>, <a
+href="../diagrams/lms-features.html">lms-features.html</a>. Agent
+knowledge: <code>docs/ai/architecture/lms.md</code>. No PPA LMS
+comparison in this generate set. Student Materials alone is not an LMS
+(<a href="09-requirements-traceability.html">BASE-44</a>).</p>
 <table>
 <colgroup>
 <col style="width: 25%" />
@@ -569,7 +574,7 @@ control-plane.</p>
 <tr>
 <th>ID</th>
 <th>Question</th>
-<th>Why it matters</th>
+<th>Decision</th>
 <th>Owner</th>
 </tr>
 </thead>
@@ -577,9 +582,9 @@ control-plane.</p>
 <tr>
 <td><a id="q37"></a>Q37</td>
 <td>Generate Raisd LMS pages now (CAP + F01–F37), wait for PPA LMS
-URL/export, or both once access is shared?</td>
-<td>Unlocks <code>lms-architecture.html</code> /
-<code>lms-features.html</code>; avoids inventing PPA features</td>
+URL/export, or both?</td>
+<td><strong>Option 1</strong> — Raisd pages from CAP + F01–F37
+(architecture + features published)</td>
 <td>Product / architecture</td>
 </tr>
 </tbody>
@@ -713,11 +718,10 @@ tables). Verification checklist recorded in readiness §7</td>
 </tr>
 <tr>
 <td>1 Oct 2026</td>
-<td>LMS research posture: Raisd pages can be generated from CAP +
-F01–F37; no PPA LMS product inventory in workspace. Generation choice
-open as Q37</td>
-<td>Iman Suherman (research); published
-<code>docs/diagrams/lms.html</code></td>
+<td>LMS Q37 Option 1: publish Raisd LMS architecture + F01–F37 features
+pages from CAP research (no PPA comparison in this set)</td>
+<td>Iman Suherman; <code>lms.html</code> /
+<code>lms-architecture.html</code> / <code>lms-features.html</code></td>
 </tr>
 </tbody>
 </table>

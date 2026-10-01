@@ -28,6 +28,8 @@ targets:
   erd: diagrams/erd.html
   schema-confirmations: diagrams/canonical-schema-confirmations.html
   lms: diagrams/lms.html
+  lms-architecture: diagrams/lms-architecture.html
+  lms-features: diagrams/lms-features.html
   dfd: diagrams/dfd.html
   luct: diagrams/old-cms/index.html
   luct-comparison: diagrams/old-cms/comparison.html
@@ -115,6 +117,10 @@ path_rules:
     section: architecture
   - match: { file: lms.html }
     section: lms
+  - match: { file: lms-architecture.html }
+    section: lms-architecture
+  - match: { file: lms-features.html }
+    section: lms-features
   - match: { file: migration.html }
     section: migration
   - match: { exact: diagrams/index.html }
@@ -146,6 +152,8 @@ menu:
       - { label: Distributed CMS, href: distributed }
       - { label: Architecture, href: architecture }
       - { label: LMS research, href: lms }
+      - { label: LMS architecture, href: lms-architecture }
+      - { label: LMS features, href: lms-features }
       - { label: Migration, href: migration }
       - { label: "Vercel + Neon PoC", href: vercel-poc }
 
@@ -161,11 +169,13 @@ menu:
 
   - label: Architecture
     href: architecture
-    active: [architecture, migration, vercel-poc, lms]
+    active: [architecture, migration, vercel-poc, lms, lms-architecture, lms-features]
     children:
       - { label: Architecture home, href: architecture }
       - { label: Distributed CMS target, href: distributed }
       - { label: LMS research posture, href: lms }
+      - { label: LMS architecture, href: lms-architecture }
+      - { label: LMS features F01–F37, href: lms-features }
       - { label: "SDD & ADR catalogue", href: "architecture#sdd" }
       - { label: "SoR / ACL", href: "architecture#acl" }
       - { label: Academic model, href: "architecture#academic" }
@@ -316,8 +326,20 @@ search:
   - title: LMS research posture
     href: lms
     section: Architecture
-    summary: Student Moodle-like LMS feature map on Raisd CAP + F01–F37; proposed research posture, not Live product.
+    summary: Student Moodle-like LMS feature map on Raisd CAP + F01–F37; Q37 Option 1 published.
     keywords: [lms, learning, moodle, student, f01, f37, materials, assignments, quizzes, live class, gradebook, cap-44, base-44]
+
+  - title: LMS architecture
+    href: lms-architecture
+    section: Architecture
+    summary: Raisd LMS as role surfaces on Portal API with CMS SoR and Live file store.
+    keywords: [lms, architecture, portal-api, cap-53, file store, lecturer, student]
+
+  - title: LMS features F01–F37
+    href: lms-features
+    section: Architecture
+    summary: Research domain matrix INPUT-F01–F37 mapped to CAP Demo status and milestones.
+    keywords: [lms, f01, f37, features, matrix, research, cap]
 
   - title: Migration plan
     href: migration

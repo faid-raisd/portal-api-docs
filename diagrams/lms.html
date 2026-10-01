@@ -74,6 +74,8 @@
             <a href="distributed-cms-architecture.html">Distributed CMS</a>
             <a href="architecture.html">Architecture</a>
             <a href="lms.html">LMS research</a>
+            <a href="lms-architecture.html">LMS architecture</a>
+            <a href="lms-features.html">LMS features</a>
             <a href="migration.html">Migration</a>
             <a href="../poc/vercel-neon.html">Vercel + Neon PoC</a>
           </div>
@@ -94,6 +96,8 @@
             <a href="architecture.html">Architecture home</a>
             <a href="distributed-cms-architecture.html">Distributed CMS target</a>
             <a href="lms.html">LMS research posture</a>
+            <a href="lms-architecture.html">LMS architecture</a>
+            <a href="lms-features.html">LMS features F01–F37</a>
             <a href="architecture.html#sdd">SDD &amp; ADR catalogue</a>
             <a href="architecture.html#acl">SoR / ACL</a>
             <a href="architecture.html#academic">Academic model</a>
@@ -220,16 +224,18 @@
       <div class="meta-row">
         <span class="chip warn">Proposed / research-backed</span>
         <span class="chip">Not Live product</span>
+        <span class="chip ok">Q37 Option 1</span>
         <span class="chip ok">Student Moodle-like map</span>
-        <span class="chip">CAP + F01–F37</span>
       </div>
     </section>
 
     <div class="note" style="margin: 0 0 28px">
-      <strong>Verdict (1 October 2026).</strong>
-      Raisd already has enough LMS requirement sources (CAP + F01–F37) to document
-      student learning features in a Moodle-like shape on the Portal API.
-      This is <strong>proposed / research-backed</strong>, not a Live LMS product.
+      <strong>Decision (1 October 2026 · SDD-10 Q37 Option 1).</strong>
+      Generate Raisd LMS pages from CAP + F01–F37.
+      Published:
+      <a href="lms-architecture.html">architecture</a> ·
+      <a href="lms-features.html">F01–F37 features</a> ·
+      this hub.
       Agent source:
       <a href="https://github.com/raisd-campus/control-plane/blob/main/docs/ai/architecture/lms.md">architecture/lms.md</a>.
     </div>
@@ -237,10 +243,9 @@
     <nav class="toc" aria-label="On this page">
       <a href="#student"><strong>Student LMS</strong><span>Moodle-like feature map</span></a>
       <a href="#journey"><strong>Student journey</strong><span>Course → assess → feedback</span></a>
-      <a href="#ppa"><strong>PPA LMS</strong><span>Infra only locally</span></a>
+      <a href="#pages"><strong>Generated pages</strong><span>Architecture · features</span></a>
       <a href="#raisd"><strong>Raisd sources</strong><span>CAP + F01–F37</span></a>
-      <a href="#generate"><strong>Proposed pages</strong><span>Architecture + matrix</span></a>
-      <a href="#options"><strong>Next step</strong><span>Generation choice</span></a>
+      <a href="#ppa"><strong>PPA LMS</strong><span>Infra only locally</span></a>
     </nav>
 
     <section class="section" id="student">
@@ -431,36 +436,30 @@ flowchart LR
       </div>
     </section>
 
-    <section class="section" id="ppa">
-      <h2>What we found on PPA LMS</h2>
+    <section class="section" id="pages">
+      <h2>Generated pages (Option 1)</h2>
       <p class="lead">
-        Locally we only have <strong>infra intent</strong>, not an app feature or
-        architecture dump we can copy into Raisd pages.
+        Raisd-only sources. Status on every page:
+        <strong>proposed / research-backed</strong>, not Live product.
       </p>
-      <div class="table-wrap">
-        <table class="attr">
-          <thead>
-            <tr><th>Source</th><th>What it has</th></tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Officeless OpenTofu control plane<br/><code>ppa-lms</code> client</td>
-              <td>Gen2 ST <strong>planned</strong>, <strong>not provisioned</strong> (on-prem/VPS via <code>generic</code>)</td>
-            </tr>
-            <tr>
-              <td>Teknopus Insights</td>
-              <td>Client IDs <code>ppa-lms-dev</code> / <code>ppa-lms-prod</code> (app exists somewhere)</td>
-            </tr>
-            <tr>
-              <td>Raisd <code>control-plane</code></td>
-              <td><strong>No</strong> PPA LMS docs, screens, or feature catalogue</td>
-            </tr>
-          </tbody>
-        </table>
+      <div class="toc">
+        <a href="lms-architecture.html">
+          <strong>LMS architecture</strong>
+          <span>Role surfaces on Portal API · CMS SoR · file store</span>
+        </a>
+        <a href="lms-features.html">
+          <strong>LMS features (F01–F37)</strong>
+          <span>Research domain × CAP matrix with Demo / milestone</span>
+        </a>
+        <a href="lms.html#student">
+          <strong>Student Moodle-like map</strong>
+          <span>Familiar vocabulary ↔ CAP Demo/Live (this page)</span>
+        </a>
       </div>
-      <div class="callout warn">
-        Infra client IDs are not a product inventory. Do not invent PPA LMS modules
-        from planned Gen2 or Insights IDs alone.
+      <div class="callout ok" style="margin-top:14px">
+        <strong>Q37 closed — Option 1.</strong>
+        No wait for PPA LMS export; no PPA comparison page in this generate set.
+        Tracked in <a href="../sdd/10-open-questions.html#q37">SDD-10 Q37</a>.
       </div>
     </section>
 
@@ -543,67 +542,36 @@ flowchart TB
       </div>
     </section>
 
-    <section class="section" id="generate">
-      <h2>Recommended generate set</h2>
+    <section class="section" id="ppa">
+      <h2>What we found on PPA LMS</h2>
       <p class="lead">
-        Same style as Distributed CMS / Raisd CMS. Status on every page:
-        <strong>proposed / research-backed</strong>, not Live product.
+        Locally we only have <strong>infra intent</strong>, not an app feature or
+        architecture dump. Option 1 pages do not depend on PPA product inventory.
       </p>
       <div class="table-wrap">
         <table class="attr">
           <thead>
-            <tr><th>Artefact</th><th>Purpose</th><th>Status</th></tr>
+            <tr><th>Source</th><th>What it has</th></tr>
           </thead>
           <tbody>
             <tr>
-              <td><code>docs/diagrams/lms-architecture.html</code></td>
-              <td>LMS as role surfaces on Portal API (student / lecturer / staff); CMS as SoR; file store for Live</td>
-              <td>Proposed — not generated yet</td>
+              <td>Officeless OpenTofu control plane<br/><code>ppa-lms</code> client</td>
+              <td>Gen2 ST <strong>planned</strong>, <strong>not provisioned</strong> (on-prem/VPS via <code>generic</code>)</td>
             </tr>
             <tr>
-              <td><code>docs/diagrams/lms-features.html</code></td>
-              <td>F01–F37 × CAP matrix with Demo / Live status</td>
-              <td>Proposed — not generated yet (student Moodle map lives on this page for now)</td>
+              <td>Teknopus Insights</td>
+              <td>Client IDs <code>ppa-lms-dev</code> / <code>ppa-lms-prod</code> (app exists somewhere)</td>
             </tr>
             <tr>
-              <td>
-                <a href="https://github.com/raisd-campus/control-plane/blob/main/docs/ai/architecture/lms.md"><code>docs/ai/architecture/lms.md</code></a>
-                + this page
-              </td>
-              <td>Agent-facing + human source of truth for research posture and student feature map</td>
-              <td><span class="chip ok">Published</span></td>
+              <td>Raisd <code>control-plane</code></td>
+              <td><strong>No</strong> PPA LMS docs, screens, or feature catalogue</td>
             </tr>
           </tbody>
         </table>
       </div>
-    </section>
-
-    <section class="section" id="options">
-      <h2>Which should we generate?</h2>
-      <p class="lead">
-        Open choice for the working group — also tracked as
-        <a href="../sdd/10-open-questions.html#q37">SDD-10 Q37</a>.
-      </p>
-      <div class="option-grid">
-        <div class="option-card">
-          <span class="n">Option 1</span>
-          <strong>Raisd LMS pages from CAP + F01–F37</strong>
-          <span>Can start now. Architecture + features pages from Raisd sources only.</span>
-        </div>
-        <div class="option-card">
-          <span class="n">Option 2</span>
-          <strong>Wait for PPA LMS URL/export</strong>
-          <span>Then add a reference comparison — no Raisd pages until access lands.</span>
-        </div>
-        <div class="option-card">
-          <span class="n">Option 3</span>
-          <strong>Both</strong>
-          <span>Generate Raisd pages now; add PPA comparison once access is shared.</span>
-        </div>
-      </div>
-      <div class="callout ok" style="margin-top:16px">
-        Recommendation if unblocked for Raisd-only work: <strong>Option 1 or 3</strong> —
-        publish research-backed Raisd LMS pages now; keep PPA comparison gated on real access.
+      <div class="callout warn">
+        Infra client IDs are not a product inventory. Do not invent PPA LMS modules
+        from planned Gen2 or Insights IDs alone.
       </div>
     </section>
   </main>

@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Raisd LMS — features (F01–F37)</title>
+  <link rel="stylesheet" href="./styles.css" />
+  <style>
+    .callout {
+      margin: 12px 0 0;
+      padding: 12px 14px;
+      border-radius: 10px;
+      border-left: 4px solid var(--accent);
+      background: var(--accent-soft);
+      color: var(--ink);
+      font-size: 0.92rem;
+    }
+    .callout.warn {
+      border-left-color: var(--warn);
+      background: var(--warn-bg);
+    }
+    .callout.ok {
+      border-left-color: var(--ok);
+      background: var(--ok-bg);
+    }
+    .arch-layer-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px;
+      margin: 12px 0 0;
+    }
+    .arch-layer {
+      padding: 14px 16px;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+      background: var(--surface);
+    }
+    .arch-layer h4 {
+      margin: 0 0 6px;
+      font-size: 0.95rem;
+      color: var(--accent);
+    }
+    .arch-layer p, .arch-layer ul {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.88rem;
+    }
+    .arch-layer ul {
+      padding-left: 1.1rem;
+      margin-top: 6px;
+    }
+  </style>
+  <script src="site-auth.js"></script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="site-header-inner">
+      <a class="brand" href="index.html">
+        <img class="brand-logo" src="assets/raisd-logo.svg" width="80" height="22" alt="Raisd" />
+        <strong>Control Plane</strong>
+      </a>
+      <button type="button" class="site-search-trigger" aria-label="Search documentation"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="M20 20l-3.5-3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+      <nav class="nav" aria-label="Primary">
+        <div class="nav-dd">
+          <a class="nav-dd-main" href="index.html">Overview</a>
+          <div class="nav-dd-menu" role="menu">
+            <a href="index.html">Diagrams hub</a>
+            <a href="index.html#endpoints">Public endpoints</a>
+            <a href="distributed-cms-architecture.html">Distributed CMS</a>
+            <a href="architecture.html">Architecture</a>
+            <a href="lms.html">LMS research</a>
+            <a href="lms-architecture.html">LMS architecture</a>
+            <a href="lms-features.html">LMS features</a>
+            <a href="migration.html">Migration</a>
+            <a href="../poc/vercel-neon.html">Vercel + Neon PoC</a>
+          </div>
+        </div>
+        <div class="nav-dd">
+          <a class="nav-dd-main" href="distributed-cms-architecture.html">Distributed CMS</a>
+          <div class="nav-dd-menu" role="menu">
+            <a href="distributed-cms-architecture.html">Target architecture</a>
+            <a href="distributed-cms-architecture.html#journey">Current → ideal</a>
+            <a href="distributed-cms-architecture.html#phase-ideal">Ideal state</a>
+            <a href="distributed-cms-architecture.html#tenancy">White-label &amp; flags</a>
+            <a href="migration.html">M1–M5 migration</a>
+          </div>
+        </div>
+        <div class="nav-dd">
+          <a class="nav-dd-main active" href="architecture.html">Architecture</a>
+          <div class="nav-dd-menu" role="menu">
+            <a href="architecture.html">Architecture home</a>
+            <a href="distributed-cms-architecture.html">Distributed CMS target</a>
+            <a href="lms.html">LMS research posture</a>
+            <a href="lms-architecture.html">LMS architecture</a>
+            <a href="lms-features.html">LMS features F01–F37</a>
+            <a href="architecture.html#sdd">SDD &amp; ADR catalogue</a>
+            <a href="architecture.html#acl">SoR / ACL</a>
+            <a href="architecture.html#academic">Academic model</a>
+            <a href="../poc/vercel-neon.html">Vercel + Neon PoC</a>
+            <div class="nav-sub">
+              <a class="nav-sub-trigger" href="migration.html" aria-haspopup="true" aria-expanded="false">Migration</a>
+              <div class="nav-sub-menu" role="menu">
+              <a href="migration.html">Plan overview</a>
+              <a href="migration.html#sequence">Milestone sequence</a>
+              <a href="distributed-cms-architecture.html#journey">Current → ideal</a>
+              <a href="migration.html#m1">M1–M5 detail</a>
+              <a href="migration.html#hosting">Hosting stages</a>
+              <a href="migration.html#critical">Critical path</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="nav-dd">
+          <a class="nav-dd-main" href="raisd-cms/index.html">Raisd CMS</a>
+          <div class="nav-dd-menu" role="menu">
+            <a href="raisd-cms/index.html">Raisd CMS hub</a>
+            <a href="raisd-cms/student-portal.html">Student portal</a>
+            <a href="raisd-cms/student-portal-screenshots.html">Screenshots</a>
+            <a href="raisd-cms/student-portal-guide.html">Use guides</a>
+            <a href="raisd-cms/student-portal-manual.html">User manual</a>
+            <a href="erd.html">ERD</a>
+            <a href="canonical-schema-confirmations.html">Schema confirmations</a>
+            <a href="dfd.html">DFD</a>
+          </div>
+        </div>
+        <div class="nav-dd">
+          <a class="nav-dd-main" href="old-cms/index.html">LUCT CMS</a>
+          <div class="nav-dd-menu" role="menu">
+            <div class="nav-sub">
+              <a class="nav-sub-trigger" href="old-cms/index.html" aria-haspopup="true" aria-expanded="false">Cyberjaya</a>
+              <div class="nav-sub-menu" role="menu">
+              <a href="old-cms/index.html">E2E hub</a>
+              <a href="old-cms/index.html#fsd">FSD</a>
+              <a href="old-cms/obsidian.html?campus=cyberjaya">Obsidian 3D</a>
+              <a href="old-cms/index.html#flows">Flows</a>
+              <a href="old-cms/index.html#erd">ERD</a>
+              <a href="old-cms/index.html#database">Database</a>
+              <a href="old-cms/index.html#compare">Comparison</a>
+              </div>
+            </div>
+            <div class="nav-sub">
+              <a class="nav-sub-trigger" href="old-cms-botswana/index.html" aria-haspopup="true" aria-expanded="false">Botswana</a>
+              <div class="nav-sub-menu" role="menu">
+              <a href="old-cms-botswana/index.html">E2E hub</a>
+              <a href="old-cms-botswana/index.html#fsd">FSD</a>
+              <a href="old-cms-botswana/index.html#dtef">DTEF</a>
+              <a href="old-cms-botswana/index.html#erd">ERD</a>
+              <a href="old-cms-botswana/database.html">Database</a>
+              <a href="old-cms/obsidian.html?campus=botswana">Obsidian 3D</a>
+              </div>
+            </div>
+            <div class="nav-sub">
+              <a class="nav-sub-trigger" href="old-cms-sierra-leone/index.html" aria-haspopup="true" aria-expanded="false">Sierra Leone</a>
+              <div class="nav-sub-menu" role="menu">
+              <a href="old-cms-sierra-leone/index.html">E2E hub</a>
+              <a href="old-cms-sierra-leone/index.html#fsd">FSD</a>
+              <a href="old-cms-sierra-leone/index.html#erd">ERD</a>
+              <a href="old-cms-sierra-leone/database.html">Database</a>
+              <a href="old-cms/obsidian.html?campus=sierra-leone">Obsidian 3D</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="nav-dd">
+          <a class="nav-dd-main" href="../design-system/index.html">Design system</a>
+          <div class="nav-dd-menu" role="menu">
+            <a href="../design-system/index.html">Design system hub</a>
+            <a href="../design-system/foundations.html">Foundations</a>
+            <a href="../design-system/shared-controls.html">Shared controls</a>
+            <a href="../design-system/shared-patterns.html">Shared patterns</a>
+            <a href="../design-system/student-components.html">Student components</a>
+          </div>
+        </div>
+        <div class="nav-dd">
+          <a class="nav-dd-main" href="../ai/index.html">AI knowledge</a>
+          <div class="nav-dd-menu" role="menu">
+            <a href="../ai/index.html">AI hub</a>
+            <a href="https://github.com/raisd-campus/control-plane/blob/main/docs/ai/AGENTS.md">AGENTS.md</a>
+            <a href="https://github.com/raisd-campus/control-plane/blob/main/docs/ai/architecture/overview.md">Architecture overview</a>
+            <a href="https://github.com/raisd-campus/control-plane/blob/main/docs/ai/architecture/distributed-cms-target.md">Distributed CMS target</a>
+            <a href="https://github.com/raisd-campus/control-plane/blob/main/docs/ai/architecture/lms.md">LMS research posture</a>
+            <a href="https://github.com/raisd-campus/control-plane/blob/main/docs/ai/backend/portal-api.md">Portal API</a>
+            <a href="https://github.com/raisd-campus/control-plane/blob/main/docs/ai/backend/portal-api-development-plan.md">Portal API plan</a>
+            <a href="https://github.com/raisd-campus/control-plane/blob/main/docs/ai/backend/portal-api-deployment.md">Portal API deployment</a>
+            <a href="https://github.com/raisd-campus/control-plane/blob/main/docs/ai/backend/portal-api-poc-requirements.md">PoC requirements</a>
+            <a href="https://github.com/raisd-campus/control-plane/blob/main/docs/ai/backend/cms-feature-comparison.md">CMS comparison</a>
+            <a href="../poc/vercel-neon.html">Vercel + Neon PoC</a>
+          </div>
+        </div>
+        <div class="nav-dd">
+          <a class="nav-dd-main" href="../sdd/index.html">SDD</a>
+          <div class="nav-dd-menu" role="menu">
+            <a href="../sdd/index.html">SDD hub</a>
+            <a href="../sdd/15-nomenclature.html">Nomenclature</a>
+            <a href="../sdd/11-capability-catalog.html">Capability catalogue</a>
+            <a href="../sdd/03-delivery-milestones.html">Milestones</a>
+          </div>
+        </div>
+        <div class="nav-dd">
+          <a class="nav-dd-main" href="../openapi.html">OpenAPI</a>
+          <div class="nav-dd-menu" role="menu">
+            <a href="../openapi.html">Swagger UI</a>
+            <a href="https://github.com/raisd-campus/control-plane/blob/main/openapi.yaml">openapi.yaml</a>
+          </div>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <h1>Raisd LMS — features (F01–F37)</h1>
+      <p>
+        Research domains from <code>LMS_Feature_Requirements_8_Countried.xlsx</code>
+        mapped to Raisd CAPs with Demo posture and milestone targets.
+        Supplied research — not universal mandates
+        (<a href="../sdd/09-requirements-traceability.html">SDD-09</a>).
+      </p>
+      <div class="meta-row">
+        <span class="chip warn">Proposed / research-backed</span>
+        <span class="chip">Not Live product</span>
+        <span class="chip ok">Option 1 · CAP + F01–F37</span>
+        <span class="chip ok">See also <a href="lms.html">LMS hub</a></span>
+      </div>
+    </section>
+
+    <div class="note" style="margin: 0 0 28px">
+      <strong>How to read Demo status.</strong>
+      Domain Demo is the <em>most conservative</em> student/portal status among mapped CAPs
+      (Not started &lt; Placeholder &lt; Needs checking &lt; Partial &lt; Demo).
+      Authoritative CAP rows:
+      <a href="../sdd/11-capability-catalog.html">SDD-11</a>.
+      Student Moodle-shaped view:
+      <a href="lms.html#student">lms.html#student</a>.
+    </div>
+
+    <nav class="toc" aria-label="On this page">
+      <a href="#matrix"><strong>F01–F37 matrix</strong><span>Domain × CAP × Demo</span></a>
+      <a href="#groups"><strong>Groups</strong><span>Content · assess · support · ops</span></a>
+      <a href="#related"><strong>Related</strong><span>Architecture · hub</span></a>
+    </nav>
+
+    <section class="section" id="matrix">
+      <h2>INPUT-F01 – F37 × CAP</h2>
+      <div class="table-wrap">
+        <table class="attr">
+          <thead>
+            <tr>
+              <th>Domain</th>
+              <th>Requirement</th>
+              <th>CAP IDs</th>
+              <th>Demo (conservative)</th>
+              <th>Live target</th>
+            </tr>
+          </thead>
+          <tbody>
+<tr id="INPUT-F01"><td><code>INPUT-F01</code></td><td>Dedicated LMS / online learning platform</td><td><a href="../sdd/11-capability-catalog.html#cap-44">CAP-44</a></td><td>Not started</td><td>M3</td></tr>
+<tr id="INPUT-F02"><td><code>INPUT-F02</code></td><td>LMS readiness / accreditation evidence</td><td><a href="../sdd/11-capability-catalog.html#cap-43">CAP-43</a></td><td>Not started</td><td>M3</td></tr>
+<tr id="INPUT-F03"><td><code>INPUT-F03</code></td><td>ODL programme accreditation</td><td><a href="../sdd/11-capability-catalog.html#cap-04">CAP-04</a></td><td>Needs checking</td><td>M2</td></tr>
+<tr id="INPUT-F04"><td><code>INPUT-F04</code></td><td>Course information & learning outcomes</td><td><a href="../sdd/11-capability-catalog.html#cap-14">CAP-14</a>, <a href="../sdd/11-capability-catalog.html#cap-17">CAP-17</a>, <a href="../sdd/11-capability-catalog.html#cap-19">CAP-19</a>, <a href="../sdd/11-capability-catalog.html#cap-23">CAP-23</a></td><td>Not started</td><td>M3</td></tr>
+<tr id="INPUT-F05"><td><code>INPUT-F05</code></td><td>Digital content hosting & access</td><td><a href="../sdd/11-capability-catalog.html#cap-18">CAP-18</a>, <a href="../sdd/11-capability-catalog.html#cap-19">CAP-19</a>, <a href="../sdd/11-capability-catalog.html#cap-22">CAP-22</a>, <a href="../sdd/11-capability-catalog.html#cap-27">CAP-27</a></td><td>Not started</td><td>M3</td></tr>
+<tr id="INPUT-F06"><td><code>INPUT-F06</code></td><td>Self-instructional / self-learning materials</td><td><a href="../sdd/11-capability-catalog.html#cap-17">CAP-17</a>, <a href="../sdd/11-capability-catalog.html#cap-21">CAP-21</a>, <a href="../sdd/11-capability-catalog.html#cap-27">CAP-27</a></td><td>Not started</td><td>M3</td></tr>
+<tr id="INPUT-F07"><td><code>INPUT-F07</code></td><td>Learning-material QA / pre-testing</td><td><a href="../sdd/11-capability-catalog.html#cap-43">CAP-43</a></td><td>Not started</td><td>M3</td></tr>
+<tr id="INPUT-F08"><td><code>INPUT-F08</code></td><td>Multimedia / media mix</td><td><a href="../sdd/11-capability-catalog.html#cap-18">CAP-18</a></td><td>Placeholder</td><td>M3</td></tr>
+<tr id="INPUT-F09"><td><code>INPUT-F09</code></td><td>Copyright / intellectual property</td><td><a href="../sdd/11-capability-catalog.html#cap-42">CAP-42</a></td><td>Needs checking</td><td>M3</td></tr>
+<tr id="INPUT-F10"><td><code>INPUT-F10</code></td><td>Learner–instructor interaction</td><td><a href="../sdd/11-capability-catalog.html#cap-25">CAP-25</a></td><td>Demo</td><td>M5</td></tr>
+<tr id="INPUT-F11"><td><code>INPUT-F11</code></td><td>Learner–learner interaction</td><td><a href="../sdd/11-capability-catalog.html#cap-25">CAP-25</a></td><td>Demo</td><td>M5</td></tr>
+<tr id="INPUT-F12"><td><code>INPUT-F12</code></td><td>Synchronous / live interaction</td><td><a href="../sdd/11-capability-catalog.html#cap-26">CAP-26</a></td><td>Not started</td><td>M5</td></tr>
+<tr id="INPUT-F13"><td><code>INPUT-F13</code></td><td>Asynchronous learning</td><td><a href="../sdd/11-capability-catalog.html#cap-27">CAP-27</a></td><td>Partial</td><td>M5</td></tr>
+<tr id="INPUT-F14"><td><code>INPUT-F14</code></td><td>Interactive online learning activities</td><td><a href="../sdd/11-capability-catalog.html#cap-21">CAP-21</a>, <a href="../sdd/11-capability-catalog.html#cap-24">CAP-24</a></td><td>Not started</td><td>M3</td></tr>
+<tr id="INPUT-F15"><td><code>INPUT-F15</code></td><td>Instructor feedback</td><td><a href="../sdd/11-capability-catalog.html#cap-28">CAP-28</a></td><td>Not started</td><td>M3</td></tr>
+<tr id="INPUT-F16"><td><code>INPUT-F16</code></td><td>Online / ODL assessment framework</td><td><a href="../sdd/11-capability-catalog.html#cap-20">CAP-20</a>, <a href="../sdd/11-capability-catalog.html#cap-24">CAP-24</a>, <a href="../sdd/11-capability-catalog.html#cap-28">CAP-28</a></td><td>Not started</td><td>M3</td></tr>
+<tr id="INPUT-F17"><td><code>INPUT-F17</code></td><td>Identity verification / anti-impersonation</td><td><a href="../sdd/11-capability-catalog.html#cap-29">CAP-29</a></td><td>Not started</td><td>M3</td></tr>
+<tr id="INPUT-F18"><td><code>INPUT-F18</code></td><td>Anti-plagiarism / academic integrity</td><td><a href="../sdd/11-capability-catalog.html#cap-29">CAP-29</a></td><td>Not started</td><td>M3</td></tr>
+<tr id="INPUT-F19"><td><code>INPUT-F19</code></td><td>Grades / progress / results access</td><td><a href="../sdd/11-capability-catalog.html#cap-13">CAP-13</a></td><td>Demo</td><td>M3</td></tr>
+<tr id="INPUT-F20"><td><code>INPUT-F20</code></td><td>Student orientation / LMS induction</td><td><a href="../sdd/11-capability-catalog.html#cap-32">CAP-32</a></td><td>Not started</td><td>M3</td></tr>
+<tr id="INPUT-F21"><td><code>INPUT-F21</code></td><td>Learner support services</td><td><a href="../sdd/11-capability-catalog.html#cap-33">CAP-33</a>, <a href="../sdd/11-capability-catalog.html#cap-54">CAP-54</a></td><td>Needs checking</td><td>M3</td></tr>
+<tr id="INPUT-F22"><td><code>INPUT-F22</code></td><td>IT helpdesk / technical support</td><td><a href="../sdd/11-capability-catalog.html#cap-33">CAP-33</a></td><td>Partial</td><td>M3</td></tr>
+<tr id="INPUT-F23"><td><code>INPUT-F23</code></td><td>Digital library / e-resources</td><td><a href="../sdd/11-capability-catalog.html#cap-31">CAP-31</a></td><td>Not started</td><td>M5</td></tr>
+<tr id="INPUT-F24"><td><code>INPUT-F24</code></td><td>Accessibility / special-needs support</td><td><a href="../sdd/11-capability-catalog.html#cap-35">CAP-35</a></td><td>Demo</td><td>M2</td></tr>
+<tr id="INPUT-F25"><td><code>INPUT-F25</code></td><td>Study / regional / learning-centre support</td><td><a href="../sdd/11-capability-catalog.html#cap-34">CAP-34</a></td><td>Not started</td><td>M5</td></tr>
+<tr id="INPUT-F26"><td><code>INPUT-F26</code></td><td>Internet / connectivity adequacy</td><td><a href="../sdd/11-capability-catalog.html#cap-37">CAP-37</a></td><td>Needs checking</td><td>M4</td></tr>
+<tr id="INPUT-F27"><td><code>INPUT-F27</code></td><td>LMS capacity, reliability & monitoring</td><td><a href="../sdd/11-capability-catalog.html#cap-37">CAP-37</a></td><td>Needs checking</td><td>M4</td></tr>
+<tr id="INPUT-F28"><td><code>INPUT-F28</code></td><td>Backup / redundancy / continuity</td><td><a href="../sdd/11-capability-catalog.html#cap-38">CAP-38</a></td><td>Needs checking</td><td>M4</td></tr>
+<tr id="INPUT-F29"><td><code>INPUT-F29</code></td><td>Privacy / data security</td><td><a href="../sdd/11-capability-catalog.html#cap-39">CAP-39</a></td><td>Demo</td><td>M2</td></tr>
+<tr id="INPUT-F30"><td><code>INPUT-F30</code></td><td>Cybersecurity / secure digital environment</td><td><a href="../sdd/11-capability-catalog.html#cap-01">CAP-01</a>, <a href="../sdd/11-capability-catalog.html#cap-39">CAP-39</a></td><td>Not started</td><td>M2</td></tr>
+<tr id="INPUT-F31"><td><code>INPUT-F31</code></td><td>Mobile / device accessibility</td><td><a href="../sdd/11-capability-catalog.html#cap-36">CAP-36</a></td><td>Partial</td><td>M2</td></tr>
+<tr id="INPUT-F32"><td><code>INPUT-F32</code></td><td>Learner engagement / performance tracking</td><td><a href="../sdd/11-capability-catalog.html#cap-12">CAP-12</a>, <a href="../sdd/11-capability-catalog.html#cap-13">CAP-13</a>, <a href="../sdd/11-capability-catalog.html#cap-40">CAP-40</a></td><td>Not started</td><td>M3</td></tr>
+<tr id="INPUT-F33"><td><code>INPUT-F33</code></td><td>Analytics / QA monitoring</td><td><a href="../sdd/11-capability-catalog.html#cap-40">CAP-40</a></td><td>Not started</td><td>M5</td></tr>
+<tr id="INPUT-F34"><td><code>INPUT-F34</code></td><td>Learner feedback / course evaluation</td><td><a href="../sdd/11-capability-catalog.html#cap-30">CAP-30</a></td><td>Placeholder</td><td>M5</td></tr>
+<tr id="INPUT-F35"><td><code>INPUT-F35</code></td><td>Staff ODL/LMS training & competence</td><td><a href="../sdd/11-capability-catalog.html#cap-41">CAP-41</a></td><td>Needs checking</td><td>M4</td></tr>
+<tr id="INPUT-F36"><td><code>INPUT-F36</code></td><td>Student ICT / ODL skills</td><td><a href="../sdd/11-capability-catalog.html#cap-32">CAP-32</a></td><td>Not started</td><td>M3</td></tr>
+<tr id="INPUT-F37"><td><code>INPUT-F37</code></td><td>Cross-border / outsourced / third-party controls</td><td><a href="../sdd/11-capability-catalog.html#cap-42">CAP-42</a></td><td>Needs checking</td><td>M3</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="section" id="groups">
+      <h2>Domain groups</h2>
+      <div class="arch-layer-grid">
+        <div class="arch-layer">
+          <h4>Platform &amp; readiness</h4>
+          <p>F01–F03, F07, F09, F35, F37</p>
+          <ul>
+            <li>Dedicated LMS surface (CAP-44)</li>
+            <li>Accreditation / QA evidence</li>
+            <li>Copyright &amp; third-party controls</li>
+          </ul>
+        </div>
+        <div class="arch-layer">
+          <h4>Content &amp; delivery</h4>
+          <p>F04–F06, F08, F12–F14</p>
+          <ul>
+            <li>Outcomes, guides, media</li>
+            <li>Self-paced / async release</li>
+            <li>Live class (tool TBC)</li>
+          </ul>
+        </div>
+        <div class="arch-layer">
+          <h4>Assessment &amp; progress</h4>
+          <p>F15–F19, F32–F34</p>
+          <ul>
+            <li>Assignments, quizzes, integrity</li>
+            <li>Grades &amp; feedback</li>
+            <li>Engagement / analytics / evaluation</li>
+          </ul>
+        </div>
+        <div class="arch-layer">
+          <h4>Support &amp; ops</h4>
+          <p>F10–F11, F20–F31, F36</p>
+          <ul>
+            <li>Comms, induction, helpdesk</li>
+            <li>Library, accessibility, centres</li>
+            <li>Privacy, mobile, reliability</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="related">
+      <h2>Related pages</h2>
+      <div class="toc">
+        <a href="lms.html"><strong>LMS hub</strong><span>Student Moodle-like map</span></a>
+        <a href="lms-architecture.html"><strong>LMS architecture</strong><span>Role surfaces · SoR · files</span></a>
+        <a href="../sdd/11-capability-catalog.html"><strong>Capability catalogue</strong><span>CAP Demo / Live detail</span></a>
+        <a href="../sdd/09-requirements-traceability.html"><strong>SDD-09</strong><span>Traceability · BASE-44</span></a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    Generated for raisd-campus/control-plane · Mermaid diagrams · GitHub Pages
+  </footer>
+
+  <script type="module">
+    import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: "base",
+      securityLevel: "loose",
+      themeVariables: {
+        primaryColor: "#e8f0f8",
+        primaryTextColor: "#152033",
+        primaryBorderColor: "#1a4f8b",
+        lineColor: "#5a6a7e",
+        secondaryColor: "#e8f6ee",
+        tertiaryColor: "#fff6e8",
+        fontFamily: "Segoe UI, system-ui, sans-serif",
+      },
+      flowchart: { curve: "basis", htmlLabels: true },
+    });
+  </script>
+  <script src="abbr-tooltips.js" defer></script>
+  <script src="nav-dropdown.js" defer></script>
+  <script src="site-search.js" defer></script>
+</body>
+</html>

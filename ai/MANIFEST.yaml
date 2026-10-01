@@ -28,8 +28,8 @@ notes:
   - 2026-10-01: CS-01–CS-13 reframed — Schema v2 may proceed; campus-dependent answers become effective-dated policy (Live readiness). CS-12 Demo FKs deferred; CS-13 incremental report cutover. See canonical-schema-luct-readiness.md §0 / §6.
   - 2026-10-01: Schema v3 campus policy layer implemented (status mapping, academic-status / credit / CGPA / document / adjustment policies; university-default seeds; projections + SQL views). See canonical-schema-luct-readiness.md §0.1 / §7.
   - 2026-10-01: Campus policy surfaced in published ERD, Data Model Explorer, OpenAPI `/v1/meta.schemaVersion`, and db-admin IRREGULAR map.
-  - 2026-10-01: Architecture review confirmed Schema v3 good to proceed; CS-01–CS-11 = campus go-Live policy validation (Demo defaults not authoritative LUCT policy). Neon Demo reseeded to schema_version 3 (95 collections); physical verification checklist passed. Production Vercel API redeploy still needed for `/v1/meta.schemaVersion`.
-  - 2026-10-01: LMS research posture published — Raisd can generate architecture/features from CAP + F01–F37; no PPA LMS product inventory in workspace. architecture/lms.md + diagrams/lms.html (SDD-10 Q37).
+  - 2026-10-01: Architecture review confirmed Schema v3 good to proceed; CS-01–CS-11 = campus go-Live policy validation (Demo defaults not authoritative LUCT policy). Neon Demo reseeded to schema_version 3 (95 collections); physical verification checklist passed. Production Vercel portal-api redeployed — `/v1/meta` returns `schemaVersion: 3`.
+  - 2026-10-01: LMS Q37 Option 1 — published lms-architecture.html + lms-features.html (F01–F37 × CAP) from Raisd sources; hub Moodle-like student map; no PPA comparison.
 
 entrypoints:
   agents: AGENTS.md
@@ -56,10 +56,13 @@ architecture:
     topics: [distributed-db, multi-country, white-label, feature-flags, identity, m5, ideal-state]
     pages: ../diagrams/distributed-cms-architecture.html
   - path: architecture/lms.md
-    topics: [lms, learning, f01-f37, cap-44, base-44, materials, ppa-lms, research]
-    pages: ../diagrams/lms.html
+    topics: [lms, learning, f01-f37, cap-44, base-44, materials, ppa-lms, research, moodle]
+    pages:
+      - ../diagrams/lms.html
+      - ../diagrams/lms-architecture.html
+      - ../diagrams/lms-features.html
     status: proposed
-    note: Research posture only — not Live LMS; no PPA product inventory in workspace.
+    note: Q37 Option 1 published; research posture only — not Live LMS.
   - path: architecture/repositories.md
     topics: [repo-map, local-paths, ownership]
   - path: architecture/deployment.md
@@ -110,7 +113,11 @@ diagrams:
   - path: ../diagrams/distributed-cms-architecture.html
     topics: [distributed-cms, multi-country, white-label, feature-flags, migration-journey, ideal-state]
   - path: ../diagrams/lms.html
-    topics: [lms, learning, f01-f37, ppa-lms, research-posture, base-44]
+    topics: [lms, learning, f01-f37, ppa-lms, research-posture, base-44, moodle]
+  - path: ../diagrams/lms-architecture.html
+    topics: [lms, architecture, portal-api, role-surfaces, file-store]
+  - path: ../diagrams/lms-features.html
+    topics: [lms, f01-f37, features, cap-matrix, research]
   - path: ../diagrams/migration.html
     topics: [milestones, m1-m5, hosting-stages]
   - path: ../diagrams/architecture.html

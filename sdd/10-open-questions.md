@@ -71,11 +71,11 @@ Decisions required before capabilities can move from Needs checking / Demo to Li
 
 ## 4c. LMS documentation posture — 1 October 2026
 
-**Verdict:** Raisd can generate LMS architecture + features pages from CAP + `INPUT-F01`–`F37` research. This workspace has **no** PPA LMS product inventory (only infra intent / client IDs). Student Materials alone is not an LMS ([BASE-44](09-requirements-traceability.md)). Published page: [lms.html](../diagrams/lms.html). Agent knowledge: `docs/ai/architecture/lms.md` in control-plane.
+**Decision (1 October 2026):** **Q37 Option 1** — generate Raisd LMS pages from CAP + `INPUT-F01`–`F37` only. Published: [lms.html](../diagrams/lms.html), [lms-architecture.html](../diagrams/lms-architecture.html), [lms-features.html](../diagrams/lms-features.html). Agent knowledge: `docs/ai/architecture/lms.md`. No PPA LMS comparison in this generate set. Student Materials alone is not an LMS ([BASE-44](09-requirements-traceability.md)).
 
-| ID | Question | Why it matters | Owner |
+| ID | Question | Decision | Owner |
 |---|---|---|---|
-| <a id="q37"></a>Q37 | Generate Raisd LMS pages now (CAP + F01–F37), wait for PPA LMS URL/export, or both once access is shared? | Unlocks `lms-architecture.html` / `lms-features.html`; avoids inventing PPA features | Product / architecture |
+| <a id="q37"></a>Q37 | Generate Raisd LMS pages now (CAP + F01–F37), wait for PPA LMS URL/export, or both? | **Option 1** — Raisd pages from CAP + F01–F37 (architecture + features published) | Product / architecture |
 
 ## 5. Role split after tonight
 
@@ -103,4 +103,4 @@ Proposed until the group names people:
 | 1 Oct 2026 | Schema v3 Demo: campus policy collections, university-default seeds, projections + SQL views, Data Model Explorer, published ERD, `/v1/meta.schemaVersion`, db-admin IRREGULAR map. Per-campus Live confirmation of CS-01–CS-11 remains open | Engineering; recorded in knowledge base §7 |
 | 1 Oct 2026 | Schema v3 confirmed good to proceed. Remaining CS-01–CS-11 treated as policy-validation / campus go-Live requirements (not schema-design blockers). Demo university-default values are structural defaults/examples only — not authoritative LUCT policy until campus/department sign-off. CS-13 remains incremental legacy+canonical side-by-side cutover | Architecture review reply to Iman Suherman; recorded in knowledge base |
 | 1 Oct 2026 | Neon Demo reseeded to Schema v3 (95 collections; six campus-policy tables). Verification checklist recorded in readiness §7 | Engineering |
-| 1 Oct 2026 | LMS research posture: Raisd pages can be generated from CAP + F01–F37; no PPA LMS product inventory in workspace. Generation choice open as Q37 | Iman Suherman (research); published `docs/diagrams/lms.html` |
+| 1 Oct 2026 | LMS Q37 Option 1: publish Raisd LMS architecture + F01–F37 features pages from CAP research (no PPA comparison in this set) | Iman Suherman; `lms.html` / `lms-architecture.html` / `lms-features.html` |
