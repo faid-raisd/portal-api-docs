@@ -1,5 +1,5 @@
 {
-  "packageVersion": "0.5.2",
+  "packageVersion": "0.6.0",
   "studentPortalCommit": "84c6bf541a4ecefc985a6429cac8a302b0098723",
   "capturedAt": "2026-09-26",
   "captureRoute": "/dev/design-system",
@@ -1078,6 +1078,51 @@
       "sourceSelector": "[data-slot=\"fixture-fields\"]",
       "sourceCommit": "e023cd3b6152820ca830e9679fc695dcb122e340",
       "packageVersion": "0.5.2",
+      "capturedAt": "2026-10-01"
+    },
+    {
+      "id": "conversation-desktop",
+      "title": "Conversation presentation",
+      "page": "shared-patterns",
+      "owner": "shared",
+      "viewport": "desktop",
+      "width": 1440,
+      "image": "assets/conversation-desktop.png",
+      "sourceRoute": "design-system/examples/consumer/?chat",
+      "captureRoute": "/?chat",
+      "sourceSelector": "main",
+      "sourceCommit": "e5b33be6ef5f07c3c88be416e8063792896a0356",
+      "packageVersion": "0.6.0",
+      "capturedAt": "2026-10-01"
+    },
+    {
+      "id": "conversation-tablet",
+      "title": "Conversation presentation",
+      "page": "shared-patterns",
+      "owner": "shared",
+      "viewport": "tablet",
+      "width": 820,
+      "image": "assets/conversation-tablet.png",
+      "sourceRoute": "design-system/examples/consumer/?chat",
+      "captureRoute": "/?chat",
+      "sourceSelector": "main",
+      "sourceCommit": "e5b33be6ef5f07c3c88be416e8063792896a0356",
+      "packageVersion": "0.6.0",
+      "capturedAt": "2026-10-01"
+    },
+    {
+      "id": "conversation-phone",
+      "title": "Conversation presentation",
+      "page": "shared-patterns",
+      "owner": "shared",
+      "viewport": "phone",
+      "width": 390,
+      "image": "assets/conversation-phone.png",
+      "sourceRoute": "design-system/examples/consumer/?chat",
+      "captureRoute": "/?chat",
+      "sourceSelector": "main",
+      "sourceCommit": "e5b33be6ef5f07c3c88be416e8063792896a0356",
+      "packageVersion": "0.6.0",
       "capturedAt": "2026-10-01"
     }
   ]
