@@ -348,6 +348,12 @@ erDiagram
   CAMPUS ||--o{ UNIVERSITY_POLICY : policies
   CAMPUS ||--o{ CAMPUS_SERVICE_PAGE : services
   CAMPUS ||--o{ REVIEW_QUESTIONNAIRE : reviews
+  CAMPUS ||--o{ CAMPUS_STATUS_MAPPING : status_map
+  CAMPUS ||--o{ CAMPUS_ACADEMIC_STATUS_POLICY : academic_status
+  CAMPUS ||--o{ CAMPUS_CREDIT_POLICY : credit
+  CAMPUS ||--o{ CAMPUS_CGPA_POLICY : cgpa
+  CAMPUS ||--o{ CAMPUS_DOCUMENT_NUMBER_POLICY : document_numbers
+  CAMPUS ||--o{ CAMPUS_ADJUSTMENT_POLICY : adjustments
 
   CAMPUS {
     string id PK
@@ -442,6 +448,60 @@ erDiagram
     string campusId FK
     string version
   }
+  CAMPUS_STATUS_MAPPING {
+    string id PK
+    string campusId FK
+    string sourceSystem
+    string sourceStatus
+    string canonicalStatus
+    string target
+    date effectiveFrom
+    date effectiveTo
+  }
+  CAMPUS_ACADEMIC_STATUS_POLICY {
+    string id PK
+    string campusId FK
+    string academicStatus
+    boolean countsAsValidStudyPeriod
+    boolean countsAsActiveStudent
+    date effectiveFrom
+    date effectiveTo
+  }
+  CAMPUS_CREDIT_POLICY {
+    string id PK
+    string campusId FK
+    string outcome
+    boolean countsAsAttempted
+    boolean countsAsEarned
+    boolean countsInGpa
+    date effectiveFrom
+    date effectiveTo
+  }
+  CAMPUS_CGPA_POLICY {
+    string id PK
+    string campusId FK
+    string repeatRule
+    date effectiveFrom
+    date effectiveTo
+  }
+  CAMPUS_DOCUMENT_NUMBER_POLICY {
+    string id PK
+    string campusId FK
+    string documentType
+    string prefix
+    string sequencePattern
+    date effectiveFrom
+    date effectiveTo
+  }
+  CAMPUS_ADJUSTMENT_POLICY {
+    string id PK
+    string campusId FK
+    string category
+    boolean enabled
+    string approvalRequirement
+    date effectiveFrom
+    date effectiveTo
+  }
           </pre>
         </div>
         <div class="note" style="margin:0 18px 18px">
@@ -451,6 +511,9 @@ erDiagram
           <strong>Person</strong> owns at most one StudentProfile and/or StaffMember;
           login lives on <strong>UserAccount</strong> (disable/lock does not delete history).
           Role and permission codes are demonstration seeds until the real RBAC matrix is confirmed.
+          Campus policy tables (<code>campus_*_policies</code> / <code>campus_status_mappings</code>)
+          store university defaults with <code>campusId</code> null; a campus row overrides
+          the default while both are effective on the reference date.
         </div>
       </div>
     </section>
@@ -1289,10 +1352,11 @@ erDiagram
       <div class="card">
         <div class="card-head">
           <div>
-            <h3>Status history · reporting views · AuditEvent · LegacyEntityMap</h3>
+            <h3>Status history · campus policy · reporting views · AuditEvent · LegacyEntityMap</h3>
             <p>
-              Effective-dated status events are first-class collections.
-              Postgres reporting views mirror the TypeScript projection helpers.
+              Effective-dated status events and campus policy are first-class collections.
+              Postgres reporting views mirror the TypeScript projection helpers and resolve
+              academic-status membership through <code>campus_academic_status_policies</code>.
             </p>
           </div>
         </div>
@@ -1302,6 +1366,9 @@ erDiagram
   PROGRAMME_ENROLMENT ||--o{ PROGRAMME_ENROLMENT_STATUS_EVENT : history
   STUDY_PERIOD ||--o{ STUDY_PERIOD_STATUS_EVENT : history
   MODULE_REGISTRATION ||--o{ MODULE_REGISTRATION_STATUS_EVENT : history
+  CAMPUS ||--o{ CAMPUS_ACADEMIC_STATUS_POLICY : policy
+  CAMPUS_ACADEMIC_STATUS_POLICY ||--o{ CURRENT_ACTIVE_STUDENT : filters
+  CAMPUS_ACADEMIC_STATUS_POLICY ||--o{ LATEST_VALID_STUDY_PERIOD : filters
   PROGRAMME_ENROLMENT ||--o| LATEST_VALID_STUDY_PERIOD : reports
   PROGRAMME_ENROLMENT ||--o| STUDENT_CREDIT_SUMMARY : reports
   FINANCE_ACCOUNT ||--o| STUDENT_OUTSTANDING_BALANCE : reports
@@ -1318,6 +1385,15 @@ erDiagram
     string changedByUserAccountId FK
     string reason
     string source
+  }
+  CAMPUS_ACADEMIC_STATUS_POLICY {
+    string id PK
+    string campusId FK
+    string academicStatus
+    boolean countsAsValidStudyPeriod
+    boolean countsAsActiveStudent
+    date effectiveFrom
+    date effectiveTo
   }
   LATEST_VALID_STUDY_PERIOD {
     string programmeEnrolmentId FK
