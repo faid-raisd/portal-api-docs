@@ -1,5 +1,5 @@
 {
-  "packageVersion": "0.6.0",
+  "packageVersion": "0.6.1",
   "studentPortalCommit": "84c6bf541a4ecefc985a6429cac8a302b0098723",
   "capturedAt": "2026-09-26",
   "captureRoute": "/dev/design-system",
@@ -1091,8 +1091,8 @@
       "sourceRoute": "design-system/examples/consumer/?chat",
       "captureRoute": "/?chat",
       "sourceSelector": "main",
-      "sourceCommit": "e5b33be6ef5f07c3c88be416e8063792896a0356",
-      "packageVersion": "0.6.0",
+      "sourceCommit": "c2aec0c",
+      "packageVersion": "0.6.1",
       "capturedAt": "2026-10-01"
     },
     {
@@ -1106,8 +1106,8 @@
       "sourceRoute": "design-system/examples/consumer/?chat",
       "captureRoute": "/?chat",
       "sourceSelector": "main",
-      "sourceCommit": "e5b33be6ef5f07c3c88be416e8063792896a0356",
-      "packageVersion": "0.6.0",
+      "sourceCommit": "c2aec0c",
+      "packageVersion": "0.6.1",
       "capturedAt": "2026-10-01"
     },
     {
@@ -1121,8 +1121,8 @@
       "sourceRoute": "design-system/examples/consumer/?chat",
       "captureRoute": "/?chat",
       "sourceSelector": "main",
-      "sourceCommit": "e5b33be6ef5f07c3c88be416e8063792896a0356",
-      "packageVersion": "0.6.0",
+      "sourceCommit": "c2aec0c",
+      "packageVersion": "0.6.1",
       "capturedAt": "2026-10-01"
     }
   ]
