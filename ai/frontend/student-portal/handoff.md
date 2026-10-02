@@ -4,6 +4,15 @@ Read this after `AGENTS.md` when resuming the project in a new Codex chat or on 
 
 ## Current baseline
 
+### Campus repository synchronization - 2 October 2026
+
+- Integrated the latest Control Plane, Applicant, Student, Lecturer, Staff and public-docs histories while preserving all prior local UI, documentation, assets and shared 0.6.1 consumer upgrades. Design System was already current and unchanged. Portal API and DB Admin checkouts are absent locally and were not cloned.
+- Stash restoration conflicted only in Applicant viewport metadata and Student handoff: retained both the approved zoom metadata and incoming icons, and both handoff histories. Public-docs divergent history was merged without rewriting commits. Regenerated catalogue navigation preserves the incoming LMS links; canonical and public validators pass with 89 captures.
+- Reconciled Student guidance with incoming Demo password sign-in and the richer canonical schema-v3 data-model description. Fixed three stale browser checks: expired-pass clock after the new 31 March 2027 expiry, cancellation's fixed September clock for October departure, and explicit mock password submission after selecting a Demo student. No production UI or API behavior was changed by these test repairs.
+- Final `$env:VITEST_MAX_WORKERS='2'; $env:PLAYWRIGHT_WORKERS='2'; npm run check:all` passes token/assets checks, lint, all 727 unit tests across 92 files, production build/isolation and bundle budgets, 271 Chromium checks with 41 intentional skips, and 35 WebKit checks with 31 intentional skips. The six focused repaired checks also pass. Existing chat regressions and responsive field checks remain green.
+- Applicant TypeScript/build and manual phone/tablet/desktop review pass: 14px/36px fields, orange fee/review summaries, submitted routing, Transfer Proof-only disclosure, message reply/read behavior, and checklist creation/state retention. No Applicant automated tests were added or run. Vite retains its chunk-size advisory. Physical iPhone focus/zoom verification remains pending.
+- User authorized commits and pushes for the seven existing campus repositories. Canonical documentation publishes before portal consumers; public docs publish through the existing fork and PR #7 because this account cannot push its upstream main. Shared 0.6.1 remains the released version, and public upstream publication awaits maintainer merge. No new feature or package release is included in this sync.
+
 ### Applicant fee presentation refinements — 2 October 2026
 
 - Editable unpaid fee summary always uses the existing shared warning variant, including without a selected Student Type. Submitted Application Fee shows only Transfer Proof (Bank Reference Number and Payment Proof); bank instructions remain in the editor. The existing compact-card DataTable adds Department: Finance for Payment Proof and Registry for Document Check. These are preview labels; actual routing remains an integration responsibility. No shared component source, package version, API or persistence changes.

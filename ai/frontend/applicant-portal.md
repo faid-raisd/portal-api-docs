@@ -6,7 +6,7 @@
 
 ## Status
 
-No application UI is checked in yet. This portal is the **Admissions launch** surface (milestone 2): account, application, evidence, declarations, track status, offer, accept enrolment. Registry remains the decision owner.
+A frontend-only UI preview is implemented with shared package 0.6.1; application and message state remain session-only. This portal is the **Admissions launch** surface (milestone 2): account, application, evidence, declarations, track status, offer, accept enrolment. Registry remains the decision owner.
 
 ## Agent rules
 
