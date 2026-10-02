@@ -77,6 +77,17 @@ Local checkouts are siblings under `~/src/raisd/`. See [architecture/repositorie
 - Never commit `.env`, CMS credentials, or live student data.
 - Do not commit or push unless the user explicitly asks.
 
+### Component-change guardrail (all portals)
+
+This rule protects shared components and established portal-owned components and layouts across Applicant, Student, Lecturer and Staff portals.
+
+- Use existing components and documented variants by default. Do not change established component source, styling, sizing, spacing, typography, layout, responsive behaviour or interactions—including through local CSS, class overrides or wrappers—unless the user explicitly instructs that change or approves the specific proposed change.
+- A request to build a feature authorizes the necessary composition, content, data and workflow work; it does not authorize incidental component redesigns.
+- If a component change is needed beyond the authorized scope, explain the affected component, proposed change and cross-portal impact, then obtain approval before editing. Existing explicit authorization remains valid; do not ask again.
+- Implement approved reusable changes in the owning shared package and follow its release process. Keep approved portal-specific changes in the owning portal.
+
+See [component ownership and application of this guardrail](design/component-library.md#component-change-guardrail).
+
 ## 7. Maintaining these instructions
 
 Update this `AGENTS.md` when campus-wide scope, architecture, repository layout, status language, or documentation process materially changes. Keep portal feature detail in `frontend/<portal>/` rather than growing this file into a feature log.

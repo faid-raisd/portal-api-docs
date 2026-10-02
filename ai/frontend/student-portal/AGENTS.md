@@ -36,6 +36,7 @@ These instructions apply to the student-portal repository. Read the detailed pro
 ## Product boundaries
 
 - This phase is frontend-only and responsively supports student-facing routes from 375px through 1440px. Do not add a live API connection, physical database, authentication integration, persistent browser storage, cloud file storage, or production uploads unless the user explicitly expands the scope. Development-only `/dev/*` routes provide basic phone usability at 375px and 430px (reachable navigation, controls and contained scrolling), but remain outside the full student-facing responsive acceptance standard.
+- Demo sign-in (approved 28–29 Sep 2026, Faid): the portal opens on a labelled Demo sign-in page using student number and password through `POST /v1/auth/login`, and **Log out** returns to it. Sample cards fill only the student number. HTTP Demo credentials belong to portal-api; do not commit or ship passwords to the browser. The mock accepts any non-empty password and is not campus authentication. `VITE_PORTAL_AUTO_SIGN_IN=true` skips sign-in only in mock-mode tests. Do not add browser-persisted sessions or present Demo identity as Live.
 - Maintain the shared phone, tablet, and desktop layout modes: phone below 768px uses a navigation drawer and full-screen Community overlay; tablet from 768px through 1199px uses the icon rail with labelled tooltips/flyouts and the same Community overlay; desktop from 1200px uses full navigation and docked, resizable Community. Preserve Community conversation, draft, pending-send, attachment, and scroll state across mode changes.
 - Treat all server-owned information as coming from one logical Portal API, even if a future backend combines the CMS with other databases or services.
 - Keep the current dark-only direction until theming is added to the agreed scope.
@@ -57,6 +58,7 @@ These instructions apply to the student-portal repository. Read the detailed pro
 
 - UI components must consume service/query results. Do not import mock fixtures directly into screens.
 - Keep `PortalApi` replaceable: the current `MockPortalApi` is a development adapter, and a future HTTP adapter should not require a UI rewrite.
+- For a throwaway hosted Demo of this SPA + Portal API on Vercel with free Neon Postgres, follow [../../architecture/vercel-neon-poc.md](../../architecture/vercel-neon-poc.md). That path is PoC-only; production hosting remains UltaHost / k3s. The browser still calls only the Portal API — never Neon directly.
 - Define and validate frontend-required records with Zod contracts. Use stable opaque IDs, ISO 8601 timestamps, explicit nullable values where meaningful, empty arrays for empty collections, and integer bytes for file sizes.
 - The Data Model Explorer describes the frontend's logical contract, not a mandated backend schema.
 - Treat the canonical record graph as the source for mock academic, student, delivery, attendance, and finance data. Route-facing response DTOs are derived read models; do not create a second conflicting fixture set inside screens or features.

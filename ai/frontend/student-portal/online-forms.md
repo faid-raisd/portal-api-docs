@@ -54,6 +54,8 @@ Completed and rejected cases express their outcome through the shared status bad
 
 ## Conversations and updates
 
+Package 0.6.0 owns the reusable message-row, date-divider and controlled composer presentation. Student adapters retain the same form and Community API calls, attachment validation, draft stores, send retries, read tracking and preview-resource ownership; this extraction adds no conversation or workflow behavior.
+
 Case details reuse Community message and composer presentation through shared components, with their own form-owned API/query data. A reviewer conversation is not a new Community contact. When unread reviewer updates exist, the Online Forms shell places a warning IssueCard between its title and tabbed panel; selecting it opens My Forms. The My Forms Messages column expresses unseen reviewer updates as warning-coloured singular/plural text rather than a second counter, while the sidebar remains the navigation count. Text-only, attachment-only and combined messages are supported. Limits remain five files, 25 MiB each and 75 MiB total; safe raster images preview inline while other formats remain generic file metadata. There are no ineffective file-delivery buttons or live uploads.
 
 Seeded conversations demonstrate reviewer replies and case outcomes. Newly sent messages appear locally without automatic reviewer replies or approvals. A failed send retains the composer draft. Closed cases have no composer but preserve their history and readable attachments. Form evidence and message attachments remain separate records.

@@ -47,6 +47,7 @@ The frontend does not invent GPA, CGPA, grade labels, grade-point mappings, or p
 ## Grade accordion behaviour
 
 - Grade rows use the reusable Radix-backed Accordion primitive and retain grade, module code/title, credits, and explicit outcome in the collapsed header.
+- Collapsed headers use one grid row from the `sm` breakpoint upward. On narrower screens, credits occupy a second row and the chevron spans both; wider headers must not retain an empty second row or its gap.
 - One row can be open at a time. Selecting an open row collapses it; selecting another closes the previous row. The complete header supports pointer, keyboard, focus, and screen-reader interaction.
 - Expanded rows show each assessment in outline order with Assessment, Weight, Score, and Contribution columns in the reusable `DataTable`, followed by the summed weighted mark out of 100.
 - Hover and neutral keyboard focus use `surface-hover` without a blue ring or hover transition. Grade rows do not navigate to Module Details or another results route.
