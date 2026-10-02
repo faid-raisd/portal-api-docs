@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Raisd LMS — research posture</title>
+  <link rel="stylesheet" href="./styles.css" />
+  <style>
+    .callout {
+      margin: 12px 0 0;
+      padding: 12px 14px;
+      border-radius: 10px;
+      border-left: 4px solid var(--accent);
+      background: var(--accent-soft);
+      color: var(--ink);
+      font-size: 0.92rem;
+    }
+    .callout.warn {
+      border-left-color: var(--warn);
+      background: var(--warn-bg);
+    }
+    .callout.ok {
+      border-left-color: var(--ok);
+      background: var(--ok-bg);
+    }
+    .option-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 12px;
+      margin-top: 12px;
+    }
+    .option-card {
+      padding: 14px 16px;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+      background: var(--surface);
+    }
+    .option-card strong {
+      display: block;
+      margin: 0 0 6px;
+      font-size: 0.95rem;
+    }
+    .option-card span {
+      display: block;
+      color: var(--muted);
+      font-size: 0.88rem;
+      line-height: 1.4;
+    }
+    .option-card .n {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+  </style>
+  <script src="site-auth.js"></script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="site-header-inner">
+      <a class="brand" href="index.html">
+        <img class="brand-logo" src="assets/raisd-logo.svg" width="80" height="22" alt="Raisd" />
+        <strong>Control Plane</strong>
+      </a>
+      <button type="button" class="site-search-trigger" aria-label="Search documentation"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="M20 20l-3.5-3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+      <nav class="nav" aria-label="Primary">
+        <div class="nav-dd">
+          <a class="nav-dd-main" href="index.html">Overview</a>
+          <div class="nav-dd-menu" role="menu">
+            <a href="index.html">Diagrams hub</a>
+            <a href="index.html#endpoints">Public endpoints</a>
+            <a href="distributed-cms-architecture.html">Distributed CMS</a>
+            <a href="architecture.html">Architecture</a>
+            <a href="lms.html">LMS research</a>
+            <a href="lms-architecture.html">LMS architecture</a>
+            <a href="lms-features.html">LMS features</a>
+            <a href="migration.html">Migration</a>
+            <a href="../poc/vercel-neon.html">Vercel + Neon PoC</a>
+          </div>
+        </div>
+        <div class="nav-dd">
+          <a class="nav-dd-main" href="distributed-cms-architecture.html">Distributed CMS</a>
+          <div class="nav-dd-menu" role="menu">
+            <a href="distributed-cms-architecture.html">Target architecture</a>
+            <a href="distributed-cms-architecture.html#journey">Current → ideal</a>
+            <a href="distributed-cms-architecture.html#phase-ideal">Ideal state</a>
+            <a href="distributed-cms-architecture.html#tenancy">White-label &amp; flags</a>
+            <a href="migration.html">M1–M5 migration</a>
+          </div>
+        </div>
+        <div class="nav-dd">
+          <a class="nav-dd-main active" href="architecture.html">Architecture</a>
+          <div class="nav-dd-menu" role="menu">
+            <a href="architecture.html">Architecture home</a>
+            <a href="distributed-cms-architecture.html">Distributed CMS target</a>
+            <a href="lms.html">LMS research posture</a>
+            <a href="lms-architecture.html">LMS architecture</a>
+            <a href="lms-features.html">LMS features F01–F37</a>
+            <a href="architecture.html#sdd">SDD &amp; ADR catalogue</a>
+            <a href="architecture.html#acl">SoR / ACL</a>
+            <a href="architecture.html#academic">Academic model</a>
+            <a href="../poc/vercel-neon.html">Vercel + Neon PoC</a>
+            <div class="nav-sub">
+              <a class="nav-sub-trigger" href="migration.html" aria-haspopup="true" aria-expanded="false">Migration</a>
+              <div class="nav-sub-menu" role="menu">
+              <a href="migration.html">Plan overview</a>
+              <a href="migration.html#sequence">Milestone sequence</a>
+              <a href="distributed-cms-architecture.html#journey">Current → ideal</a>
+              <a href="migration.html#m1">M1–M5 detail</a>
+              <a href="migration.html#hosting">Hosting stages</a>
+              <a href="migration.html#critical">Critical path</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="nav-dd">
+          <a class="nav-dd-main" href="raisd-cms/index.html">Raisd CMS</a>
+          <div class="nav-dd-menu" role="menu">
+            <a href="raisd-cms/index.html">Raisd CMS hub</a>
+            <a href="raisd-cms/student-portal.html">Student portal</a>
+            <a href="raisd-cms/student-portal-screenshots.html">Screenshots</a>
+            <a href="raisd-cms/student-portal-guide.html">Use guides</a>
+            <a href="raisd-cms/student-portal-manual.html">User manual</a>
+            <a href="erd.html">ERD</a>
+            <a href="canonical-schema-confirmations.html">Schema confirmations</a>
+            <a href="dfd.html">DFD</a>
+          </div>
+        </div>
+        <div class="nav-dd">
+          <a class="nav-dd-main" href="old-cms/index.html">LUCT CMS</a>
+          <div class="nav-dd-menu" role="menu">
+            <div class="nav-sub">
+              <a class="nav-sub-trigger" href="old-cms/index.html" aria-haspopup="true" aria-expanded="false">Cyberjaya</a>
+              <div class="nav-sub-menu" role="menu">
+              <a href="old-cms/index.html">E2E hub</a>
+              <a href="old-cms/index.html#fsd">FSD</a>
+              <a href="old-cms/obsidian.html?campus=cyberjaya">Obsidian 3D</a>
+              <a href="old-cms/index.html#flows">Flows</a>
+              <a href="old-cms/index.html#erd">ERD</a>
+              <a href="old-cms/index.html#database">Database</a>
+              <a href="old-cms/index.html#compare">Comparison</a>
+              </div>
+            </div>
+            <div class="nav-sub">
+              <a class="nav-sub-trigger" href="old-cms-botswana/index.html" aria-haspopup="true" aria-expanded="false">Botswana</a>
+              <div class="nav-sub-menu" role="menu">
+              <a href="old-cms-botswana/index.html">E2E hub</a>
+              <a href="old-cms-botswana/index.html#fsd">FSD</a>
+              <a href="old-cms-botswana/index.html#dtef">DTEF</a>
+              <a href="old-cms-botswana/index.html#erd">ERD</a>
+              <a href="old-cms-botswana/database.html">Database</a>
+              <a href="old-cms/obsidian.html?campus=botswana">Obsidian 3D</a>
+              </div>
+            </div>
+            <div class="nav-sub">
+              <a class="nav-sub-trigger" href="old-cms-sierra-leone/index.html" aria-haspopup="true" aria-expanded="false">Sierra Leone</a>
+              <div class="nav-sub-menu" role="menu">
+              <a href="old-cms-sierra-leone/index.html">E2E hub</a>
+              <a href="old-cms-sierra-leone/index.html#fsd">FSD</a>
+              <a href="old-cms-sierra-leone/index.html#erd">ERD</a>
+              <a href="old-cms-sierra-leone/database.html">Database</a>
+              <a href="old-cms/obsidian.html?campus=sierra-leone">Obsidian 3D</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="nav-dd">
+          <a class="nav-dd-main" href="../design-system/index.html">Design system</a>
+          <div class="nav-dd-menu" role="menu">
+            <a href="../design-system/index.html">Design system hub</a>
+            <a href="../design-system/foundations.html">Foundations</a>
+            <a href="../design-system/shared-controls.html">Shared controls</a>
+            <a href="../design-system/shared-patterns.html">Shared patterns</a>
+            <a href="../design-system/student-components.html">Student components</a>
+          </div>
+        </div>
+        <div class="nav-dd">
+          <a class="nav-dd-main" href="../ai/index.html">AI knowledge</a>
+          <div class="nav-dd-menu" role="menu">
+            <a href="../ai/index.html">AI hub</a>
+            <a href="https://github.com/raisd-campus/control-plane/blob/main/docs/ai/AGENTS.md">AGENTS.md</a>
+            <a href="https://github.com/raisd-campus/control-plane/blob/main/docs/ai/architecture/overview.md">Architecture overview</a>
+            <a href="https://github.com/raisd-campus/control-plane/blob/main/docs/ai/architecture/distributed-cms-target.md">Distributed CMS target</a>
+            <a href="https://github.com/raisd-campus/control-plane/blob/main/docs/ai/architecture/lms.md">LMS research posture</a>
+            <a href="https://github.com/raisd-campus/control-plane/blob/main/docs/ai/backend/portal-api.md">Portal API</a>
+            <a href="https://github.com/raisd-campus/control-plane/blob/main/docs/ai/backend/portal-api-development-plan.md">Portal API plan</a>
+            <a href="https://github.com/raisd-campus/control-plane/blob/main/docs/ai/backend/portal-api-deployment.md">Portal API deployment</a>
+            <a href="https://github.com/raisd-campus/control-plane/blob/main/docs/ai/backend/portal-api-poc-requirements.md">PoC requirements</a>
+            <a href="https://github.com/raisd-campus/control-plane/blob/main/docs/ai/backend/cms-feature-comparison.md">CMS comparison</a>
+            <a href="../poc/vercel-neon.html">Vercel + Neon PoC</a>
+          </div>
+        </div>
+        <div class="nav-dd">
+          <a class="nav-dd-main" href="../sdd/index.html">SDD</a>
+          <div class="nav-dd-menu" role="menu">
+            <a href="../sdd/index.html">SDD hub</a>
+            <a href="../sdd/15-nomenclature.html">Nomenclature</a>
+            <a href="../sdd/11-capability-catalog.html">Capability catalogue</a>
+            <a href="../sdd/03-delivery-milestones.html">Milestones</a>
+          </div>
+        </div>
+        <div class="nav-dd">
+          <a class="nav-dd-main" href="../openapi.html">OpenAPI</a>
+          <div class="nav-dd-menu" role="menu">
+            <a href="../openapi.html">Swagger UI</a>
+            <a href="https://github.com/raisd-campus/control-plane/blob/main/openapi.yaml">openapi.yaml</a>
+          </div>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <h1>Raisd LMS — research posture</h1>
+      <p>
+        Student learning features on Raisd, mapped in a Moodle-like shape to CAP + F01–F37 —
+        with capability detail from <a href="../sdd/11-capability-catalog.html">SDD-11</a>.
+        <strong>Proposed / research-backed</strong>, not a Live LMS product.
+      </p>
+      <div class="meta-row">
+        <span class="chip warn">Proposed / research-backed</span>
+        <span class="chip">Not Live product</span>
+        <span class="chip ok">Q37 Option 1</span>
+        <span class="chip ok">Student Moodle-like map</span>
+      </div>
+    </section>
+
+    <div class="note" style="margin: 0 0 28px">
+      <strong>Decision (1 October 2026 · SDD-10 Q37 Option 1).</strong>
+      Generate Raisd LMS pages from CAP + F01–F37.
+      Published:
+      <a href="lms-architecture.html">architecture</a> ·
+      <a href="lms-features.html">F01–F37 features</a> ·
+      this hub.
+      Agent source:
+      <a href="https://github.com/raisd-campus/control-plane/blob/main/docs/ai/architecture/lms.md">architecture/lms.md</a>.
+    </div>
+
+    <nav class="toc" aria-label="On this page">
+      <a href="#student"><strong>Student LMS</strong><span>Moodle-like feature map</span></a>
+      <a href="#capabilities"><strong>Capabilities</strong><span>Student · lecturer · staff</span></a>
+      <a href="#journey"><strong>Student journey</strong><span>Course → assess → feedback</span></a>
+      <a href="#pages"><strong>Generated pages</strong><span>Architecture · features</span></a>
+      <a href="#raisd"><strong>Raisd sources</strong><span>CAP + F01–F37</span></a>
+    </nav>
+
+    <section class="section" id="student">
+      <h2>Student LMS features (Moodle-like)</h2>
+      <p class="lead">
+        Raisd does not ship a separate Moodle product. Student LMS capability is the
+        <strong>enrolled-student learning surface</strong> on the student portal via Portal API —
+        course content, activities, assessment, communication, and progress —
+        with lecturer/staff write-paths elsewhere.
+        Analogy below is for shape only; CAP IDs and Demo/Live status remain authoritative
+        (<a href="../sdd/11-capability-catalog.html">SDD-11</a>,
+        <a href="../sdd/05-student-portal.html">SDD-05</a>).
+        Materials alone is still not an LMS
+        (<a href="../sdd/09-requirements-traceability.html">BASE-44</a>).
+      </p>
+
+      <div class="table-wrap">
+        <table class="attr">
+          <thead>
+            <tr>
+              <th>Moodle-like area</th>
+              <th>Student experience (proposed)</th>
+              <th>Raisd CAP</th>
+              <th>Demo today</th>
+              <th>Live target</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Course home / topics</td>
+              <td>Module hub with weeks/topics, outcomes, and release-aware lists</td>
+              <td><a href="../sdd/11-capability-catalog.html#cap-23">23</a>, <a href="../sdd/11-capability-catalog.html#cap-27">27</a></td>
+              <td>Partial Materials weeks</td>
+              <td>M3 / M5</td>
+            </tr>
+            <tr>
+              <td>Resources (files, pages, media, links)</td>
+              <td>Study guides, lecture notes, videos, authorised downloads</td>
+              <td><a href="../sdd/11-capability-catalog.html#cap-17">17</a>, <a href="../sdd/11-capability-catalog.html#cap-18">18</a></td>
+              <td>Placeholder / Partial</td>
+              <td>M3</td>
+            </tr>
+            <tr>
+              <td>Assignments</td>
+              <td>Briefs, deadlines; submit / replace / withdraw files</td>
+              <td><a href="../sdd/11-capability-catalog.html#cap-19">19</a>, <a href="../sdd/11-capability-catalog.html#cap-20">20</a></td>
+              <td>Partial / Demo (metadata)</td>
+              <td>M3 + file store</td>
+            </tr>
+            <tr>
+              <td>Quizzes / online exams</td>
+              <td>Take quizzes/exams with attempt rules and integrity guidance</td>
+              <td><a href="../sdd/11-capability-catalog.html#cap-24">24</a>, <a href="../sdd/11-capability-catalog.html#cap-29">29</a></td>
+              <td>Placeholder / Not started</td>
+              <td>M5</td>
+            </tr>
+            <tr>
+              <td>Practice / revision</td>
+              <td>Revision activities and past papers (authorised)</td>
+              <td><a href="../sdd/11-capability-catalog.html#cap-21">21</a>, <a href="../sdd/11-capability-catalog.html#cap-22">22</a></td>
+              <td>Not started</td>
+              <td>M3</td>
+            </tr>
+            <tr>
+              <td>Gradebook / feedback</td>
+              <td>Published results, marks, and lecturer feedback</td>
+              <td><a href="../sdd/11-capability-catalog.html#cap-13">13</a>, <a href="../sdd/11-capability-catalog.html#cap-28">28</a></td>
+              <td>Demo / Not started</td>
+              <td>M3</td>
+            </tr>
+            <tr>
+              <td>Calendar / attendance</td>
+              <td>Class timetable and attendance records</td>
+              <td><a href="../sdd/11-capability-catalog.html#cap-11">11</a>, <a href="../sdd/11-capability-catalog.html#cap-12">12</a></td>
+              <td>Demo</td>
+              <td>M3</td>
+            </tr>
+            <tr>
+              <td>Forums / messaging</td>
+              <td>Student–lecturer and peer communication (moderated)</td>
+              <td><a href="../sdd/11-capability-catalog.html#cap-25">25</a></td>
+              <td>Demo (session)</td>
+              <td>M5</td>
+            </tr>
+            <tr>
+              <td>Live class (BBB-like)</td>
+              <td>Join approved live online classes</td>
+              <td><a href="../sdd/11-capability-catalog.html#cap-26">26</a></td>
+              <td>Not started</td>
+              <td>M5 (tool TBC)</td>
+            </tr>
+            <tr>
+              <td>Completion / release</td>
+              <td>Self-paced path, dated release, completion evidence</td>
+              <td><a href="../sdd/11-capability-catalog.html#cap-27">27</a></td>
+              <td>Partial (date lock)</td>
+              <td>M5</td>
+            </tr>
+            <tr>
+              <td>Announcements</td>
+              <td>Important campus / module announcements</td>
+              <td><a href="../sdd/11-capability-catalog.html#cap-16">16</a></td>
+              <td>Partial</td>
+              <td>M3</td>
+            </tr>
+            <tr>
+              <td>Study plan</td>
+              <td>Programme study plan and prerequisites</td>
+              <td><a href="../sdd/11-capability-catalog.html#cap-14">14</a></td>
+              <td>Demo</td>
+              <td>M3</td>
+            </tr>
+            <tr>
+              <td>Library / e-resources</td>
+              <td>Digital library and licensed e-resources</td>
+              <td><a href="../sdd/11-capability-catalog.html#cap-31">31</a></td>
+              <td>Not started</td>
+              <td>M5</td>
+            </tr>
+            <tr>
+              <td>Induction / site orientation</td>
+              <td>Student orientation and digital-learning skills</td>
+              <td><a href="../sdd/11-capability-catalog.html#cap-32">32</a></td>
+              <td>Not started</td>
+              <td>M3</td>
+            </tr>
+            <tr>
+              <td>Feedback / surveys</td>
+              <td>Course evaluation and learner feedback</td>
+              <td><a href="../sdd/11-capability-catalog.html#cap-30">30</a></td>
+              <td>Placeholder</td>
+              <td>M5</td>
+            </tr>
+            <tr>
+              <td>Help &amp; accessibility</td>
+              <td>IT helpdesk, learner support, accessibility adjustments</td>
+              <td><a href="../sdd/11-capability-catalog.html#cap-33">33</a>, <a href="../sdd/11-capability-catalog.html#cap-35">35</a></td>
+              <td>Partial / Demo</td>
+              <td>M3 / M2</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout" style="margin-top:14px">
+        <strong>Moodle ≠ Raisd product.</strong>
+        We use Moodle only as a familiar feature vocabulary.
+        Raisd keeps four portals + Portal API + existing CMS SoR (ADR-1);
+        learning content and durable submissions need a Live file store
+        (<a href="../sdd/10-open-questions.html">SDD-10 Q5</a>).
+      </div>
+    </section>
+
+
+    <section class="section" id="capabilities">
+      <h2>LMS capability details</h2>
+      <p class="lead">
+        Learning-related capabilities from
+        <a href="../sdd/11-capability-catalog.html">SDD-11</a>.
+        Frontend / Backend statuses are authoritative there; this page groups the LMS slice
+        by role surface. Demo ≠ Live.
+      </p>
+
+      <h3 id="cap-student">Student learning capabilities</h3>
+      <div class="table-wrap">
+        <table class="attr">
+          <thead>
+            <tr>
+              <th>CAP</th>
+              <th>Capability</th>
+              <th>Dept</th>
+              <th>Frontend</th>
+              <th>Backend</th>
+              <th>Milestone</th>
+              <th>Next action / blocker</th>
+            </tr>
+          </thead>
+          <tbody>
+<tr id="cap-11-student"><td><a href="../sdd/11-capability-catalog.html#cap-11">CAP-11</a></td><td>Class timetable</td><td>Faculty</td><td>Demo</td><td>Needs checking</td><td>M3</td><td>Map current timetable records and update rules from the old CMS.</td></tr>
+<tr id="cap-12-student"><td><a href="../sdd/11-capability-catalog.html#cap-12">CAP-12</a></td><td>Attendance records</td><td>Faculty</td><td>Demo</td><td>Needs checking</td><td>M3</td><td>Identify the authoritative attendance source and staff correction workflow.</td></tr>
+<tr id="cap-13-student"><td><a href="../sdd/11-capability-catalog.html#cap-13">CAP-13</a></td><td>Grades, results and student progress</td><td>Registry</td><td>Demo</td><td>Needs checking</td><td>M3</td><td>Confirm result approval/publication rules and legacy data fields.</td></tr>
+<tr id="cap-14-student"><td><a href="../sdd/11-capability-catalog.html#cap-14">CAP-14</a></td><td>Study plan and prerequisites</td><td>Faculty</td><td>Demo</td><td>Needs checking</td><td>M3</td><td>Validate programme versions, prerequisites and credit-transfer rules.</td></tr>
+<tr id="cap-16-student"><td><a href="../sdd/11-capability-catalog.html#cap-16">CAP-16</a></td><td>Important announcements</td><td>Registry</td><td>Partial</td><td>Needs checking</td><td>M3</td><td>Confirm audiences, publishing ownership, full announcement viewing and the real feed.</td></tr>
+<tr id="cap-17-student"><td><a href="../sdd/11-capability-catalog.html#cap-17">CAP-17</a></td><td>Study guides</td><td>Faculty</td><td>Not started</td><td>Needs checking</td><td>M3</td><td>Identify required guides and arrange lecturer publishing and student access.</td></tr>
+<tr id="cap-18-student"><td><a href="../sdd/11-capability-catalog.html#cap-18">CAP-18</a></td><td>Lecture notes and learning-media access</td><td>Faculty</td><td>Placeholder</td><td>Needs checking</td><td>M3</td><td>Enable authorised resource viewing/download and supported media delivery.</td></tr>
+<tr id="cap-19-student"><td><a href="../sdd/11-capability-catalog.html#cap-19">CAP-19</a></td><td>Assignment briefs</td><td>Faculty</td><td>Partial</td><td>Needs checking</td><td>M3</td><td>Provide real brief files and release/access rules.</td></tr>
+<tr id="cap-20-student"><td><a href="../sdd/11-capability-catalog.html#cap-20">CAP-20</a></td><td>Submit, replace and withdraw assignments</td><td>Faculty</td><td>Demo</td><td>Needs checking</td><td>M3</td><td>Agree durable secure submission storage and staff receipt/marking handoff.</td></tr>
+<tr id="cap-21-student"><td><a href="../sdd/11-capability-catalog.html#cap-21">CAP-21</a></td><td>Revision work and practice activities</td><td>Faculty</td><td>Not started</td><td>Needs checking</td><td>M3</td><td>Define revision materials and any required practice/feedback activities.</td></tr>
+<tr id="cap-22-student"><td><a href="../sdd/11-capability-catalog.html#cap-22">CAP-22</a></td><td>Past examination papers</td><td>Faculty</td><td>Not started</td><td>Needs checking</td><td>M3</td><td>Identify approved papers and access/release restrictions.</td></tr>
+<tr id="cap-23-student"><td><a href="../sdd/11-capability-catalog.html#cap-23">CAP-23</a></td><td>Course information and learning outcomes</td><td>Faculty</td><td>Partial</td><td>Needs checking</td><td>M3</td><td>Add approved outcomes and complete course information to the contract.</td></tr>
+<tr id="cap-24-student"><td><a href="../sdd/11-capability-catalog.html#cap-24">CAP-24</a></td><td>Online quizzes and examinations</td><td>Faculty</td><td>Placeholder</td><td>Needs checking</td><td>M5</td><td>Define assessment modes, allowed attempts and approval/integrity requirements.</td></tr>
+<tr id="cap-25-student"><td><a href="../sdd/11-capability-catalog.html#cap-25">CAP-25</a></td><td>Student–lecturer and student–student communication</td><td>Faculty</td><td>Demo</td><td>Needs checking</td><td>M5</td><td>Agree persistent communication, moderation and response responsibilities.</td></tr>
+<tr id="cap-26-student"><td><a href="../sdd/11-capability-catalog.html#cap-26">CAP-26</a></td><td>Live online classes</td><td>Faculty</td><td>Not started</td><td>Needs checking</td><td>M5</td><td>Confirm whether and how an approved meeting tool will be integrated.</td></tr>
+<tr id="cap-27-student"><td><a href="../sdd/11-capability-catalog.html#cap-27">CAP-27</a></td><td>Self-paced learning and release schedules</td><td>Faculty</td><td>Partial</td><td>Needs checking</td><td>M5</td><td>Define the self-paced learning journey and release/completion rules.</td></tr>
+<tr id="cap-28-student"><td><a href="../sdd/11-capability-catalog.html#cap-28">CAP-28</a></td><td>View marks and lecturer feedback</td><td>Faculty</td><td>Not started</td><td>Needs checking</td><td>M3</td><td>Confirm staff marking, feedback and publication workflows in the old CMS.</td></tr>
+<tr id="cap-29-student"><td><a href="../sdd/11-capability-catalog.html#cap-29">CAP-29</a></td><td>Assessment identity checks and integrity guidance</td><td>Faculty</td><td>Not started</td><td>Needs checking</td><td>M3</td><td>Confirm required identity and integrity controls for each delivery mode.</td></tr>
+<tr id="cap-30-student"><td><a href="../sdd/11-capability-catalog.html#cap-30">CAP-30</a></td><td>Student feedback and course evaluation</td><td>Quality Assurance</td><td>Placeholder</td><td>Needs checking</td><td>M5</td><td>Approve survey scope, confidentiality and reporting ownership.</td></tr>
+<tr id="cap-31-student"><td><a href="../sdd/11-capability-catalog.html#cap-31">CAP-31</a></td><td>Digital library and e-resources</td><td>TBC</td><td>Not started</td><td>Needs checking</td><td>M5</td><td>Identify licensed resources and library access integration.</td></tr>
+<tr id="cap-32-student"><td><a href="../sdd/11-capability-catalog.html#cap-32">CAP-32</a></td><td>Student orientation and digital-learning skills</td><td>TBC</td><td>Not started</td><td>Needs checking</td><td>M3</td><td>Prepare induction content and required completion evidence.</td></tr>
+<tr id="cap-33-student"><td><a href="../sdd/11-capability-catalog.html#cap-33">CAP-33</a></td><td>Learner support and IT helpdesk</td><td>TBC</td><td>Partial</td><td>Needs checking</td><td>M3</td><td>Confirm support channels, owners, operating hours and escalation process.</td></tr>
+<tr id="cap-34-student"><td><a href="../sdd/11-capability-catalog.html#cap-34">CAP-34</a></td><td>Study-centre and regional support</td><td>TBC</td><td>Not started</td><td>Needs checking</td><td>M5</td><td>Confirm centres, local support arrangements and evidence required.</td></tr>
+<tr id="cap-35-student"><td><a href="../sdd/11-capability-catalog.html#cap-35">CAP-35</a></td><td>Accessibility and special-needs support</td><td>TBC</td><td>Demo</td><td>Needs checking</td><td>M2</td><td>Audit journeys with assistive technology and confirm student support adjustments.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 id="cap-lecturer" style="margin-top:28px">Lecturer learning capabilities</h3>
+      <p class="lead">Write-side of student learning — publish, mark, deliver, workspace.</p>
+      <div class="table-wrap">
+        <table class="attr">
+          <thead>
+            <tr>
+              <th>CAP</th>
+              <th>Capability</th>
+              <th>Dept</th>
+              <th>Frontend</th>
+              <th>Backend</th>
+              <th>Milestone</th>
+              <th>Next action / blocker</th>
+            </tr>
+          </thead>
+          <tbody>
+<tr id="cap-11-lecturer"><td><a href="../sdd/11-capability-catalog.html#cap-11">CAP-11</a></td><td>View teaching timetable and class allocations</td><td>Faculty</td><td>Not started</td><td>Needs checking</td><td>M3</td><td>Confirm view teaching timetable and whether the old CMS already supports it.</td></tr>
+<tr id="cap-12-lecturer"><td><a href="../sdd/11-capability-catalog.html#cap-12">CAP-12</a></td><td>Record and correct class attendance</td><td>Faculty</td><td>Not started</td><td>Needs checking</td><td>M3</td><td>Confirm record and correct class attendance and whether the old CMS already supports it.</td></tr>
+<tr id="cap-17-lecturer"><td><a href="../sdd/11-capability-catalog.html#cap-17">CAP-17</a></td><td>Publish study guides</td><td>Faculty</td><td>Not started</td><td>Needs checking</td><td>M3</td><td>Confirm publish study guides and whether the old CMS already supports it.</td></tr>
+<tr id="cap-18-lecturer"><td><a href="../sdd/11-capability-catalog.html#cap-18">CAP-18</a></td><td>Publish lecture notes and learning media</td><td>Faculty</td><td>Not started</td><td>Needs checking</td><td>M3</td><td>Confirm publish lecture notes and learning media and whether the old CMS already supports it.</td></tr>
+<tr id="cap-19-lecturer"><td><a href="../sdd/11-capability-catalog.html#cap-19">CAP-19</a></td><td>Publish assignment briefs and deadlines</td><td>Faculty</td><td>Not started</td><td>Needs checking</td><td>M3</td><td>Confirm publish assignment briefs and deadlines and whether the old CMS already supports it.</td></tr>
+<tr id="cap-20-lecturer"><td><a href="../sdd/11-capability-catalog.html#cap-20">CAP-20</a></td><td>Receive and review submitted assignments</td><td>Faculty</td><td>Not started</td><td>Needs checking</td><td>M3</td><td>Confirm receive and review submitted assignments and whether the old CMS already supports it.</td></tr>
+<tr id="cap-21-lecturer"><td><a href="../sdd/11-capability-catalog.html#cap-21">CAP-21</a></td><td>Publish revision work and practice activities</td><td>Faculty</td><td>Not started</td><td>Needs checking</td><td>M3</td><td>Confirm publish revision work and practice activities and whether the old CMS already supports it.</td></tr>
+<tr id="cap-22-lecturer"><td><a href="../sdd/11-capability-catalog.html#cap-22">CAP-22</a></td><td>Prepare past papers for authorised publication</td><td>Faculty</td><td>Not started</td><td>Needs checking</td><td>M3</td><td>Confirm prepare past papers for authorised publication and whether the old CMS already supports it.</td></tr>
+<tr id="cap-23-lecturer"><td><a href="../sdd/11-capability-catalog.html#cap-23">CAP-23</a></td><td>Maintain course information and learning outcomes</td><td>Faculty</td><td>Not started</td><td>Needs checking</td><td>M3</td><td>Confirm maintain course information and learning outcomes and whether the old CMS already supports it.</td></tr>
+<tr id="cap-24-lecturer"><td><a href="../sdd/11-capability-catalog.html#cap-24">CAP-24</a></td><td>Prepare and conduct online quizzes and examinations</td><td>Faculty</td><td>Not started</td><td>Needs checking</td><td>M5</td><td>Confirm prepare and conduct online quizzes and examinations and whether the old CMS already supports it.</td></tr>
+<tr id="cap-25-lecturer"><td><a href="../sdd/11-capability-catalog.html#cap-25">CAP-25</a></td><td>Communicate with students and teaching groups</td><td>Faculty</td><td>Not started</td><td>Needs checking</td><td>M5</td><td>Confirm communicate with students and teaching groups and whether the old CMS already supports it.</td></tr>
+<tr id="cap-26-lecturer"><td><a href="../sdd/11-capability-catalog.html#cap-26">CAP-26</a></td><td>Deliver live online classes</td><td>Faculty</td><td>Not started</td><td>Needs checking</td><td>M5</td><td>Confirm deliver live online classes and whether the old CMS already supports it.</td></tr>
+<tr id="cap-27-lecturer"><td><a href="../sdd/11-capability-catalog.html#cap-27">CAP-27</a></td><td>Schedule self-paced learning and content release</td><td>Faculty</td><td>Not started</td><td>Needs checking</td><td>M5</td><td>Confirm schedule self-paced learning and content release and whether the old CMS already supports it.</td></tr>
+<tr id="cap-28-lecturer"><td><a href="../sdd/11-capability-catalog.html#cap-28">CAP-28</a></td><td>Mark assessments and publish lecturer feedback</td><td>Faculty</td><td>Not started</td><td>Needs checking</td><td>M3</td><td>Confirm mark assessments and publish lecturer feedback and whether the old CMS already supports it.</td></tr>
+<tr id="cap-29-lecturer"><td><a href="../sdd/11-capability-catalog.html#cap-29">CAP-29</a></td><td>Check assessment identity and academic integrity</td><td>Faculty</td><td>Not started</td><td>Needs checking</td><td>M3</td><td>Confirm check assessment identity and academic integrity and whether the old CMS already supports it.</td></tr>
+<tr id="cap-40-lecturer"><td><a href="../sdd/11-capability-catalog.html#cap-40">CAP-40</a></td><td>Review class learning analytics</td><td>Faculty</td><td>Not started</td><td>Needs checking</td><td>M5</td><td>Confirm review class learning analytics and whether the old CMS already supports it.</td></tr>
+<tr id="cap-43-lecturer"><td><a href="../sdd/11-capability-catalog.html#cap-43">CAP-43</a></td><td>Submit course materials for quality review</td><td>Faculty</td><td>Not started</td><td>Needs checking</td><td>M3</td><td>Confirm submit course materials for quality review and whether the old CMS already supports it.</td></tr>
+<tr id="cap-44-lecturer"><td><a href="../sdd/11-capability-catalog.html#cap-44">CAP-44</a></td><td>Lecturer workspace and course access</td><td>Faculty</td><td>Not started</td><td>Needs checking</td><td>M3</td><td>Confirm lecturer workspace and course access and whether the old CMS already supports it.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 id="cap-staff" style="margin-top:28px">Staff LMS assurance capabilities</h3>
+      <p class="lead">Approvals, QA, copyright, orientation, and workspace — not a full staff CMS rebuild.</p>
+      <div class="table-wrap">
+        <table class="attr">
+          <thead>
+            <tr>
+              <th>CAP</th>
+              <th>Capability</th>
+              <th>Dept</th>
+              <th>Frontend</th>
+              <th>Backend</th>
+              <th>Milestone</th>
+              <th>Next action / blocker</th>
+            </tr>
+          </thead>
+          <tbody>
+<tr id="cap-23-staff"><td><a href="../sdd/11-capability-catalog.html#cap-23">CAP-23</a></td><td>Approve course information and learning outcomes</td><td>Faculty</td><td>Not started</td><td>Needs checking</td><td>M3</td><td>Confirm approve course information and learning outcomes and the responsible old-CMS workflow.</td></tr>
+<tr id="cap-30-staff"><td><a href="../sdd/11-capability-catalog.html#cap-30">CAP-30</a></td><td>Review institutional learning analytics and quality reports</td><td>Quality Assurance</td><td>Not started</td><td>Needs checking</td><td>M5</td><td>Define useful learning/engagement measures and evidence reports.</td></tr>
+<tr id="cap-32-staff"><td><a href="../sdd/11-capability-catalog.html#cap-32">CAP-32</a></td><td>Publish orientation and digital-learning guidance</td><td>TBC</td><td>Not started</td><td>Needs checking</td><td>M3</td><td>Confirm publish orientation and digital-learning guidance and the responsible old-CMS workflow.</td></tr>
+<tr id="cap-40-staff"><td><a href="../sdd/11-capability-catalog.html#cap-40">CAP-40</a></td><td>Review institutional learning analytics and quality reports</td><td>Quality Assurance</td><td>Not started</td><td>Needs checking</td><td>M5</td><td>Define useful learning/engagement measures and evidence reports.</td></tr>
+<tr id="cap-42-staff"><td><a href="../sdd/11-capability-catalog.html#cap-42">CAP-42</a></td><td>Record copyright permissions and provider approvals</td><td>TBC</td><td>Not started</td><td>Needs checking</td><td>M3</td><td>Confirm copyright / provider permissions for learning resources.</td></tr>
+<tr id="cap-43-staff"><td><a href="../sdd/11-capability-catalog.html#cap-43">CAP-43</a></td><td>Approve course materials for quality</td><td>Quality Assurance</td><td>Not started</td><td>Needs checking</td><td>M3</td><td>Confirm material approval workflow for LMS readiness evidence.</td></tr>
+<tr id="cap-44-staff"><td><a href="../sdd/11-capability-catalog.html#cap-44">CAP-44</a></td><td>Staff and administrator workspace and role access</td><td>TBC</td><td>Not started</td><td>Needs checking</td><td>M2</td><td>Confirm existing-CMS staff access; build new staff screens only for verified gaps.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout" style="margin-top:14px">
+        Full catalogue (all portals):
+        <a href="../sdd/11-capability-catalog.html">SDD-11 capability catalogue</a>.
+        Student IA by milestone:
+        <a href="../sdd/05-student-portal.html">SDD-05</a>.
+        Lecturer write-side:
+        <a href="../sdd/06-lecturer-portal.html">SDD-06</a>.
+      </div>
+    </section>
+
+    <section class="section" id="journey">
+      <h2>Student learning journey (proposed)</h2>
+      <p class="lead">
+        Typical Moodle-like path on Raisd student portal — Demo screens may exist;
+        Live requires CMS acknowledgement and durable files where applicable.
+      </p>
+      <div class="card">
+        <div class="card-body">
+          <pre class="mermaid">
+flowchart LR
+  A[Module hub<br/>CAP-23 / 27] --> B[Resources<br/>CAP-17 / 18]
+  B --> C[Assignments<br/>CAP-19 / 20]
+  B --> D[Quizzes<br/>CAP-24]
+  B --> E[Live class<br/>CAP-26]
+  C --> F[Marks &amp; feedback<br/>CAP-13 / 28]
+  D --> F
+  A --> G[Comms<br/>CAP-25]
+  A --> H[Timetable &amp; attendance<br/>CAP-11 / 12]
+          </pre>
+        </div>
+      </div>
+      <div class="legend">
+        <div class="legend-item">
+          <strong>M3 core</strong>
+          <span>Guides, notes, briefs, assignment submit, timetable, attendance, results path.</span>
+        </div>
+        <div class="legend-item">
+          <strong>M5 depth</strong>
+          <span>Quizzes/exams, live class, full self-paced completion, persistent comms, library.</span>
+        </div>
+        <div class="legend-item">
+          <strong>Research domains</strong>
+          <span>F04–F16, F19–F24 map onto these student surfaces — not universal mandates.</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="pages">
+      <h2>Generated pages (Option 1)</h2>
+      <p class="lead">
+        Raisd-only sources. Status on every page:
+        <strong>proposed / research-backed</strong>, not Live product.
+      </p>
+      <div class="toc">
+        <a href="lms-architecture.html">
+          <strong>LMS architecture</strong>
+          <span>Role surfaces on Portal API · CMS SoR · file store</span>
+        </a>
+        <a href="lms-features.html">
+          <strong>LMS features (F01–F37)</strong>
+          <span>Research domain × CAP matrix with Demo / milestone</span>
+        </a>
+        <a href="lms.html#student">
+          <strong>Student Moodle-like map</strong>
+          <span>Familiar vocabulary ↔ CAP Demo/Live (this page)</span>
+        </a>
+      </div>
+      <div class="callout ok" style="margin-top:14px">
+        <strong>Q37 closed — Option 1.</strong>
+        Raisd LMS pages from CAP + F01–F37.
+        Tracked in <a href="../sdd/10-open-questions.html#q37">SDD-10 Q37</a>.
+      </div>
+    </section>
+
+    <section class="section" id="raisd">
+      <h2>What Raisd already has for LMS</h2>
+      <p class="lead">
+        Enough to generate architecture and features pages in the same style as
+        Distributed CMS / Raisd CMS — marked research-backed, not Live.
+      </p>
+      <ul>
+        <li>
+          <strong>37 research domains</strong> <code>INPUT-F01</code>–<code>F37</code>
+          mapped to CAPs
+          (<code>LMS_Feature_Requirements_8_Countried.xlsx</code>
+          (also mirrored in student-portal planning JSON). Supplied research, not
+          universal mandates —
+          <a href="../sdd/09-requirements-traceability.html">SDD-09</a>.
+        </li>
+        <li>
+          Learning CAPs mostly <strong>Not started / Placeholder / Partial</strong>
+          (guides, materials, assignments, quizzes, live class, lecturer workspace, …) —
+          <a href="../sdd/11-capability-catalog.html">SDD-11</a>.
+        </li>
+        <li>
+          Explicit gap: student Materials alone is <strong>not</strong> an LMS
+          (<a href="../sdd/09-requirements-traceability.html">BASE-44</a>).
+        </li>
+        <li>
+          Diagrams hub already has the pattern (<code>docs/diagrams/*.html</code>) —
+          this page is the LMS entry; dedicated architecture / features pages are proposed below.
+        </li>
+      </ul>
+      <div class="card" style="margin-top:14px">
+        <div class="card-head">
+          <div>
+            <h3>Architecture sketch (proposed)</h3>
+            <p>LMS as role surfaces on Portal API — not a fifth portal product.</p>
+          </div>
+        </div>
+        <div class="card-body">
+          <pre class="mermaid">
+flowchart TB
+  subgraph Portals["Role surfaces"]
+    S[Student portal]
+    L[Lecturer portal]
+    T[Staff portal]
+  end
+
+  API[Portal API]
+  ACL["CMS bridge CAP-53"]
+  CMS[(Existing CMS · SoR)]
+  FS[(File store · Live evidence / live class)]
+
+  S --> API
+  L --> API
+  T --> API
+  API --> ACL
+  ACL --> CMS
+  API --> FS
+          </pre>
+        </div>
+      </div>
+      <div class="legend">
+        <div class="legend-item">
+          <strong>Student</strong>
+          <span>Consume materials, assignments, quizzes, live join when agreed.</span>
+        </div>
+        <div class="legend-item">
+          <strong>Lecturer</strong>
+          <span>Publish, mark, deliver live class, workspace (<a href="../sdd/11-capability-catalog.html#cap-44">CAP-44</a>).</span>
+        </div>
+        <div class="legend-item">
+          <strong>Staff</strong>
+          <span>Approvals / QA / orientation where CAP-owned.</span>
+        </div>
+        <div class="legend-item">
+          <strong>Live file store</strong>
+          <span>Required for durable assignments and Live artefacts — see SDD-10 Q5.</span>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    Generated for raisd-campus/control-plane · Mermaid diagrams · GitHub Pages
+  </footer>
+
+  <script type="module">
+    import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: "base",
+      securityLevel: "loose",
+      themeVariables: {
+        primaryColor: "#e8f0f8",
+        primaryTextColor: "#152033",
+        primaryBorderColor: "#1a4f8b",
+        lineColor: "#5a6a7e",
+        secondaryColor: "#e8f6ee",
+        tertiaryColor: "#fff6e8",
+        fontFamily: "Segoe UI, system-ui, sans-serif",
+      },
+      flowchart: { curve: "basis", htmlLabels: true },
+    });
+  </script>
+  <script src="abbr-tooltips.js" defer></script>
+  <script src="nav-dropdown.js" defer></script>
+  <script src="site-search.js" defer></script>
+</body>
+</html>

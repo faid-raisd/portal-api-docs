@@ -54,6 +54,29 @@ Decisions required before capabilities can move from Needs checking / Demo to Li
 | Q27 | Does Raisd applicant-portal replace or sit beside agent online application? | 02, 07 |
 | Q28 | Where do assignment submissions land in the old CMS today? | 20 |
 
+## 4b. Canonical schema & campus policy (LUCT readiness) — 1 October 2026
+
+**Decision (1 October 2026):** Shared vocabulary and invariants stay canonical. University default then campus override (effective-dated) control behaviour. Incomplete campus policy confirmation blocks that campus’s Live feature only — not the Schema. **Implemented in Demo as Schema v3** (`PORTAL_RECORD_SCHEMA_VERSION = 3`): policy collections, university-default seeds, projections, SQL reporting views, Data Model Explorer, published ERD, `/v1/meta.schemaVersion`. Per-campus Live confirmation of CS-01–CS-11 remains open. Full table: [canonical-schema-confirmations.html](../diagrams/canonical-schema-confirmations.html). Knowledge source: [canonical-schema-luct-readiness.md](../ai/backend/canonical-schema-luct-readiness.md) §0 / §6 / §7.
+
+| ID | Topic | Treatment | Live readiness owner |
+|---|---|---|---|
+| Q29 / CS-01 | Legacy → canonical academic / enrolment status mapping | Demo policy table seeded; confirm per campus before Live | Registry (per campus onboarding) |
+| Q30 / CS-02 | `current_active_students` definition | One mechanism; policy-driven status set; academic only (not Portal authz) | Registry + International Office |
+| Q31 / CS-03 | Outstanding / Inactive / Deferred | Three distinct concepts; operational class via campus policy | Registry |
+| Q32 / CS-04 | Enrolment lifecycle extras | Keep four statuses; extend only when a real process needs it | Registry / product |
+| Q33 / CS-05–07 | Credit classification, CGPA repeat, outcomes | Policy tables seeded; keep `pass\|fail` initially; CT/exemption first-class | Registry (+ Portal API for enum) |
+| Q34 / CS-08–10 | Refunds, document numbers, adjustments | Schema keeps correction model; campus enables workflows / numbering | Bursary |
+| Q35 / CS-11 | RBAC / LoginActive mapping | Accounts ≠ identity; LoginActive ≠ `user_account.status` | Product + IT / Registry |
+| Q36 / CS-12–13 | Physical FKs; Live reports on views | No Demo FKs (mandatory on relational Live); incremental shadow cutover | Engineering |
+
+## 4c. LMS documentation posture — 1 October 2026
+
+**Decision (1 October 2026):** **Q37 Option 1** — generate Raisd LMS pages from CAP + `INPUT-F01`–`F37` only. Published: [lms.html](../diagrams/lms.html), [lms-architecture.html](../diagrams/lms-architecture.html), [lms-features.html](../diagrams/lms-features.html). Agent knowledge: `docs/ai/architecture/lms.md`. No PPA LMS comparison in this generate set. Student Materials alone is not an LMS ([BASE-44](09-requirements-traceability.md)).
+
+| ID | Question | Decision | Owner |
+|---|---|---|---|
+| <a id="q37"></a>Q37 | Generate Raisd LMS pages now (CAP + F01–F37), wait for PPA LMS URL/export, or both? | **Option 1** — Raisd pages from CAP + F01–F37 (architecture + features published) | Product / architecture |
+
 ## 5. Role split after tonight
 
 Proposed until the group names people:
@@ -76,3 +99,8 @@ Proposed until the group names people:
 | 23 Sep 2026 | Student-portal agent docs extracted into `docs/ai/frontend/student-portal/`; sibling repos point to `docs/ai` as SSOT | Iman Suherman |
 | 23 Sep 2026 | Cyberjaya old CMS source+structure dump inventoried; CAP comparison published as SDD-14 (reuse staff desks; Portal API for Live) | Iman Suherman |
 | 23 Sep 2026 | This phase: existing Cyberjaya CMS remains SoR; modern portals via Portal API; do not duplicate operational functions. Longer term: progressive unified one-stop CMS on verified gaps + migration strategy | Aslam (WG chat); recorded by Iman Suherman |
+| 1 Oct 2026 | Canonical Schema proceeds with policy hierarchy: CS-01–CS-11 become effective-dated campus/university policy (Live readiness), not Schema blockers; CS-12 no Demo FKs / mandatory on relational Live; CS-13 incremental campus-scoped report cutover. Hierarchy: canonical → university default → campus override | Architecture recommendation to Iman Suherman; recorded in knowledge base |
+| 1 Oct 2026 | Schema v3 Demo: campus policy collections, university-default seeds, projections + SQL views, Data Model Explorer, published ERD, `/v1/meta.schemaVersion`, db-admin IRREGULAR map. Per-campus Live confirmation of CS-01–CS-11 remains open | Engineering; recorded in knowledge base §7 |
+| 1 Oct 2026 | Schema v3 confirmed good to proceed. Remaining CS-01–CS-11 treated as policy-validation / campus go-Live requirements (not schema-design blockers). Demo university-default values are structural defaults/examples only — not authoritative LUCT policy until campus/department sign-off. CS-13 remains incremental legacy+canonical side-by-side cutover | Architecture review reply to Iman Suherman; recorded in knowledge base |
+| 1 Oct 2026 | Neon Demo reseeded to Schema v3 (95 collections; six campus-policy tables). Verification checklist recorded in readiness §7 | Engineering |
+| 1 Oct 2026 | LMS Q37 Option 1: publish Raisd LMS architecture + F01–F37 features pages from CAP research (no PPA comparison in this set) | Iman Suherman; `lms.html` / `lms-architecture.html` / `lms-features.html` |

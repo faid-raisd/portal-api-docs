@@ -15,12 +15,18 @@ These instructions apply to **every** repository under `raisd-campus` unless a p
    - Applicant UI → [frontend/applicant-portal.md](frontend/applicant-portal.md)
    - Lecturer UI → [frontend/lecturer-portal.md](frontend/lecturer-portal.md)
    - Staff UI → [frontend/staff-portal.md](frontend/staff-portal.md)
-   - Portal API / identity / campus config → [backend/portal-api.md](backend/portal-api.md)
+   - Portal API / identity / campus config → [backend/portal-api.md](backend/portal-api.md), then [development plan](backend/portal-api-development-plan.md), [target deployment](backend/portal-api-deployment.md), [PoC requirements](backend/portal-api-poc-requirements.md)
+   - Canonical record schema / ERD (LUCT readiness — Schema v3 campus policy Demo done; see §7) → [backend/canonical-schema-luct-readiness.md](backend/canonical-schema-luct-readiness.md)
+   - Pending schema confirmations (CS-01–CS-13: Schema v3 policy Demo done; campus Live readiness) → [../diagrams/canonical-schema-confirmations.html](../diagrams/canonical-schema-confirmations.html)
+   - LMS research posture (Raisd CAP + F01–F37; no PPA LMS inventory here) → [architecture/lms.md](architecture/lms.md), [../diagrams/lms.html](../diagrams/lms.html)
    - Existing Cyberjaya CMS inventory / CAP comparison → [backend/old-cms-cyberjaya.md](backend/old-cms-cyberjaya.md), [backend/cms-feature-comparison.md](backend/cms-feature-comparison.md)
    - Sierra Leone CMS inventory (M5 pattern) → [backend/old-cms-sierra-leone.md](backend/old-cms-sierra-leone.md)
    - Botswana CMS inventory (M5 pattern) → [backend/old-cms-botswana.md](backend/old-cms-botswana.md)
+   - Botswana DTEF / TEF.gov.bw scholarship sync → [backend/botswana-dtef-scholarship-sync.md](backend/botswana-dtef-scholarship-sync.md)
 4. Matching SDD (`docs/sdd/04`–`08`, `12`, `14`) for the delivery contract. Jump any `CAP-*` / `M*` via [SDD-15 nomenclature](../sdd/15-nomenclature.md).
 5. [MANIFEST.yaml](MANIFEST.yaml) if you need to discover related documents.
+
+For any portal UI task, also read [design/component-library.md](design/component-library.md) and the package's [component catalogue](https://github.com/raisd-campus/design-system/blob/main/docs/components.md) before creating a visual component.
 
 ## 2. Product boundaries (campus-wide)
 
@@ -36,12 +42,13 @@ These instructions apply to **every** repository under `raisd-campus` unless a p
 
 | Repository | Owns | Agent entry |
 |---|---|---|
-| `control-plane` | Campus config, identity, Portal API, SDD, **this knowledge base** | this file + [backend/portal-api.md](backend/portal-api.md) |
+| `control-plane` | Campus config, identity design, Portal API contract (`openapi.yaml`), SDD, **this knowledge base** | this file |
+| `portal-api` | Portal API service code, image, CI, its own deploy manifests | [backend/portal-api.md](backend/portal-api.md) |
 | `student-portal` | Enrolled-student web (current deepest Demo UI) | [frontend/student-portal/AGENTS.md](frontend/student-portal/AGENTS.md) |
 | `applicant-portal` | Online registration (Admissions launch) | [frontend/applicant-portal.md](frontend/applicant-portal.md) |
 | `lecturer-portal` | Lecturer web | [frontend/lecturer-portal.md](frontend/lecturer-portal.md) |
 | `staff-portal` | Registry / Faculty / Bursary / QA / Marketing | [frontend/staff-portal.md](frontend/staff-portal.md) |
-| `design-system` | Shared tokens/components (emerging) | [design/design-system.md](design/design-system.md) |
+| `design-system` | Versioned shared tokens/components | [design/component-library.md](design/component-library.md), [design/design-system.md](design/design-system.md) |
 | `portal-api-docs` | Public OpenAPI + Swagger (GitHub Pages) | [backend/portal-api.md](backend/portal-api.md) |
 
 Local checkouts are siblings under `~/src/raisd/`. See [architecture/repositories.md](architecture/repositories.md).
@@ -51,13 +58,14 @@ Local checkouts are siblings under `~/src/raisd/`. See [architecture/repositorie
 - Portal API write success only after the CMS acknowledges the write (when Live/CMS-connected).
 - Authorisation is server-enforced. Client-side role hiding is not security.
 - Evidence, assignments, and payment proofs need a durable file store for Live; metadata-only demos are not Live.
-- Hosting: existing UltaHost VDS / staged k3s plan in [architecture/deployment.md](architecture/deployment.md) and [SDD-12](../sdd/12-deployment-architecture.md). Do not invent a greenfield cloud topology without an ADR update.
+- Hosting: existing UltaHost VDS / staged k3s plan in [architecture/deployment.md](architecture/deployment.md) and [SDD-12](../sdd/12-deployment-architecture.md). Do not invent a greenfield cloud topology without an ADR update. A documented **PoC-only** Vercel + Neon path lives in [architecture/vercel-neon-poc.md](architecture/vercel-neon-poc.md); it must not be treated as Live or as replacing ADR-2/ADR-3.
 - CAP IDs are shared across portals: the same CAP on two portals is one capability, two role surfaces ([SDD-11](../sdd/11-capability-catalog.md)). Quick links: [SDD-15](../sdd/15-nomenclature.md).
 
 ## 5. Documentation duties
 
 - When behaviour changes, update the canonical knowledge file under `docs/ai/` **and** the matching SDD or capability note in the same change.
 - Use [process/generate-documentation.md](process/generate-documentation.md) to produce or refresh human-facing SDD sections, architecture PDF inputs, and public docs from this base.
+- For observable shared component or student-owned reusable pattern changes, refresh only the affected [design system HTML](../design-system/index.html) text/captures and its `portal-api-docs` mirror under the released-version rule in [design/component-library.md](design/component-library.md). Unrelated tasks and internal refactors with no observable UI/API change do not trigger a catalogue edit.
 - Update [MANIFEST.yaml](MANIFEST.yaml) when adding or removing knowledge files.
 - Do not rely on a previous chat as project context. Prefer handoff + this knowledge base.
 

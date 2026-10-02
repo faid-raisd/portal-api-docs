@@ -10,9 +10,13 @@ info:
     They never talk to Postgres or the existing CMS directly.
 
     **Stage 1 behaviour**
-    - Sessions reuse the student-portal `MockPortalApi` engine. Session rows are
-      in memory locally and in Neon Postgres on the Vercel Demo (`sessions` in
-      `/health` and `/v1/meta` says which). Demo edits can reset on a cold instance.
+    - Each call runs the student-portal `MockPortalApi` engine over Demo records.
+      On the Vercel Demo, sessions and records live in Neon Postgres (one table
+      per record collection), so edits persist across instances and cold starts;
+      locally without `DATABASE_URL` both stay in memory. `sessions` and `data` in
+      `/health` and `/v1/meta` say which. Any `POST /v1/portal/{method}` can
+      also return `409` (records changed concurrently and retries ran out) or
+      `503` (records database unavailable), both with `ErrorBody`.
     - Mutating calls return `cms.acknowledged: true` with `cms.mode: stub`.
     - CAP-53 will replace the stub with a live CMS adapter.
 
@@ -176,6 +180,7 @@ paths:
                 service: portal-api
                 mode: stub-session
                 sessions: postgres
+                data: postgres
                 cms: stub
                 time: "2026-09-21T09:25:12.975Z"
 
@@ -237,9 +242,10 @@ paths:
                 defaultScenarioId: first-semester-registration
                 cmsMode: stub
                 sessions: postgres
+                data: postgres
                 docs: /docs
                 openapi: /openapi.yaml
-                note: Sessions use MockPortalApi until CAP-53 connects the existing CMS.
+                note: Demo records live in Postgres (one table per record collection) and run through the MockPortalApi engine until CAP-53 connects the existing CMS.
 
 
   /v1/meta/staff-progression:
@@ -280,22 +286,25 @@ paths:
       operationId: login
       summary: Create a demo student session
       description: |
-        Issues a bearer token bound to a student scenario.
-        No password yet — stage-1 demo auth only.
+        Issues a bearer token bound to a student scenario after checking the
+        demo student's password. Stage-1 demo auth only, not campus identity.
+        Returns 503 when the server has no demo credentials configured.
         Used by `createHttpPortalApi` in student-portal.
       security: []
       requestBody:
-        required: false
+        required: true
         content:
           application/json:
             schema:
               $ref: "#/components/schemas/LoginRequest"
             examples:
               default:
-                value: {}
+                value:
+                  password: "<demo password>"
               midProgramme:
                 value:
                   scenarioId: mid-programme
+                  password: "<demo password>"
       responses:
         "200":
           description: Session created
@@ -305,6 +314,20 @@ paths:
                 $ref: "#/components/schemas/LoginResponse"
         "400":
           $ref: "#/components/responses/BadRequest"
+        "401":
+          description: Password does not match the demo student
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorBody"
+              example:
+                error: Student and password do not match.
+        "503":
+          description: Demo student credentials are not configured on the server
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorBody"
 
   /v1/auth/logout:
     post:
@@ -2613,6 +2636,10 @@ components:
           type: string
           enum: [memory, postgres]
           description: Where session rows live. `postgres` when `DATABASE_URL` is set.
+        data:
+          type: string
+          enum: [memory, postgres]
+          description: Where Demo records live. `postgres` when `DATABASE_URL` is set.
         cms:
           type: string
           example: stub
@@ -2640,6 +2667,9 @@ components:
         sessions:
           type: string
           enum: [memory, postgres]
+        data:
+          type: string
+          enum: [memory, postgres]
         docs:
           type: string
           example: /docs
@@ -2651,9 +2681,18 @@ components:
 
     LoginRequest:
       type: object
+      required: [password]
       properties:
         scenarioId:
           $ref: "#/components/schemas/ScenarioId"
+        password:
+          type: string
+          minLength: 1
+          description: |
+            Demo password for the scenario's student (defaults to
+            `first-semester-registration` when `scenarioId` is omitted).
+            Passwords are not published; they are held in the gitignored
+            `control-plane/.credentials/demo-students.json`.
 
     LoginResponse:
       type: object

@@ -78,8 +78,12 @@
           <a class="nav-dd-main" href="../diagrams/index.html">Overview</a>
           <div class="nav-dd-menu" role="menu">
             <a href="../diagrams/index.html">Diagrams hub</a>
+            <a href="../diagrams/index.html#endpoints">Public endpoints</a>
             <a href="../diagrams/distributed-cms-architecture.html">Distributed CMS</a>
             <a href="../diagrams/architecture.html">Architecture</a>
+            <a href="../diagrams/lms.html">LMS research</a>
+            <a href="../diagrams/lms-architecture.html">LMS architecture</a>
+            <a href="../diagrams/lms-features.html">LMS features</a>
             <a href="../diagrams/migration.html">Migration</a>
             <a href="../poc/vercel-neon.html">Vercel + Neon PoC</a>
           </div>
@@ -99,6 +103,9 @@
           <div class="nav-dd-menu" role="menu">
             <a href="../diagrams/architecture.html">Architecture home</a>
             <a href="../diagrams/distributed-cms-architecture.html">Distributed CMS target</a>
+            <a href="../diagrams/lms.html">LMS research posture</a>
+            <a href="../diagrams/lms-architecture.html">LMS architecture</a>
+            <a href="../diagrams/lms-features.html">LMS features F01–F37</a>
             <a href="../diagrams/architecture.html#sdd">SDD &amp; ADR catalogue</a>
             <a href="../diagrams/architecture.html#acl">SoR / ACL</a>
             <a href="../diagrams/architecture.html#academic">Academic model</a>
@@ -125,6 +132,7 @@
             <a href="../diagrams/raisd-cms/student-portal-guide.html">Use guides</a>
             <a href="../diagrams/raisd-cms/student-portal-manual.html">User manual</a>
             <a href="../diagrams/erd.html">ERD</a>
+            <a href="../diagrams/canonical-schema-confirmations.html">Schema confirmations</a>
             <a href="../diagrams/dfd.html">DFD</a>
           </div>
         </div>
@@ -183,6 +191,7 @@
             <a href="https://github.com/raisd-campus/control-plane/blob/main/docs/ai/AGENTS.md">AGENTS.md</a>
             <a href="https://github.com/raisd-campus/control-plane/blob/main/docs/ai/architecture/overview.md">Architecture overview</a>
             <a href="https://github.com/raisd-campus/control-plane/blob/main/docs/ai/architecture/distributed-cms-target.md">Distributed CMS target</a>
+            <a href="https://github.com/raisd-campus/control-plane/blob/main/docs/ai/architecture/lms.md">LMS research posture</a>
             <a href="https://github.com/raisd-campus/control-plane/blob/main/docs/ai/backend/portal-api.md">Portal API</a>
             <a href="https://github.com/raisd-campus/control-plane/blob/main/docs/ai/backend/portal-api-development-plan.md">Portal API plan</a>
             <a href="https://github.com/raisd-campus/control-plane/blob/main/docs/ai/backend/portal-api-deployment.md">Portal API deployment</a>
@@ -455,6 +464,131 @@ application?</td>
 </tr>
 </tbody>
 </table>
+<h2
+id="b.-canonical-schema-campus-policy-luct-readiness-1-october-2026">4b.
+Canonical schema &amp; campus policy (LUCT readiness) — 1 October
+2026</h2>
+<p><strong>Decision (1 October 2026):</strong> Shared vocabulary and
+invariants stay canonical. University default then campus override
+(effective-dated) control behaviour. Incomplete campus policy
+confirmation blocks that campus’s Live feature only — not the Schema.
+<strong>Implemented in Demo as Schema v3</strong>
+(<code>PORTAL_RECORD_SCHEMA_VERSION = 3</code>): policy collections,
+university-default seeds, projections, SQL reporting views, Data Model
+Explorer, published ERD, <code>/v1/meta.schemaVersion</code>. Per-campus
+Live confirmation of CS-01–CS-11 remains open. Full table: <a
+href="../diagrams/canonical-schema-confirmations.html">canonical-schema-confirmations.html</a>.
+Knowledge source: <a
+href="../ai/backend/canonical-schema-luct-readiness.html">canonical-schema-luct-readiness.md</a>
+§0 / §6 / §7.</p>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th>ID</th>
+<th>Topic</th>
+<th>Treatment</th>
+<th>Live readiness owner</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Q29 / CS-01</td>
+<td>Legacy → canonical academic / enrolment status mapping</td>
+<td>Demo policy table seeded; confirm per campus before Live</td>
+<td>Registry (per campus onboarding)</td>
+</tr>
+<tr>
+<td>Q30 / CS-02</td>
+<td><code>current_active_students</code> definition</td>
+<td>One mechanism; policy-driven status set; academic only (not Portal
+authz)</td>
+<td>Registry + International Office</td>
+</tr>
+<tr>
+<td>Q31 / CS-03</td>
+<td>Outstanding / Inactive / Deferred</td>
+<td>Three distinct concepts; operational class via campus policy</td>
+<td>Registry</td>
+</tr>
+<tr>
+<td>Q32 / CS-04</td>
+<td>Enrolment lifecycle extras</td>
+<td>Keep four statuses; extend only when a real process needs it</td>
+<td>Registry / product</td>
+</tr>
+<tr>
+<td>Q33 / CS-05–07</td>
+<td>Credit classification, CGPA repeat, outcomes</td>
+<td>Policy tables seeded; keep <code>pass\|fail</code> initially;
+CT/exemption first-class</td>
+<td>Registry (+ Portal API for enum)</td>
+</tr>
+<tr>
+<td>Q34 / CS-08–10</td>
+<td>Refunds, document numbers, adjustments</td>
+<td>Schema keeps correction model; campus enables workflows /
+numbering</td>
+<td>Bursary</td>
+</tr>
+<tr>
+<td>Q35 / CS-11</td>
+<td>RBAC / LoginActive mapping</td>
+<td>Accounts ≠ identity; LoginActive ≠
+<code>user_account.status</code></td>
+<td>Product + IT / Registry</td>
+</tr>
+<tr>
+<td>Q36 / CS-12–13</td>
+<td>Physical FKs; Live reports on views</td>
+<td>No Demo FKs (mandatory on relational Live); incremental shadow
+cutover</td>
+<td>Engineering</td>
+</tr>
+</tbody>
+</table>
+<h2 id="c.-lms-documentation-posture-1-october-2026">4c. LMS
+documentation posture — 1 October 2026</h2>
+<p><strong>Decision (1 October 2026):</strong> <strong>Q37 Option
+1</strong> — generate Raisd LMS pages from CAP +
+<code>INPUT-F01</code>–<code>F37</code> only. Published: <a
+href="../diagrams/lms.html">lms.html</a>, <a
+href="../diagrams/lms-architecture.html">lms-architecture.html</a>, <a
+href="../diagrams/lms-features.html">lms-features.html</a>. Agent
+knowledge: <code>docs/ai/architecture/lms.md</code>. No PPA LMS
+comparison in this generate set. Student Materials alone is not an LMS
+(<a href="09-requirements-traceability.html">BASE-44</a>).</p>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th>ID</th>
+<th>Question</th>
+<th>Decision</th>
+<th>Owner</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a id="q37"></a>Q37</td>
+<td>Generate Raisd LMS pages now (CAP + F01–F37), wait for PPA LMS
+URL/export, or both?</td>
+<td><strong>Option 1</strong> — Raisd pages from CAP + F01–F37
+(architecture + features published)</td>
+<td>Product / architecture</td>
+</tr>
+</tbody>
+</table>
 <h2 id="role-split-after-tonight">5. Role split after tonight</h2>
 <p>Proposed until the group names people:</p>
 <table>
@@ -546,6 +680,48 @@ Portal API; do not duplicate operational functions. Longer term:
 progressive unified one-stop CMS on verified gaps + migration
 strategy</td>
 <td>Aslam (WG chat); recorded by Iman Suherman</td>
+</tr>
+<tr>
+<td>1 Oct 2026</td>
+<td>Canonical Schema proceeds with policy hierarchy: CS-01–CS-11 become
+effective-dated campus/university policy (Live readiness), not Schema
+blockers; CS-12 no Demo FKs / mandatory on relational Live; CS-13
+incremental campus-scoped report cutover. Hierarchy: canonical →
+university default → campus override</td>
+<td>Architecture recommendation to Iman Suherman; recorded in knowledge
+base</td>
+</tr>
+<tr>
+<td>1 Oct 2026</td>
+<td>Schema v3 Demo: campus policy collections, university-default seeds,
+projections + SQL views, Data Model Explorer, published ERD,
+<code>/v1/meta.schemaVersion</code>, db-admin IRREGULAR map. Per-campus
+Live confirmation of CS-01–CS-11 remains open</td>
+<td>Engineering; recorded in knowledge base §7</td>
+</tr>
+<tr>
+<td>1 Oct 2026</td>
+<td>Schema v3 confirmed good to proceed. Remaining CS-01–CS-11 treated
+as policy-validation / campus go-Live requirements (not schema-design
+blockers). Demo university-default values are structural
+defaults/examples only — not authoritative LUCT policy until
+campus/department sign-off. CS-13 remains incremental legacy+canonical
+side-by-side cutover</td>
+<td>Architecture review reply to Iman Suherman; recorded in knowledge
+base</td>
+</tr>
+<tr>
+<td>1 Oct 2026</td>
+<td>Neon Demo reseeded to Schema v3 (95 collections; six campus-policy
+tables). Verification checklist recorded in readiness §7</td>
+<td>Engineering</td>
+</tr>
+<tr>
+<td>1 Oct 2026</td>
+<td>LMS Q37 Option 1: publish Raisd LMS architecture + F01–F37 features
+pages from CAP research (no PPA comparison in this set)</td>
+<td>Iman Suherman; <code>lms.html</code> /
+<code>lms-architecture.html</code> / <code>lms-features.html</code></td>
 </tr>
 </tbody>
 </table>

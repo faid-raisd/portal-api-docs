@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Canonical schema — CS-01–CS-13 decisions</title>
+  <link rel="stylesheet" href="./styles.css" />
+  <script src="site-auth.js"></script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="site-header-inner">
+      <a class="brand" href="index.html">
+        <img class="brand-logo" src="assets/raisd-logo.svg" width="80" height="22" alt="Raisd" />
+        <strong>Control Plane</strong>
+      </a>
+      <button type="button" class="site-search-trigger" aria-label="Search documentation"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="M20 20l-3.5-3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+      <nav class="nav" aria-label="Primary">
+        <div class="nav-dd">
+          <a class="nav-dd-main" href="index.html">Overview</a>
+          <div class="nav-dd-menu" role="menu">
+            <a href="index.html">Diagrams hub</a>
+            <a href="index.html#endpoints">Public endpoints</a>
+            <a href="distributed-cms-architecture.html">Distributed CMS</a>
+            <a href="architecture.html">Architecture</a>
+            <a href="lms.html">LMS research</a>
+            <a href="lms-architecture.html">LMS architecture</a>
+            <a href="lms-features.html">LMS features</a>
+            <a href="migration.html">Migration</a>
+            <a href="../poc/vercel-neon.html">Vercel + Neon PoC</a>
+          </div>
+        </div>
+        <div class="nav-dd">
+          <a class="nav-dd-main" href="distributed-cms-architecture.html">Distributed CMS</a>
+          <div class="nav-dd-menu" role="menu">
+            <a href="distributed-cms-architecture.html">Target architecture</a>
+            <a href="distributed-cms-architecture.html#journey">Current → ideal</a>
+            <a href="distributed-cms-architecture.html#phase-ideal">Ideal state</a>
+            <a href="distributed-cms-architecture.html#tenancy">White-label &amp; flags</a>
+            <a href="migration.html">M1–M5 migration</a>
+          </div>
+        </div>
+        <div class="nav-dd">
+          <a class="nav-dd-main" href="architecture.html">Architecture</a>
+          <div class="nav-dd-menu" role="menu">
+            <a href="architecture.html">Architecture home</a>
+            <a href="distributed-cms-architecture.html">Distributed CMS target</a>
+            <a href="lms.html">LMS research posture</a>
+            <a href="lms-architecture.html">LMS architecture</a>
+            <a href="lms-features.html">LMS features F01–F37</a>
+            <a href="architecture.html#sdd">SDD &amp; ADR catalogue</a>
+            <a href="architecture.html#acl">SoR / ACL</a>
+            <a href="architecture.html#academic">Academic model</a>
+            <a href="../poc/vercel-neon.html">Vercel + Neon PoC</a>
+            <div class="nav-sub">
+              <a class="nav-sub-trigger" href="migration.html" aria-haspopup="true" aria-expanded="false">Migration</a>
+              <div class="nav-sub-menu" role="menu">
+              <a href="migration.html">Plan overview</a>
+              <a href="migration.html#sequence">Milestone sequence</a>
+              <a href="distributed-cms-architecture.html#journey">Current → ideal</a>
+              <a href="migration.html#m1">M1–M5 detail</a>
+              <a href="migration.html#hosting">Hosting stages</a>
+              <a href="migration.html#critical">Critical path</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="nav-dd">
+          <a class="nav-dd-main active" href="raisd-cms/index.html">Raisd CMS</a>
+          <div class="nav-dd-menu" role="menu">
+            <a href="raisd-cms/index.html">Raisd CMS hub</a>
+            <a href="raisd-cms/student-portal.html">Student portal</a>
+            <a href="raisd-cms/student-portal-screenshots.html">Screenshots</a>
+            <a href="raisd-cms/student-portal-guide.html">Use guides</a>
+            <a href="raisd-cms/student-portal-manual.html">User manual</a>
+            <a href="erd.html">ERD</a>
+            <a href="canonical-schema-confirmations.html">Schema confirmations</a>
+            <a href="dfd.html">DFD</a>
+          </div>
+        </div>
+        <div class="nav-dd">
+          <a class="nav-dd-main" href="old-cms/index.html">LUCT CMS</a>
+          <div class="nav-dd-menu" role="menu">
+            <div class="nav-sub">
+              <a class="nav-sub-trigger" href="old-cms/index.html" aria-haspopup="true" aria-expanded="false">Cyberjaya</a>
+              <div class="nav-sub-menu" role="menu">
+              <a href="old-cms/index.html">E2E hub</a>
+              <a href="old-cms/index.html#fsd">FSD</a>
+              <a href="old-cms/obsidian.html?campus=cyberjaya">Obsidian 3D</a>
+              <a href="old-cms/index.html#flows">Flows</a>
+              <a href="old-cms/index.html#erd">ERD</a>
+              <a href="old-cms/index.html#database">Database</a>
+              <a href="old-cms/index.html#compare">Comparison</a>
+              </div>
+            </div>
+            <div class="nav-sub">
+              <a class="nav-sub-trigger" href="old-cms-botswana/index.html" aria-haspopup="true" aria-expanded="false">Botswana</a>
+              <div class="nav-sub-menu" role="menu">
+              <a href="old-cms-botswana/index.html">E2E hub</a>
+              <a href="old-cms-botswana/index.html#fsd">FSD</a>
+              <a href="old-cms-botswana/index.html#dtef">DTEF</a>
+              <a href="old-cms-botswana/index.html#erd">ERD</a>
+              <a href="old-cms-botswana/database.html">Database</a>
+              <a href="old-cms/obsidian.html?campus=botswana">Obsidian 3D</a>
+              </div>
+            </div>
+            <div class="nav-sub">
+              <a class="nav-sub-trigger" href="old-cms-sierra-leone/index.html" aria-haspopup="true" aria-expanded="false">Sierra Leone</a>
+              <div class="nav-sub-menu" role="menu">
+              <a href="old-cms-sierra-leone/index.html">E2E hub</a>
+              <a href="old-cms-sierra-leone/index.html#fsd">FSD</a>
+              <a href="old-cms-sierra-leone/index.html#erd">ERD</a>
+              <a href="old-cms-sierra-leone/database.html">Database</a>
+              <a href="old-cms/obsidian.html?campus=sierra-leone">Obsidian 3D</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="nav-dd">
+          <a class="nav-dd-main" href="../design-system/index.html">Design system</a>
+          <div class="nav-dd-menu" role="menu">
+            <a href="../design-system/index.html">Design system hub</a>
+            <a href="../design-system/foundations.html">Foundations</a>
+            <a href="../design-system/shared-controls.html">Shared controls</a>
+            <a href="../design-system/shared-patterns.html">Shared patterns</a>
+            <a href="../design-system/student-components.html">Student components</a>
+          </div>
+        </div>
+        <div class="nav-dd">
+          <a class="nav-dd-main" href="../ai/index.html">AI knowledge</a>
+          <div class="nav-dd-menu" role="menu">
+            <a href="../ai/index.html">AI hub</a>
+            <a href="https://github.com/raisd-campus/control-plane/blob/main/docs/ai/AGENTS.md">AGENTS.md</a>
+            <a href="https://github.com/raisd-campus/control-plane/blob/main/docs/ai/architecture/overview.md">Architecture overview</a>
+            <a href="https://github.com/raisd-campus/control-plane/blob/main/docs/ai/architecture/distributed-cms-target.md">Distributed CMS target</a>
+            <a href="https://github.com/raisd-campus/control-plane/blob/main/docs/ai/architecture/lms.md">LMS research posture</a>
+            <a href="https://github.com/raisd-campus/control-plane/blob/main/docs/ai/backend/portal-api.md">Portal API</a>
+            <a href="https://github.com/raisd-campus/control-plane/blob/main/docs/ai/backend/portal-api-development-plan.md">Portal API plan</a>
+            <a href="https://github.com/raisd-campus/control-plane/blob/main/docs/ai/backend/portal-api-deployment.md">Portal API deployment</a>
+            <a href="https://github.com/raisd-campus/control-plane/blob/main/docs/ai/backend/portal-api-poc-requirements.md">PoC requirements</a>
+            <a href="https://github.com/raisd-campus/control-plane/blob/main/docs/ai/backend/cms-feature-comparison.md">CMS comparison</a>
+            <a href="../poc/vercel-neon.html">Vercel + Neon PoC</a>
+          </div>
+        </div>
+        <div class="nav-dd">
+          <a class="nav-dd-main" href="../sdd/index.html">SDD</a>
+          <div class="nav-dd-menu" role="menu">
+            <a href="../sdd/index.html">SDD hub</a>
+            <a href="../sdd/15-nomenclature.html">Nomenclature</a>
+            <a href="../sdd/11-capability-catalog.html">Capability catalogue</a>
+            <a href="../sdd/03-delivery-milestones.html">Milestones</a>
+          </div>
+        </div>
+        <div class="nav-dd">
+          <a class="nav-dd-main" href="../openapi.html">OpenAPI</a>
+          <div class="nav-dd-menu" role="menu">
+            <a href="../openapi.html">Swagger UI</a>
+            <a href="https://github.com/raisd-campus/control-plane/blob/main/openapi.yaml">openapi.yaml</a>
+          </div>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <h1>Canonical schema — CS-01–CS-13 decisions</h1>
+      <p>
+        Shared vocabulary and invariants stay canonical. Campus-dependent behaviour is
+        effective-dated configuration (university default, then campus override) approved
+        before that campus or feature goes Live. <strong>Schema v3</strong> implements the
+        Demo policy layer; per-campus Live confirmation of CS-01–CS-11 remains open.
+      </p>
+      <div class="meta-row">
+        <span class="chip ok">Schema v3 policy Demo</span>
+        <span class="chip">Campus Live readiness</span>
+        <span class="chip ok">See also <a href="erd.html">ERD</a></span>
+        <span class="chip">SDD-10 Q29–Q36</span>
+      </div>
+    </section>
+
+    <div class="note" style="margin: 0 0 28px">
+      <strong>Decision (1 October 2026).</strong>
+      Architecture recommendation recorded to Iman Suherman; captured in
+      <a href="https://github.com/raisd-campus/control-plane/blob/main/docs/ai/backend/canonical-schema-luct-readiness.md">canonical-schema-luct-readiness.md</a>
+      §0, §6 and §7. Demo university-default policy rows are not Live campus policy until
+      that campus confirms its overrides. A campus without policy confirmation cannot
+      activate the affected Live feature — it does not hold back Schema work or another campus.
+    </div>
+
+    <div class="toc">
+      <a href="#hierarchy"><strong>0. Hierarchy</strong><span>Canonical → university → campus</span></a>
+      <a href="#summary"><strong>1. Summary</strong><span>How each CS is treated</span></a>
+      <a href="#registry"><strong>2. Registry</strong><span>CS-01–CS-04</span></a>
+      <a href="#credits"><strong>3. Credits</strong><span>CS-05–CS-07</span></a>
+      <a href="#finance"><strong>4. Finance</strong><span>CS-08–CS-10</span></a>
+      <a href="#access"><strong>5. Access</strong><span>CS-11</span></a>
+      <a href="#engineering"><strong>6. Engineering</strong><span>CS-12–CS-13</span></a>
+      <a href="#ops"><strong>7. Ops</strong><span>Neon / deploys</span></a>
+      <a href="#log"><strong>8. Decision log</strong><span>Recorded closures</span></a>
+    </div>
+
+    <section class="section" id="hierarchy">
+      <h2>0. Policy hierarchy</h2>
+      <p class="lead">
+        Canonical model and invariants are shared. University default policy seeds a
+        sensible baseline. Campus overrides apply where approved practice differs —
+        always with effective dates so policy changes do not rewrite history.
+      </p>
+      <div class="card">
+        <div class="card-body" style="padding:16px 18px">
+          <pre style="margin:0; white-space:pre-wrap; font-size:0.92rem; line-height:1.45">Canonical model &amp; invariants
+        ↓
+University / default policy
+        ↓
+Campus policy override (effective-dated)</pre>
+          <p style="margin:14px 0 0; color:var(--muted)">
+            Config shapes (<strong>implemented in Schema v3 Demo</strong>):
+            <code>campus_status_mappings</code>,
+            <code>campus_academic_status_policies</code>,
+            <code>campus_credit_policies</code>,
+            <code>campus_cgpa_policies</code>,
+            <code>campus_document_number_policies</code>,
+            <code>campus_adjustment_policies</code>
+            (<code>campusId</code> null = university default).
+            Detail in readiness §0.1 / §7.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="summary">
+      <h2>1. Overall treatment</h2>
+      <div class="card">
+        <div class="card-body" style="padding:16px 18px">
+          <table class="attr">
+            <thead>
+              <tr>
+                <th>IDs</th>
+                <th>Treatment</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>CS-01</code>–<code>CS-11</code></td>
+                <td>
+                  Schema can proceed. Campus-dependent answers become effective-dated
+                  configuration that must be approved before that campus/feature goes Live.
+                </td>
+              </tr>
+              <tr>
+                <td><code>CS-12</code></td>
+                <td>
+                  No physical FKs required for the current JSONB Demo; mandatory when
+                  moving to the relational Live store.
+                </td>
+              </tr>
+              <tr>
+                <td><code>CS-13</code></td>
+                <td>
+                  Implement canonical-report migration incrementally: shadow comparison,
+                  record-level reconciliation, per-campus cutover and feature flags.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="registry">
+      <h2>2. Registry (CS-01–CS-04)</h2>
+      <p class="lead">
+        Non-blocking for Schema. Policy tables and university defaults are in the Demo.
+        Confirm mappings and policies per campus before Live EMGS / reports / portal
+        narratives for that campus.
+      </p>
+      <div class="card">
+        <div class="card-body" style="padding:16px 18px">
+          <table class="attr">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Decision</th>
+                <th>Canonical / default</th>
+                <th>Live readiness</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr id="CS-01">
+                <td><code>CS-01</code></td>
+                <td>
+                  Retain canonical academic statuses
+                  <code>active | repeat | outstanding | enrolled | credit-transfer | deferred | inactive | deleted</code>
+                  and enrolment lifecycle
+                  <code>active | completed | withdrawn | deferred</code>.
+                  Legacy → canonical mapping is effective-dated via
+                  <code>campus_status_mappings</code>.
+                  <strong>Fixed invariant:</strong> latest academic period from valid
+                  ordered study periods — never latest row, ID, or TermID.
+                </td>
+                <td>Demo statuses + status events + university-default policy seeds (Schema v3).</td>
+                <td>Registry — verify mapping at migration / onboarding per campus</td>
+              </tr>
+              <tr id="CS-02">
+                <td><code>CS-02</code></td>
+                <td>
+                  One calculation mechanism:
+                  active programme enrolment + latest valid study period + term contains
+                  reference date + academic status satisfies campus active-student policy.
+                  Default seed:
+                  <code>{active, repeat, outstanding, enrolled, credit-transfer}</code>
+                  via <code>campus_academic_status_policies</code> (Schema v3 Demo).
+                  Defines <strong>academic status only</strong> — not Portal authorization
+                  (finance / VIP / PTPTN stay in access-policy).
+                </td>
+                <td>SQL view + TypeScript helper in Demo.</td>
+                <td>Registry + International Office (policy); Product (access layer)</td>
+              </tr>
+              <tr id="CS-03">
+                <td><code>CS-03</code></td>
+                <td>
+                  Keep Outstanding, Deferred, and Inactive as three distinct concepts.
+                  Default: Outstanding → valid + active; Deferred / Inactive → not currently active.
+                  Do not collapse Inactive into Deferred.
+                </td>
+                <td>Three separate canonical statuses.</td>
+                <td>Registry — campus academic-status policy</td>
+              </tr>
+              <tr id="CS-04">
+                <td><code>CS-04</code></td>
+                <td>
+                  Keep enrolment baseline
+                  <code>active | completed | withdrawn | deferred</code>.
+                  Do not add speculative
+                  <code>suspended</code> / <code>terminated</code> / <code>transferred-out</code>
+                  until a real campus process needs distinct meaning; map legacy values
+                  for now and extend the enum later if required.
+                </td>
+                <td>Four statuses + effective-dated status events.</td>
+                <td>Registry / product — only if a campus process requires extension</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="note" style="margin:0 18px 18px">
+          Related:
+          <a href="./architecture.html#status">Define “active student” properly</a> ·
+          <a href="./erd.html#student">Student record &amp; enrolment</a>.
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="credits">
+      <h2>3. Credits, outcomes &amp; CGPA (CS-05–CS-07)</h2>
+      <p class="lead">
+        Schema already separates attempted / earned / GPA credits. Campus variation is policy,
+        not a Schema fork.
+      </p>
+      <div class="card">
+        <div class="card-head">
+          <div>
+            <h3>Universal credit defaults</h3>
+            <p>Campus-dependent rows use <code>campus_credit_policies</code>.</p>
+          </div>
+        </div>
+        <div class="card-body" style="padding:16px 18px">
+          <table class="attr">
+            <thead>
+              <tr><th>Outcome</th><th>Attempted</th><th>Earned</th><th>GPA</th><th>Notes</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>pass</code></td>
+                <td>yes</td>
+                <td>yes</td>
+                <td>yes</td>
+                <td>Universal</td>
+              </tr>
+              <tr>
+                <td><code>fail</code></td>
+                <td>yes</td>
+                <td>no</td>
+                <td>yes</td>
+                <td>Universal; term GPA keeps the attempt</td>
+              </tr>
+              <tr>
+                <td>Credit transfer</td>
+                <td>no normal attempt</td>
+                <td>yes</td>
+                <td>no</td>
+                <td>First-class record — not a fake module result</td>
+              </tr>
+              <tr>
+                <td>Exemption</td>
+                <td>no normal attempt</td>
+                <td>yes</td>
+                <td>no</td>
+                <td>First-class record</td>
+              </tr>
+              <tr>
+                <td><code>audit</code></td>
+                <td>no</td>
+                <td>no</td>
+                <td>no</td>
+                <td>Universal classification; enum when Live needs it</td>
+              </tr>
+              <tr>
+                <td><code>pass-only</code> / <code>withdrawn</code></td>
+                <td colspan="3">campus policy</td>
+                <td>Configure per campus before transcripts Live</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-body" style="padding:16px 18px">
+          <table class="attr">
+            <thead>
+              <tr><th>ID</th><th>Decision</th><th>Live readiness</th></tr>
+            </thead>
+            <tbody>
+              <tr id="CS-05">
+                <td><code>CS-05</code></td>
+                <td>
+                  Non-blocking. Campus credit cells in
+                  <code>campus_credit_policies</code> (effective-dated; Schema v3 Demo).
+                </td>
+                <td>Registry — before transcripts / credit calc Live</td>
+              </tr>
+              <tr id="CS-06">
+                <td><code>CS-06</code></td>
+                <td>
+                  Every attempt retained permanently.
+                  <code>campus_cgpa_policies.repeatRule</code> may be
+                  <code>all-attempts | latest-attempt | latest-passing-attempt | highest-attempt | explicit-included-in-cgpa</code>.
+                  Preserve migrated <code>includedInCgpa</code>; do not rewrite history under a new rule.
+                </td>
+                <td>Registry — before CGPA Live</td>
+              </tr>
+              <tr id="CS-07">
+                <td><code>CS-07</code></td>
+                <td>
+                  Keep <code>pass | fail</code> initially. Add outcomes when required and
+                  credit-classified. Credit transfer / exemption stay outside
+                  <code>module_results</code>.
+                </td>
+                <td>Registry + Portal API — contract bump when needed</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="finance">
+      <h2>4. Finance (CS-08–CS-10)</h2>
+      <p class="lead">
+        First-class correction records stay in the schema. Campuses enable workflows and
+        numbering at Live — not Schema blockers.
+      </p>
+      <div class="card">
+        <div class="card-body" style="padding:16px 18px">
+          <table class="attr">
+            <thead>
+              <tr><th>ID</th><th>Decision</th><th>Demo today</th><th>Live readiness</th></tr>
+            </thead>
+            <tbody>
+              <tr id="CS-08">
+                <td><code>CS-08</code></td>
+                <td>
+                  Keep <code>payment_reversals</code>, <code>refunds</code>,
+                  <code>credit_notes</code>, <code>invoice_voids</code>.
+                  Campuses enable only supported Bursary workflows.
+                </td>
+                <td>Correction records + Finance UI</td>
+                <td>Bursary — campus Live</td>
+              </tr>
+              <tr id="CS-09">
+                <td><code>CS-09</code></td>
+                <td>
+                  <code>campus_document_number_policy</code> (prefix, sequence, effective dates).
+                  Demo <code>CN-######</code> stays Demo-only.
+                </td>
+                <td><code>CN-######</code> / <code>INV-######</code> patterns</td>
+                <td>Bursary — before Finance Live</td>
+              </tr>
+              <tr id="CS-10">
+                <td><code>CS-10</code></td>
+                <td>
+                  Canonical model defines what an adjustment is;
+                  <code>campus_adjustment_policy</code> enables categories and approvals.
+                </td>
+                <td>Closed Demo category enum</td>
+                <td>Bursary — campus Live</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="note" style="margin:0 18px 18px">
+          SST stays snapshotted on the invoice — never recalculated from today’s rate
+          <a href="./erd.html#finance">(Finance ERD)</a>.
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="access">
+      <h2>5. Access &amp; RBAC (CS-11)</h2>
+      <div class="card">
+        <div class="card-body" style="padding:16px 18px">
+          <table class="attr">
+            <thead>
+              <tr><th>ID</th><th>Decision</th><th>Demo today</th><th>Live readiness</th></tr>
+            </thead>
+            <tbody>
+              <tr id="CS-11">
+                <td><code>CS-11</code></td>
+                <td>
+                  Keep
+                  <code>user_accounts</code> / <code>roles</code> / <code>permissions</code> /
+                  <code>role_permissions</code> / <code>user_role_grants</code>
+                  independent of Student/Staff identity.
+                  Map <code>s_staff</code> → staff identity,
+                  <code>f_lecturer</code> → lecturer capability,
+                  <code>StaffUserLevel</code> → migration input for role mapping.
+                  Do <strong>not</strong> map <code>LoginActive</code> to
+                  <code>user_account.status</code>
+                  (<code>(active | disabled | locked)</code> is security state;
+                  <code>LoginActive</code> is business-policy eligibility in a separate layer.
+                </td>
+                <td>Demo roles/permissions; disabled/locked → <code>403</code></td>
+                <td>Product + IT / Registry — per campus before Access Live</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="engineering">
+      <h2>6. Engineering (CS-12–CS-13)</h2>
+      <div class="card">
+        <div class="card-body" style="padding:16px 18px">
+          <table class="attr">
+            <thead>
+              <tr><th>ID</th><th>Decision</th><th>Current state</th><th>When</th></tr>
+            </thead>
+            <tbody>
+              <tr id="CS-12">
+                <td><code>CS-12</code></td>
+                <td>
+                  No physical FKs on JSONB Demo
+                  <code>(id, position, record jsonb, updated_at)</code>.
+                  <code>portalRecordGraphSchema.superRefine</code> remains write-time integrity;
+                  tests must reject orphans; CI validates fixtures; diagnostic for persisted Demo.
+                  Relational Live: create tables → backfill → integrity checks → add FKs
+                  (Postgres <code>NOT VALID</code> then <code>VALIDATE CONSTRAINT</code> where useful)
+                  → switch app. Prefer <code>RESTRICT</code> / <code>NO ACTION</code> for history;
+                  <code>SET NULL</code> for optional; <code>CASCADE</code> only when explicitly justified.
+                  Never cascade-delete material academic/finance history.
+                </td>
+                <td>Zod graph integrity; name-inferred ERD edges</td>
+                <td>Mandatory on relational Live store</td>
+              </tr>
+              <tr id="CS-13">
+                <td><code>CS-13</code></td>
+                <td>
+                  Canonical views are the long-term reporting source, adopted incrementally:
+                  policy configured → shadow mode → side-by-side → semantic record-level diff
+                  (IDs in/out, enrolment, latest valid period, include reason, credits, GPA/CGPA,
+                  balance, policy version + <code>referenceDate</code>) → per-campus/report flag →
+                  observe → retire legacy. Acceptance: zero unexplained record-level differences;
+                  finance exact to currency precision. API always takes
+                  <code>campusId</code> + <code>referenceDate</code>.
+                </td>
+                <td>
+                  Views exist:
+                  <code>latest_valid_study_periods</code>,
+                  <code>current_active_students</code>,
+                  <code>student_credit_summary</code>,
+                  <code>student_outstanding_balances</code>.
+                  Live CMS reports not cut over yet.
+                </td>
+                <td>CAP-53 / report migration — campus-scoped</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="ops">
+      <h2>7. Ops follow-ups (not policy)</h2>
+      <div class="card">
+        <div class="card-body" style="padding:16px 18px">
+          <table class="attr">
+            <thead>
+              <tr><th>Item</th><th>Why</th><th>Action</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Reseed Neon Demo to schema v2</td>
+                <td>Local PG was verified; hosted Neon may still be on the previous seed.</td>
+                <td><code>DATABASE_URL=… npm run db:reset</code> in portal-api (or redeploy so first-use upgrades)</td>
+              </tr>
+              <tr>
+                <td>Redeploy db-admin</td>
+                <td>Irregular ERD column map is not auto-deployed.</td>
+                <td>Manual <code>npm run deploy</code> in db-admin</td>
+              </tr>
+              <tr>
+                <td>Fixture passport expiry mismatch</td>
+                <td>Rizal / Nadia profile expiry 2030 vs visa pass 2028 for the same passport number.</td>
+                <td>Align fixtures; identifiers treat the profile as authoritative today</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="log">
+      <h2>8. Decision log</h2>
+      <div class="card">
+        <div class="card-body" style="padding:16px 18px">
+          <table class="attr">
+            <thead>
+              <tr><th>Date</th><th>ID</th><th>Decision</th><th>Decided by</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1 Oct 2026</td>
+                <td>CS-01–CS-13</td>
+                <td>
+                  Policy hierarchy agreed: canonical → university default → campus override.
+                  CS-01–CS-11 → Live readiness (not Schema blockers). CS-12 → no Demo FKs;
+                  mandatory on relational Live. CS-13 → incremental report cutover.
+                </td>
+                <td>Architecture recommendation to Iman Suherman (recorded in knowledge base)</td>
+              </tr>
+              <tr>
+                <td>1 Oct 2026</td>
+                <td>Schema v3</td>
+                <td>
+                  Demo implements campus policy collections, university-default seeds,
+                  projections + SQL views, Data Model Explorer, published ERD,
+                  <code>/v1/meta.schemaVersion</code>, db-admin IRREGULAR map.
+                  Per-campus Live confirmation of CS-01–CS-11 remains open.
+                </td>
+                <td>Engineering (recorded in knowledge base §7)</td>
+              </tr>
+              <tr>
+                <td>1 Oct 2026</td>
+                <td>Schema v3 go-ahead</td>
+                <td>
+                  Schema v3 confirmed good to proceed. Remaining CS-01–CS-11 are
+                  policy-validation / campus go-Live requirements, not schema-design
+                  blockers. Demo university-default values are structural defaults/examples
+                  only — not authoritative LUCT policy until campus/department sign-off.
+                  CS-13 stays incremental legacy + canonical side-by-side cutover.
+                  Neon Demo reseeded (95 collections; six policy tables verified).
+                </td>
+                <td>Architecture review reply to Iman Suherman (recorded in knowledge base)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="note" style="margin:0 18px 18px">
+          When campus Live policy is approved, update this table, SDD-10, and
+          <a href="https://github.com/raisd-campus/control-plane/blob/main/docs/ai/backend/canonical-schema-luct-readiness.md">canonical-schema-luct-readiness.md</a>
+          in the same change.
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    Canonical schema CS-01–CS-13 · raisd-campus/control-plane · Schema v3 policy Demo · campus Live readiness separate
+  </footer>
+
+  <script src="abbr-tooltips.js" defer></script>
+  <script src="nav-dropdown.js" defer></script>
+  <script src="site-search.js" defer></script>
+</body>
+</html>

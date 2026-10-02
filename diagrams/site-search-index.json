@@ -55,6 +55,60 @@
       "path": "diagrams/architecture.html"
     },
     {
+      "title": "LMS research posture",
+      "summary": "Student Moodle-like LMS map plus SDD-11 capability detail (student/lecturer/staff); Q37 Option 1.",
+      "section": "Architecture",
+      "keywords": [
+        "lms",
+        "learning",
+        "moodle",
+        "student",
+        "lecturer",
+        "capabilities",
+        "cap",
+        "f01",
+        "f37",
+        "materials",
+        "assignments",
+        "quizzes",
+        "live class",
+        "gradebook",
+        "cap-44",
+        "base-44"
+      ],
+      "path": "diagrams/lms.html"
+    },
+    {
+      "title": "LMS architecture",
+      "summary": "Raisd LMS as role surfaces on Portal API with CMS SoR and Live file store.",
+      "section": "Architecture",
+      "keywords": [
+        "lms",
+        "architecture",
+        "portal-api",
+        "cap-53",
+        "file store",
+        "lecturer",
+        "student"
+      ],
+      "path": "diagrams/lms-architecture.html"
+    },
+    {
+      "title": "LMS features F01\u2013F37",
+      "summary": "Research domain matrix INPUT-F01\u2013F37 mapped to CAP Demo status and milestones.",
+      "section": "Architecture",
+      "keywords": [
+        "lms",
+        "f01",
+        "f37",
+        "features",
+        "matrix",
+        "research",
+        "cap"
+      ],
+      "path": "diagrams/lms-features.html"
+    },
+    {
       "title": "Migration plan",
       "summary": "M1\u2013M5 delivery sequence, hosting stages, and critical path for campus launch.",
       "section": "Architecture",
@@ -138,6 +192,28 @@
         "database"
       ],
       "path": "diagrams/erd.html"
+    },
+    {
+      "title": "Canonical schema confirmations",
+      "summary": "CS-01\u2013CS-13 treatment \u2014 Schema v3 campus policy Demo done; per-campus Live confirmation still open (status meanings, active student, credits, finance, RBAC).",
+      "section": "Raisd CMS",
+      "keywords": [
+        "confirmation",
+        "registry",
+        "academicStatus",
+        "active student",
+        "emgs",
+        "credits",
+        "cgpa",
+        "refund",
+        "credit note",
+        "rbac",
+        "luct",
+        "schema v3",
+        "campus policy",
+        "needs checking"
+      ],
+      "path": "diagrams/canonical-schema-confirmations.html"
     },
     {
       "title": "Raisd DFD",

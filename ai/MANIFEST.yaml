@@ -1,7 +1,7 @@
 # Raisd AI knowledge base — machine-readable index
 # Any agent or doc generator should load this file first after AGENTS.md.
 version: 1
-updated: 2026-09-26
+updated: 2026-10-01
 canonical_repo: raisd-campus/control-plane
 canonical_path: docs/ai
 decision:
@@ -19,6 +19,17 @@ notes:
   - 2026-09-23: Raisd CMS Student portal capabilities, screenshots, and use guides under diagrams/raisd-cms/.
   - 2026-09-24: Distributed CMS target (one product, country data planes, white-label/flags) — architecture/distributed-cms-target.md + diagrams/distributed-cms-architecture.html.
   - 2026-09-26: FSD Obsidian 3D knowledge graph (breakdown / walkthrough / click) — diagrams/old-cms/obsidian.html + fsd-knowledge.json; LUCT CMS campus submenus.
+  - 2026-09-27: PoC Vercel + Neon deploy path (SPA + Portal API + free Postgres) — architecture/vercel-neon-poc.md; does not replace SDD-12.
+  - 2026-09-27: Published HTML Primary nav + design-system subnav derive from docs/site-nav.yaml (build-dropdown-nav.py).
+  - 2026-09-27: Portal API service split into raisd-campus/portal-api (history kept); openapi.yaml stays here. Added development plan, target deployment and PoC requirements under backend/.
+  - 2026-10-01: Canonical record schema reviewed against LUCT reporting issues; proposed changes at backend/canonical-schema-luct-readiness.md. ERD generated columns now come from the Zod contract, not seed rows.
+  - 2026-10-01: Schema v2 implemented (lifecycle, identifiers, access, finance corrections, audit_events, reporting views). Status updated in canonical-schema-luct-readiness.md §7; published ERD and PoC Neon notes refreshed.
+  - 2026-10-01: Published pending confirmation agenda (CS-01–CS-13) at diagrams/canonical-schema-confirmations.html; linked from ERD, architecture status, SDD-10 Q29–Q36.
+  - 2026-10-01: CS-01–CS-13 reframed — Schema v2 may proceed; campus-dependent answers become effective-dated policy (Live readiness). CS-12 Demo FKs deferred; CS-13 incremental report cutover. See canonical-schema-luct-readiness.md §0 / §6.
+  - 2026-10-01: Schema v3 campus policy layer implemented (status mapping, academic-status / credit / CGPA / document / adjustment policies; university-default seeds; projections + SQL views). See canonical-schema-luct-readiness.md §0.1 / §7.
+  - 2026-10-01: Campus policy surfaced in published ERD, Data Model Explorer, OpenAPI `/v1/meta.schemaVersion`, and db-admin IRREGULAR map.
+  - 2026-10-01: Architecture review confirmed Schema v3 good to proceed; CS-01–CS-11 = campus go-Live policy validation (Demo defaults not authoritative LUCT policy). Neon Demo reseeded to schema_version 3 (95 collections); physical verification checklist passed. Production Vercel portal-api redeployed — `/v1/meta` returns `schemaVersion: 3`.
+  - 2026-10-01: LMS Q37 Option 1 — published lms-architecture.html + lms-features.html (F01–F37 × CAP) from Raisd sources; hub Moodle-like student map; no PPA comparison.
 
 entrypoints:
   agents: AGENTS.md
@@ -34,6 +45,7 @@ sibling_repos:
   - student-portal
   - lecturer-portal
   - staff-portal
+  - portal-api
   - design-system
   - portal-api-docs
 
@@ -43,16 +55,41 @@ architecture:
   - path: architecture/distributed-cms-target.md
     topics: [distributed-db, multi-country, white-label, feature-flags, identity, m5, ideal-state]
     pages: ../diagrams/distributed-cms-architecture.html
+  - path: architecture/lms.md
+    topics: [lms, learning, f01-f37, cap-44, base-44, materials, ppa-lms, research, moodle]
+    pages:
+      - ../diagrams/lms.html
+      - ../diagrams/lms-architecture.html
+      - ../diagrams/lms-features.html
+    status: proposed
+    note: Q37 Option 1 published; research posture only — not Live LMS.
   - path: architecture/repositories.md
     topics: [repo-map, local-paths, ownership]
   - path: architecture/deployment.md
     topics: [ultaHost, k3s, stages, hostnames]
+  - path: architecture/vercel-neon-poc.md
+    topics: [poc, vercel, neon, postgres, marketplace, student-portal, portal-api]
 
 backend:
   - path: backend/portal-api.md
-    topics: [openapi, auth, mock-bridge, cms-stub]
+    topics: [openapi, auth, mock-bridge, cms-stub, repo-layout]
     openapi: ../../openapi.yaml
-    code: ../../portal-api/
+    code: https://github.com/raisd-campus/portal-api
+    local_code: ../../../portal-api/
+  - path: backend/portal-api-development-plan.md
+    topics: [portal-api, plan, phases, cap-53, cap-01, persistence, identity, cms-adapter, m2, m3]
+  - path: backend/portal-api-deployment.md
+    topics: [portal-api, deployment, k3s, image, ghcr, probes, env, ci-cd, rollback, sdd-12]
+  - path: backend/portal-api-poc-requirements.md
+    topics: [portal-api, poc, vercel, neon, requirements, acceptance, sessions]
+    related: architecture/vercel-neon-poc.md
+  - path: backend/canonical-schema-luct-readiness.md
+    topics: [canonical-schema, portal-records, erd, luct, study-period, credits, identifiers, rbac, finance, reporting, active-student, cap-53, m5, confirmations]
+    status: partially-implemented
+    contract: ../../../student-portal/src/contracts/portal-records.ts
+    pages: ../diagrams/erd.html
+    confirmations: ../diagrams/canonical-schema-confirmations.html
+    note: Schema v3 campus policy layer done (Demo); CS-01–CS-11 = per-campus Live confirmation; CS-12 Demo FKs deferred; CS-13 incremental report migration. See §0 / §6 / §7.
   - path: backend/old-cms-cyberjaya.md
     topics: [existing-cms, cyberjaya, cmscbj, inventory, php-maker, e2e, erd, dfd, integrations, adr-1]
     pages: ../diagrams/old-cms/
@@ -75,6 +112,12 @@ diagrams:
     topics: [overview, mermaid, executive-summary, migration]
   - path: ../diagrams/distributed-cms-architecture.html
     topics: [distributed-cms, multi-country, white-label, feature-flags, migration-journey, ideal-state]
+  - path: ../diagrams/lms.html
+    topics: [lms, learning, f01-f37, ppa-lms, research-posture, base-44, moodle]
+  - path: ../diagrams/lms-architecture.html
+    topics: [lms, architecture, portal-api, role-surfaces, file-store]
+  - path: ../diagrams/lms-features.html
+    topics: [lms, f01-f37, features, cap-matrix, research]
   - path: ../diagrams/migration.html
     topics: [milestones, m1-m5, hosting-stages]
   - path: ../diagrams/architecture.html
@@ -170,3 +213,5 @@ process:
 rules:
   - path: rules/cms-student-portal.mdc
   - path: rules/portal-sidebar.mdc
+  - path: rules/portal-api.mdc
+    mirrored_to: raisd-campus/portal-api/.cursor/rules/portal-api.mdc
